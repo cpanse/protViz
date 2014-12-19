@@ -1,0 +1,160 @@
+%\VignetteIndexEntry{PTM MarkerFinder}
+\documentclass[12pt]{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage{hyperref}
+\usepackage{color}
+
+\renewcommand*\familydefault{\sfdefault}
+
+\definecolor{NoteGrey}{rgb}{0.96,0.97,0.98}
+
+\textwidth=6.2in
+\textheight=9.5in
+@ \parskip=.3cm
+\oddsidemargin=.1in
+\evensidemargin=.1in
+\headheight=-1in
+
+\newcommand{\scscst}{\scriptscriptstyle}
+\newcommand{\scst}{\scriptstyle}
+\newcommand{\Rfunction}[1]{{\texttt{#1}}}
+\newcommand{\Robject}[1]{{\texttt{#1}}}
+\newcommand{\Rpackage}[1]{{\textit{#1}}}
+\newcommand{\code}[1]{{\texttt{#1}}}
+
+\author{Christian Panse \and Paolo Nanni}
+\begin{document}
+\title{Finding putative PTM (pPTM) Marker Ion in HCD scans}
+
+\maketitle
+
+\tableofcontents
+\newpage
+
+\section{Get Data In -- Preprocessing}
+
+The minimal data structure requirement for the \code{PTM\_MarkerFinder} function looks as follow. 
+
+<<keep.source = FALSE, eval = TRUE, fig = FALSE>>=
+library(protViz)
+data(HexNAc)
+str(HexNAc[[1]], nchar.max=30)
+@
+Here we have listed the \code{HexNAc} data which is included in \code{protViz}.
+
+\code{protViz} also provides and perl script \code{protViz\_mascotDat2RData.pl}\footnote{The prefix \code{protViz\_} is used to benefit from the \code{bash} tab completion.} taking mascot server dat files as input and producing RData output.
+
+\begin{verbatim}
+$ /usr/local/lib/R/site-library/protViz/exec/protViz_mascotDat2RData.pl \
+-d=/usr/local/mascot/data/20130116/F178287.dat \
+-m=$HOME/mod_file
+\end{verbatim}
+
+\code{mascotDat2RData.pl} requires the mascot server \code{mod\_file} keeping all the configured modification of the mascot server.
+
+In theory \code{PTM\_MarkerFinder} can process the output of any search engine for peptide identification. It is up to the R user writing a wrapper script converting the output of any particular peptide identification search engine to the data structure listed above.
+
+\section{Finding the Marker Ions}
+
+\code{PTM\_MarkerFinder} can search for any Marker ion series. The next lines define the \code{HexNAc\_MarkerIons}.
+
+<<keep.source = TRUE, eval = TRUE, fig = FALSE>>=
+HexNAc_MarkerIons <- c(126.05495, 138.05495, 144.06552, 168.06552, 
+    186.07608, 204.08665)
+@
+
+The lines below configure the modification information used by the search engine.
+The HexNAc modification below is described on unimod \url{http://www.unimod.org/modifications_view.php?editid1=43}.
+
+<<keep.source = TRUE, eval = TRUE, fig = FALSE>>=
+ptm.0<-cbind(AA="-",
+	mono=0.0, avg=0.0, desc="unmodified", unimodAccID=NA)
+
+ptm.1<-cbind(AA='N', 
+	mono=317.122300, avg=NA, desc="HexNAc",
+        unimodAccID=2)
+             
+ptm.2<-cbind(AA='M',
+	mono=147.035400, avg=NA, desc="Oxidation",
+        unimodAccID=1)
+     
+m<-as.data.frame(rbind(ptm.0, ptm.1, ptm.2))
+@
+
+\code{PTM\_MarkerFinder} is called.
+
+
+<<keep.source = TRUE, eval = TRUE, fig = FALSE>>=
+s <- PTM_MarkerFinder(data=HexNAc, modification=m$mono, 
+	modificationName=m$desc,
+        minMarkerIntensityRatio=3,
+        itol_ppm=20,
+        mZmarkerIons=HexNAc_MarkerIons) 
+
+s
+@
+
+The user can call the demonstration with 
+<<keep.source = TRUE, eval = FALSE, fig = FALSE>>=
+demo(PTM_MarkerFinder) 
+@
+
+\section{Some overview graphics}
+just an overview of the sample data set \code{HexNAc}.
+<<keep.source = TRUE, eval = TRUE, fig = TRUE>>=
+op<-par(mfrow=c(2,2), mar=c(4,4,4,1)); 
+dump <- lapply(split(s,s$query), 
+    function(x){ plot(x$mZ, x$markerIonIntensity, 
+        type='h',
+        col='lightblue',
+        cex=2,
+        ylab='intensity', xlab='m/z',
+        xlim=range(c(HexNAc_MarkerIons,  
+            max(HexNAc_MarkerIons) 
+                + 0.1 * (max(HexNAc_MarkerIons) - min(HexNAc_MarkerIons)), 
+            min(HexNAc_MarkerIons) 
+                - 0.1 * (max(HexNAc_MarkerIons) - min(HexNAc_MarkerIons)))),
+            ylim=range(s$markerIonIntensity),
+            log='y',
+            main=paste("scan=", unique(x$scans),
+                "/query=", unique(x$query), sep='')); 
+            text(x$mZ, x$markerIonIntensity, 
+                round(x$mZ,2),col='red',cex=0.7)
+        }
+    )
+par(op)
+@
+
+
+The next graphics show the output of \code{PTM\_MarkerFinder}.
+<<keep.source = TRUE, eval = TRUE, fig = TRUE, width=19, height=12>>=
+d<-list(); d[[1]]<-HexNAc[[3]]; d[[2]]<-HexNAc[[4]];
+d[[3]]<-HexNAc[[5]]
+ss<-PTM_MarkerFinder(data=d, modification=m$mono, 
+	modificationName=m$desc,
+        minMarkerIntensityRatio=3,
+        itol_ppm=20,
+        mZmarkerIons=HexNAc_MarkerIons) 
+
+@
+
+\section{Reshaping the output and export}
+reshape the table:
+<<keep.source = TRUE, eval = TRUE, fig = FALSE>>=
+w<-reshape(s[,c(1,7,3,4)], direction='wide', 
+    timevar="markerIonMZ", idvar=c('scans','query'))
+w
+@
+
+export as comma separeted file
+<<keep.source = TRUE, eval = TRUE, fig = FALSE>>=
+write.table(w, file="HexNAc_PTM_markerFinder.csv",
+    sep=',', row.names=FALSE,col.names=TRUE, quote=FALSE)
+
+@
+
+\nocite{pPTM}
+\bibliography{protViz}{}
+\bibliographystyle{plain}
+\end{document}

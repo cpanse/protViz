@@ -1,0 +1,10 @@
+
+# $HeadURL: $
+# $Id: $
+
+
+OBJECTS=deisotoper.o aa2mass.o findNN_.o computeFragmentIons.o computeParentIonMass.o findNN.o
+PKG_CXXFLAGS=`$(R_HOME)/bin/Rscript -e "Rcpp:::CxxFlags()"` -I. 
+# -Wall -pedantic -Werror=return-typeA
+# -Wall -pedantic -Werror=return-type -std=c++0x 
+PKG_LIBS=`$(R_HOME)/bin/Rscript -e "Rcpp:::LdFlags()"` 

@@ -1,0 +1,29 @@
+Package: protViz
+Type: Package
+Title: Visualizing and Analyzing Mass Spectrometry Related Data in
+        Proteomics
+Version: 0.2.9
+Date: 2014-09-30
+Author: Christian Panse <cp@fgcz.ethz.ch>, Jonas Grossmann <jg@fgcz.ethz.ch>, 
+    Simon Barkow-Oesterreicher <sb@fgcz.ethz.ch>
+Maintainer: Christian Panse <cp@fgcz.ethz.ch>
+Depends: R (>= 3.0.2), methods
+Imports: Rcpp (>= 0.9.9)
+Suggests: lattice, RUnit, BiocGenerics
+Description: This R package helps with quality checks, visualizations 
+    and analysis of mass spectrometry data, coming from proteomics 
+    experiments. The package is developed, tested and used at the Functional 
+    Genomics Center Zurich. We use this package mainly for prototyping, 
+    teaching, and having fun with proteomics data. But it can also be 
+    used to do data analysis for small scale data sets.
+License: GPL-3
+URL: http://fgcz-data.uzh.ch/~cpanse/protViz/
+Collate: aa2mass.R deisotoper.R de_novo.R findNN_.R findNN.R
+        fragmentIon.R genMod.R iTRAQ2GroupAnalysis.R lcmsmap.R mdp.R
+        parentIonMass.R peakplot.R pgImporter.R pgLFQ.R pp.R psm.R
+        PTM_MarkerFinder.R
+LazyData: true
+Packaged: 2014-09-30 08:13:38 UTC; cp
+NeedsCompilation: yes
+Repository: CRAN
+Date/Publication: 2014-09-30 17:02:10
