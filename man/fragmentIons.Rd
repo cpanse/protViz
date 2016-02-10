@@ -18,7 +18,8 @@
 
 \usage{
 
-    fragmentIon(sequence, FUN, modified, modification)
+    fragmentIon(sequence, FUN, modified, modification, N_term, C_term)
+
 
 }
 
@@ -32,6 +33,10 @@
   \item{modified}{a vector of interger containing the varmod id of the peptide position.}
 
   \item{modification}{a double vector of defining the varmod mass in Dalton.}
+
+  \item{N_term}{N-Term mass in Dalton. Default is set to 1.007825.}
+
+  \item{C_term}{C-Term mass in Dalton. Default is set to 17.002740.}
 
 }
 

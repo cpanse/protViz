@@ -17,8 +17,9 @@ defaultIon<-function(b, y){
 }
 
 
-fragmentIon <- function(sequence, FUN=defaultIon, modified=numeric(), modification=numeric()) {
+fragmentIon <- function(sequence, FUN=defaultIon, modified=numeric(), modification=numeric(), N_term=1.007825, C_term=17.002740) {
     if (!is.character(sequence)) {
+	# TODO(cp@fgcz.ethz.ch): check C and N Term variable
 
         R<-list()
 
@@ -38,8 +39,6 @@ fragmentIon <- function(sequence, FUN=defaultIon, modified=numeric(), modificati
         R<-list()
         pim<-parentIonMass(sequence)
 
-        C_term <- 17.002740
-        N_term <- 1.007825
         Oxygen <- 15.994915
         Carbon <- 12.000000
         Hydrogen <- 1.007825
@@ -73,8 +72,6 @@ fragmentIon <- function(sequence, FUN=defaultIon, modified=numeric(), modificati
         R<-list()
         pim<-parentIonMass(sequence)
 
-        C_term <- 17.002740
-        N_term <- 1.007825
         Oxygen <- 15.994915
         Carbon <- 12.000000
         Hydrogen <- 1.007825
