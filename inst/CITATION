@@ -13,6 +13,5 @@ citEntry(entry = "Article",
   volume       = "13",
   number       = "15",
   pages        = "2251-2255",
-  url = {http://dx.doi.org/10.1002/pmic.201300036}
-
+  url = "http://dx.doi.org/10.1002/pmic.201300036"
 )
