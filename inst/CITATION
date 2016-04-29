@@ -1,0 +1,18 @@
+citHeader("To cite protViz in publications use:")
+
+citEntry(entry = "Article",
+  title        = "{PTM MarkerFinder}, a software tool to detect and validate spectra from peptides carrying post-translational modifications.",
+  author       = personList(as.person("Paolo Nanni"),
+                   as.person("Christian Panse"),
+                   as.person("Peter Gehrig"),
+                   as.person("Susanne Mueller"),
+                   as.person("Jonas Grossmann"),
+                   as.person("Ralph Schlapbach")),
+  journal = "PROTEOMICS",
+  year         = "2013",
+  volume       = "13",
+  number       = "15",
+  pages        = "2251-2255",
+  url = {http://dx.doi.org/10.1002/pmic.201300036}
+
+)
