@@ -2,11 +2,11 @@ Package: protViz
 Type: Package
 Title: Visualizing and Analyzing Mass Spectrometry Related Data in
         Proteomics
-Version: 0.2.13
+Version: 0.2.14
 Author: Christian Panse <cp@fgcz.ethz.ch>, Jonas Grossmann <jg@fgcz.ethz.ch>, 
     Simon Barkow-Oesterreicher <sb@fgcz.ethz.ch>
 Maintainer: Christian Panse <cp@fgcz.ethz.ch>
-Depends: R (>= 3.2.4), methods
+Depends: R (>= 3.3), methods
 Imports: Rcpp (>= 0.12.4)
 Suggests: lattice, RUnit, BiocGenerics
 Description: This R package helps with quality checks, visualizations 

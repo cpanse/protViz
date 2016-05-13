@@ -19,3 +19,22 @@ citEntry(entry = "Article",
 	"PTM MarkerFinder, a software tool to detect and validate spectra from peptides carrying post-translational modifications.",
 	"PROTEOMECS. 2013 Aug;13(15):2251-5. doi: 10.1002/pmic.201300036. Epub 2013 Jul 1.")
 )
+
+citEntry(entry = "Article",
+         title = "{spec{L} - {A}n {R}/{B}ioconductor package to prepare peptide spectrum matches for use in targeted proteomics}",
+         author = c(person("Christian", "Panse"),
+                    person("Christian", "Trachsel"),
+                    person("Jonas", "Grossmann"),
+                    person("Ralph", "Schlapbach")),
+         journal="Bioinformatics",
+         pages = "2228-2231",
+         month = "Feb",
+         year = 2015,
+         note = "DOI:10.1093/bioinformatics/btv105, PMID: 25712692",
+         url = "http://dx.doi.org/10.1093/bioinformatics/btv105",
+         
+         textVersion = paste("Panse C, Trachsel C, Grossmann J and Schlapbach R. (2015).",
+          "specL - An R/Bioconductor package to prepare peptide spectrum matches for use in targeted proteomics.",
+          "Bioinformatics. DOI:10.1093/bioinformatics/btv105, PMID: 25712692")
+)
+
