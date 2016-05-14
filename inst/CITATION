@@ -13,11 +13,12 @@ citEntry(entry = "Article",
   volume       = "13",
   number       = "15",
   pages        = "2251-2255",
+  doi = "10.1002/pmic.201300036 ",
   url = "http://dx.doi.org/10.1002/pmic.201300036",
 
   textVersion  = paste("Nanni P, Panse C, Gehrig P, Mueller S, Grossmann J, Schlapbach R. (2013)",
 	"PTM MarkerFinder, a software tool to detect and validate spectra from peptides carrying post-translational modifications.",
-	"PROTEOMECS. 2013 Aug;13(15):2251-5. doi: 10.1002/pmic.201300036. Epub 2013 Jul 1.")
+	"PROTEOMECS. 2013 Aug;13(15):2251-5. DOI:10.1002/pmic.201300036. Epub 2013 Jul 1.")
 )
 
 citEntry(entry = "Article",
@@ -30,11 +31,37 @@ citEntry(entry = "Article",
          pages = "2228-2231",
          month = "Feb",
          year = 2015,
-         note = "DOI:10.1093/bioinformatics/btv105, PMID: 25712692",
+         doi = "10.1093/bioinformatics/btv105",
          url = "http://dx.doi.org/10.1093/bioinformatics/btv105",
          
          textVersion = paste("Panse C, Trachsel C, Grossmann J and Schlapbach R. (2015).",
           "specL - An R/Bioconductor package to prepare peptide spectrum matches for use in targeted proteomics.",
-          "Bioinformatics. DOI:10.1093/bioinformatics/btv105, PMID: 25712692")
+          "Bioinformatics. DOI:10.1093/bioinformatics/btv105.")
 )
+
+
+citEntry(entry = "Article",
+  title = "Implementation and evaluation of relative and absolute quantification in shotgun proteomics with label-free methods ",
+  author = c(person("Jonas", "Grossmann"),
+    person("Bernd", "Roschitzki"),
+    person("Christian", "Panse"),
+    person("Claudia", "Fortes"),
+    person("Simon", "Barkow-Oesterreicher"),
+    person("Dorothea","Rutishauser"),
+    person("Ralph", "Schlapbach")),
+journal = "Journal of Proteomics",
+volume = "73",
+number = "9",
+pages = "1740 - 1746",
+year = "2010",
+issn = "1874-3919",
+doi = "10.1016/j.jprot.2010.05.011",
+url = "http://www.sciencedirect.com/science/article/pii/S1874391910001703",
+
+textVersion = paste("Grossmann J, Roschitzki B, Panse C, Fortes C, Barkow-Oesterreicher S, Rutishauser D, Schlapbach R. (2010).",
+"Implementation and evaluation of relative and absolute quantification in shotgun proteomics with label-free methods.",
+"J Proteomics. 2010 Aug 5;73(9):1740-6. DOI:10.1016/j.jprot.2010.05.011. Epub 2010 May 31.")
+)
+
+
 

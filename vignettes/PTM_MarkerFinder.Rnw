@@ -1,4 +1,4 @@
-%\VignetteIndexEntry{PTM MarkerFinder}
+%\VignetteIndexEntry{Howto find putative PTM (pPTM) Marker Ion?}
 \documentclass[12pt]{article}
 
 \usepackage[utf8]{inputenc}
