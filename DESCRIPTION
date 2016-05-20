@@ -2,7 +2,7 @@ Package: protViz
 Type: Package
 Title: Visualizing and Analyzing Mass Spectrometry Related Data in
         Proteomics
-Version: 0.2.15
+Version: 0.2.17
 Author: Christian Panse <cp@fgcz.ethz.ch>, Jonas Grossmann <jg@fgcz.ethz.ch>, 
     Simon Barkow-Oesterreicher <sb@fgcz.ethz.ch>
 Maintainer: Christian Panse <cp@fgcz.ethz.ch>

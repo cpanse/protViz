@@ -177,6 +177,7 @@ PTM_MarkerFinder <- function(data,
             .PTM_MarkerFinder_writeMGF(data[[i]], mgfFilename, 
                 pattern=paste(data[[i]]$mZ[idx[b]], data[[i]]$intensity[idx[b]]))
             }
+
            r <- cbind(scans=data[[i]]$scans, 
                 mZ=data[[i]]$mZ[idx[b]],
                 markerIonMZ=mZmarkerIons[b],
@@ -184,8 +185,11 @@ PTM_MarkerFinder <- function(data,
                 markerIonMzError=mZmarkerIons[b]-data[[i]]$mZ[idx[b]],
                 markerIonPpmError=1e+06 * (mZmarkerIons[b]-data[[i]]$mZ[idx[b]])/data[[i]]$mZ[idx[b]],
                 query=i,
-                pepmass=data[[i]]$pepmass
+                pepmass=data[[i]]$pepmass,
+                peptideSequence=data[[i]]$peptideSequence,
+                modification=data[[i]]$modification
                 )
+
 
            rr<-rbind(rr,r)
 
@@ -404,7 +408,11 @@ PTM_MarkerFinder_util<-function(dataFileName,
         minNumberIons=minNumberIons,
         itol_ppm=itol_ppm)
 
-    load(paste(config$dataFileName, "RData", sep='.'))
+    
+    datFilename <- paste(config$dataFileName, "RData", sep='.')
+    
+    message(paste("load file", datFilename, "..."))
+    load(datFilename)
 
     pdf(paste(config$dataFileName, "pdf", sep='.'), 19, 12)
     s<-PTM_MarkerFinder(data=get(config$dataFileName), 
@@ -432,7 +440,10 @@ PTM_MarkerFinder_util<-function(dataFileName,
     dev.off()
 
     if ( nrow(s) > 1 & write_csv==TRUE ){
-        w<-reshape(s[, c(1,7,8,3,4)], direction='wide', timevar="markerIonMZ", idvar=c('scans','query','pepmass'))
+        w<-reshape(s[, c(1,7,8,3,4,9,10)], 
+		direction='wide', 
+		timevar="markerIonMZ", 
+		idvar=c('scans', 'query', 'pepmass', 'peptideSequence', 'modification'))
 
         write.table(w, file=paste(config$dataFileName, "csv", sep='.'),
             sep=',', row.names=FALSE, col.names=TRUE, quote=FALSE)
