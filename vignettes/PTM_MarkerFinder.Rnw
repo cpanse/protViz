@@ -25,6 +25,7 @@
 
 \author{Christian Panse \and Paolo Nanni}
 \begin{document}
+\SweaveOpts{concordance=TRUE}
 \title{Finding putative PTM (pPTM) Marker Ion in HCD scans}
 
 \maketitle
@@ -59,7 +60,7 @@ In theory \code{PTM\_MarkerFinder} can process the output of any search engine f
 
 \code{PTM\_MarkerFinder} can search for any Marker ion series. The next lines define the \code{HexNAc\_MarkerIons}.
 
-<<keep.source = TRUE, eval = TRUE, fig = FALSE>>=
+<<>>=
 HexNAc_MarkerIons <- c(126.05495, 138.05495, 144.06552, 168.06552, 
     186.07608, 204.08665)
 @
@@ -67,7 +68,7 @@ HexNAc_MarkerIons <- c(126.05495, 138.05495, 144.06552, 168.06552,
 The lines below configure the modification information used by the search engine.
 The HexNAc modification below is described on unimod \url{http://www.unimod.org/modifications_view.php?editid1=43}.
 
-<<keep.source = TRUE, eval = TRUE, fig = FALSE>>=
+<<>>=
 ptm.0<-cbind(AA="-",
 	mono=0.0, avg=0.0, desc="unmodified", unimodAccID=NA)
 
@@ -85,7 +86,7 @@ m<-as.data.frame(rbind(ptm.0, ptm.1, ptm.2))
 \code{PTM\_MarkerFinder} is called.
 
 
-<<keep.source = TRUE, eval = TRUE, fig = FALSE>>=
+<<>>=
 s <- PTM_MarkerFinder(data=HexNAc, modification=m$mono, 
 	modificationName=m$desc,
         minMarkerIntensityRatio=3,
@@ -96,7 +97,7 @@ s
 @
 
 The user can call the demonstration with 
-<<keep.source = TRUE, eval = FALSE, fig = FALSE>>=
+<<eval = FALSE>>=
 demo(PTM_MarkerFinder) 
 @
 
@@ -104,8 +105,13 @@ demo(PTM_MarkerFinder)
 just an overview of the sample data set \code{HexNAc}.
 <<keep.source = TRUE, eval = TRUE, fig = TRUE>>=
 op<-par(mfrow=c(2,2), mar=c(4,4,4,1)); 
-dump <- lapply(split(s,s$query), 
-    function(x){ plot(x$mZ, x$markerIonIntensity, 
+# TODO(cp): make it S3
+s$markerIonIntensity <- as.numeric(levels(s$markerIonIntensity))[s$markerIonIntensity]
+s$mZ <- as.numeric(levels(s$mZ))[s$mZ]
+
+dump <- lapply(split(s, s$query), 
+    function(x){ 
+      plot(x$mZ, x$markerIonIntensity, 
         type='h',
         col='lightblue',
         cex=2,
@@ -115,7 +121,7 @@ dump <- lapply(split(s,s$query),
                 + 0.1 * (max(HexNAc_MarkerIons) - min(HexNAc_MarkerIons)), 
             min(HexNAc_MarkerIons) 
                 - 0.1 * (max(HexNAc_MarkerIons) - min(HexNAc_MarkerIons)))),
-            ylim=range(s$markerIonIntensity),
+        ylim=range(s$markerIonIntensity),
             log='y',
             main=paste("scan=", unique(x$scans),
                 "/query=", unique(x$query), sep='')); 
