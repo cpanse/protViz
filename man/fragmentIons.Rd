@@ -20,7 +20,6 @@
 
     fragmentIon(sequence, FUN, modified, modification, N_term, C_term)
 
-
 }
 
 \arguments{
@@ -71,7 +70,12 @@
 
 \author{
 
-   Christian Panse, Bertran Gerrits 2006; first used in \code{peakplot}.
+   Christian Panse, Bertran Gerrits 2006. 
+}
+
+\seealso{
+
+   first used in \code{\link{peakplot}}.
 
 }
 
@@ -79,14 +83,22 @@
 
 # Example 1
 peptide.AA<-"KINHSFLR";
+
 peptide.AA.weights<-c(128.09496,113.08406,114.04293,
     137.05891,87.03203,147.06841,113.08406,156.10111);
+
 fragmentIon(peptide.AA);
+
 fragmentIon(peptide.AA.weights);
 
 
-# Example 2
-myIon<-function(b, y){
+
+HCD_Ion <- function(b, y){
+    return(cbind(b = b, y = y))
+}
+
+
+ETD_Ion <- function(b, y){
     Hydrogen <- 1.007825
     Oxygen <- 15.994915
     Nitrogen <- 14.003074
@@ -95,15 +107,15 @@ myIon<-function(b, y){
     c<- b + (Nitrogen + (3 * Hydrogen))
     z<- y - (Nitrogen + (3 * Hydrogen))
 
-    return(cbind(y_0,c,z))
+    return(cbind(y_0, c, z))
 }
 
-fragmentIon(peptide.AA, FUN=myIon)
+fragmentIon(peptide.AA, FUN = ETD_Ion)
         
 peptides<-c('HTLNQIDSVK', 'ALGGEDVR', 'TPIVGQPSIPGGPVR')
 
-pim<-parentIonMass(peptides)
-fi<-fragmentIon(peptides)
+pim <- parentIonMass(peptides)
+fi <- fragmentIon(peptides)
 
 op<-par(mfrow=c(3,1)); 
 for (i in 1:length(peptides)){
@@ -132,8 +144,8 @@ for (i in 1:length(peptides)){
 par(op)
 
 
-fi<-fragmentIon(c("ATSFYK","XGXFNAGVGK"))[[2]]
-fi$b[1]+fi$y[9]
-fi$b[2]+fi$y[8]
+fi <- fragmentIon(c("ATSFYK","XGXFNAGVGK"))[[2]]
+fi$b[1] + fi$y[9]
+fi$b[2] + fi$y[8]
 
 }

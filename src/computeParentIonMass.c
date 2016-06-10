@@ -148,7 +148,6 @@ void computeParentIonMass(int *n_, char **seq_,  double *pim_)
     int i;
     int j;
     int letter;
-    double pim;
     init();
 
     /* for each sequence */
@@ -171,7 +170,6 @@ void computeParentIonMass2(int *n_, char **seq_,  double *pim_, double *M_, doub
     int i;
     int j;
     int letter;
-    double pim;
     double C_term, Electron, Hydrogen;
 
     C_term = 17.002740;

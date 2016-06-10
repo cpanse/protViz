@@ -39,3 +39,4 @@ importFrom("stats", "aov", "cor", "dist", "dnorm", "quantile",
 importFrom("utils", "combn", "packageVersion", "read.table",
              "write.table")
 
+importFrom("utils", "packageVersion")

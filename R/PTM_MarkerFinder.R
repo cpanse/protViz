@@ -326,10 +326,33 @@ PTM_MarkerFinder <- function(data,
         }
     }
     close.screen(all.screens = TRUE)
-
-    return(as.data.frame(rr))
+    
+    # TODO(cp): make a S3 class
+    rr <- as.data.frame(rr)
+   
+    rr$markerIonIntensity <- as.numeric(levels(rr$markerIonIntensity))[rr$markerIonIntensity]
+    rr$mZ <- as.numeric(levels(rr$mZ))[rr$mZ]
+    rr$pepmass <- as.numeric(levels(rr$pepmass))[rr$pepmass]
+    rr$markerIonMZ <- as.numeric(levels(rr$markerIonMZ))[rr$markerIonMZ]
+    rr$markerIonMzError <- as.numeric(levels(rr$markerIonMzError))[rr$markerIonMzError]
+    
+    return(rr)
 }
 
+ptmmf <- setClass("ptmmf",
+                  slots=c(
+                          scans="character",
+                          mZ="numeric",
+                          markerIonMZ="numeric", 
+                          markerIonIntensity="numeric", 
+                          markerIonMzError="numeric",
+                          markerIonPpmError="numeric", 
+                          relativeFragmentIntensity="numeric", 
+                          query ="character", 
+                          pepmass="numeric", 
+                          peptideSequence="character",
+                          modification="character")
+)
 
 # code for screening multiple modifications
 # by Paolo <paolo.nanni@fgcz.uzh.ch> and Christian <cp@fgcz.ethz.ch>, March 2013
@@ -349,7 +372,8 @@ PTM_MarkerFinder <- function(data,
         op<-par(mfrow=c(4,5), mar=c(4,4,3,1)); 
         dump <- lapply(split(s,s$query), 
 
-    function(x){ plot(x$mZ, x$markerIonIntensity, 
+    function(x){ 
+      plot(x$mZ, x$markerIonIntensity, 
         type='h',
         col='lightblue',
         cex=2,
@@ -357,7 +381,8 @@ PTM_MarkerFinder <- function(data,
         ylim=range(s$markerIonIntensity),
         log='y',
         main=paste("scan=",unique(x$scans),"/query=", unique(x$query), sep='')); 
-        text(x$mZ, x$markerIonIntensity,round(x$mZ,1),col='red',cex=0.7)})
+        text(x$mZ, x$markerIonIntensity,round(x$mZ,1),col='red',cex=0.7)
+      })
 
 par(op)
 
@@ -372,17 +397,17 @@ par(op)
 
 op<-par(mfrow=c(1,1), mar=c(5,5,5,5)); 
 
-boxplot(s$markerIonIntensity ~ s$markerIonMZ,
+boxplot(s$markerIonIntensity ~ as.factor(s$markerIonMZ),
     log='y',
     main='summary marker ion intensity distribution',
     xlab='markerIon m/z', ylab='log10 based marker ion intensity')
 box()
 
-boxplot(markerIonPpmError~as.factor(scans),
-    data=s, 
-    main='marker ions PPM error summary',
-    xlab='scan number', ylab='ppm error')
-abline(h=0.0,col='grey')
+#boxplot(markerIonPpmError~(scans),
+#    data=s, 
+#    main='marker ions PPM error summary',
+#    xlab='scan number', ylab='ppm error')
+#abline(h=0.0,col='grey')
 
 par(mfrow=c(1,1));
 barplot(tapply(s$markerIonIntensity, s$scans, FUN=sum),log='y',

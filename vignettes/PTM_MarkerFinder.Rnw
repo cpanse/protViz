@@ -96,6 +96,10 @@ s <- PTM_MarkerFinder(data=HexNAc, modification=m$mono,
 s
 @
 
+<<>>=
+str(s)
+@
+
 The user can call the demonstration with 
 <<eval = FALSE>>=
 demo(PTM_MarkerFinder) 
@@ -106,8 +110,8 @@ just an overview of the sample data set \code{HexNAc}.
 <<keep.source = TRUE, eval = TRUE, fig = TRUE>>=
 op<-par(mfrow=c(2,2), mar=c(4,4,4,1)); 
 # TODO(cp): make it S3
-s$markerIonIntensity <- as.numeric(levels(s$markerIonIntensity))[s$markerIonIntensity]
-s$mZ <- as.numeric(levels(s$mZ))[s$mZ]
+#s$markerIonIntensity <- as.numeric(levels(s$markerIonIntensity))[s$markerIonIntensity]
+#s$mZ <- as.numeric(levels(s$mZ))[s$mZ]
 
 dump <- lapply(split(s, s$query), 
     function(x){ 

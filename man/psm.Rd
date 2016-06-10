@@ -3,14 +3,14 @@
 \alias{psm}
 \alias{peptidespectrummatching}
 
-\title{compute a matching between a peptide sequence and a MS2 spectrum}
+\title{Compute a matching between a peptide sequence and a MS2 spectrum}
 
 \description{
     The function computes the matching between a given peptide sequence and a tandem mass spectrum (MS2).
-    \code{psm} determines for each fragment ion mass peak the smallest mass error to a peak in the theretical spectrum from the peptide sequence.
+    \code{\link{psm}} determines for each fragment ion mass peak the smallest mass error to a peak in the theretical spectrum from the peptide sequence.
     If the mass error is below the given \code{fragmentIonError} the match is considered a hit. 
     \code{psm} returns a list of computed fragment ions and a vector of the mass error (Da and ppm).
-    \code{psm} uses a generic \code{ansi-c} function to determines the nearest mass peak of array of double 
+    \code{\link{psm}} uses a generic \code{ANSI-C} function to determines the nearest mass peak of array of double 
     values.
     If the \code{plot} is set to \code{TRUE} an error plot is drawn.
 
@@ -34,7 +34,7 @@
 
   \item{spec}{MS2 which is a R list having a sorted mZ vector and an intensity vector of the same size.}
 
-  \item{FUN}{this function is passed to the \code{fragmentIon} function. the function to be applied to compute further ions. If no function is assigned \code{fragmentIon} will
+  \item{FUN}{this function is passed to the \code{fragmentIon} function. the function to be applied to compute further ions. If no function is assigned \code{\link{fragmentIon}} will
     use \code{defaultIon}.}
   \item{plot}{boolean if the error plot function is to be called.}
 
@@ -54,9 +54,15 @@
    Christian Panse 2007, 2008, 2009, 2010, 2012
 
 }
+
+\seealso{
+
+	\code{\link{peakplot}} and \code{\link{fragmentIon}}
+
+}
 \examples{
 
-spec<-list(scans=1138,
+spec <- list(scans=1138,
     title="178: (rt=22.3807) [20080816_23_fetuin_160.RAW]",
     rtinseconds=1342.8402,
     charge=2,
@@ -73,7 +79,7 @@ spec<-list(scans=1138,
     587.5, 2685, 671.7, 3734, 8266, 3309)
     )
 
-m<-psm('HTLNQIDSVK', spec,plot=TRUE)
+m <- psm('HTLNQIDSVK', spec,plot=TRUE)
 hist(m$mZ.Da.error)
 hist(m$mZ.ppm.error)
 

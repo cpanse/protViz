@@ -173,4 +173,15 @@ peakplot <- function(peptideSequence,
     .peakplot.label(spec=spec, match=m, yMax=yMax)
 
     return(m)
-}                      
+}    
+
+.onAttach <- function(lib, pkg){
+  if(interactive()){
+    version <- packageVersion('protViz')
+    packageStartupMessage("Package 'protViz' version ", version)
+  
+    invisible()
+  }
+  
+}
+
