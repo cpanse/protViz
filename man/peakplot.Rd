@@ -13,6 +13,8 @@
      \code{peakplot} labels a mass spectrum from a peptide sequence  
      assignment by using the \code{psm} function with the appropriate 
      fragment ion labels.
+     Using \code{peakplot} it is possible to compute the fragment ion 
+     coverage and customize the fragmentation ions used for labelling.
 }
 
 \usage{
@@ -93,7 +95,7 @@ dependent on the instrument setting applied during the initial search.
 
    Bertran Gerrits, Christian Panse 
    
-   2006-2012; 
+   2006-2016; 
 
 }
    
@@ -101,21 +103,29 @@ dependent on the instrument setting applied during the initial search.
 
    \code{\link{peakplot}} has been used for generating 
    figures and supplemental material in
+   
+   \itemize{
 
-    \url{http://www.ncbi.nlm.nih.gov/pubmed/17114649}
+    \item{\url{http://www.ncbi.nlm.nih.gov/pubmed/17114649}}
 
-    \url{http://www.ncbi.nlm.nih.gov/pubmed/17940529}
+    \item{\url{http://www.ncbi.nlm.nih.gov/pubmed/17940529}}
 
-    \url{http://www.ncbi.nlm.nih.gov/pubmed/22693562}
+    \item{\url{http://www.ncbi.nlm.nih.gov/pubmed/22693562}}
 
-    \url{http://www.ncbi.nlm.nih.gov/pubmed/23713006}
-
+    \item{\url{http://www.ncbi.nlm.nih.gov/pubmed/23713006}}
+    
+    \item{\url{http://www.ncbi.nlm.nih.gov/pubmed/26944343}}
+}
 }
 
 \seealso{
-
-	 \code{\link{fragmentIon}} and \code{\link{psm}}
-		
+\itemize{
+	 \item{\code{\link{fragmentIon}}}
+	 
+	 \item{\code{\link{psm}}}
+	 
+	 \item{\code{\link{PTM_MarkerFinder}}}
+		}
 }
 
 

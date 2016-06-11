@@ -105,7 +105,7 @@ ETD scans.
 }
 
 \seealso{
-\code{\link{peakplotb}}
+\code{\link{peakplot}}
 }
 
 \references{
