@@ -29,3 +29,11 @@ connect to http://yourdockerhost:8791  using a web browser
 * username: rstudio
 * password: rstudio
 
+## Author
+
+Christian Panse, 2006-2016
+
+## License
+
+[GPL 3](http://www.gnu.org/licenses/gpl-3.0.en.html)
+
