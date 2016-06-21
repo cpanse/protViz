@@ -1,35 +1,50 @@
 %\VignetteIndexEntry{Howto find putative PTM (pPTM) Marker Ion?}
-\documentclass[12pt]{article}
 
+\documentclass[11pt, DIV19]{scrartcl}
 \usepackage[utf8]{inputenc}
 \usepackage{hyperref}
 \usepackage{color}
-
+\usepackage{rotating}
 \renewcommand*\familydefault{\sfdefault}
 
 \definecolor{NoteGrey}{rgb}{0.96,0.97,0.98}
-
-\textwidth=6.2in
-\textheight=9.5in
-@ \parskip=.3cm
-\oddsidemargin=.1in
-\evensidemargin=.1in
-\headheight=-1in
 
 \newcommand{\scscst}{\scriptscriptstyle}
 \newcommand{\scst}{\scriptstyle}
 \newcommand{\Rfunction}[1]{{\texttt{#1}}}
 \newcommand{\Robject}[1]{{\texttt{#1}}}
 \newcommand{\Rpackage}[1]{{\textit{#1}}}
-%\newcommand{\code}[1]{{\texttt{#1}}}
+\newcommand{\code}[1]{{\texttt{#1}}}
+\newcommand{\pkg}[1]{\href{https://cran.r-project.org/package=#1}{\textbf{#1}}}
 
 \begin{document}
-\author{Christian Panse \and Paolo Nanni}
+\author{Christian Panse\thanks{
+Correspondence: Christian~Panse,
+ETH Z{\"u}rich,
+Functional Genomics Center Zurich,
+Winterthurerstr. 190,
+CH-8057, Z{\"u}rich, Switzerland,
+Telephone: +41-44-63-53910,
+E-mail: \texttt{cp@fgcz.ethz.ch}} 
+\and 
+Paolo Nanni\thanks{
+Correspondence: Paolo~Nanni,
+ETH Z{\"u}rich,
+Functional Genomics Center Zurich,
+Winterthurerstr. 190,
+CH-8057, Z{\"u}rich, Switzerland,
+Telephone: +41-44-63-53930,
+E-mail: \texttt{paolo.nanni@fgcz.uzh.ch}}}
 
 \SweaveOpts{concordance=TRUE}
-\title{Finding putative PTM (pPTM) Marker Ion in HCD scans}
+
+\title{On Finding putative PTM (pPTM) Marker Ion in HCD scans using \code{PTM\_MarkerFinder}}
 
 \maketitle
+
+\abstract{
+Glycopeptides as well as acetylated, methylated and other modified peptides release specific fragment ions during CID (collision-induced dissociation) and HCD (higher energy collisional dissociation) fragmentation. These fragment ions can be used to validate the presence of the PTM (post translational modifications) on the peptides. PTM-MarkerFinder, an R function that takes advantage of such marker ions. \code{PTM MarkerFinder} scans the MS/MS spectra in the output of a peptide spectrum match search, e.g., Mascot, for marker ions specific for selected PTMs.
+}
 
 \tableofcontents
 \newpage
@@ -43,14 +58,14 @@ library(protViz)
 data(HexNAc)
 str(HexNAc[[1]], nchar.max=30)
 @
-Here we have listed the \code{HexNAc} data which is included in \code{protViz}.
+Here we have listed the \code{HexNAc} data which is included in \pkg{protViz}.
 
-\code{protViz} also provides and perl script \code{protViz\_mascotDat2RData.pl}\footnote{The prefix \code{protViz\_} is used to benefit from the \code{bash} tab completion.} taking mascot server dat files as input and producing RData output.
+\pkg{protViz} also provides and perl script \code{protViz\_mascotDat2RData.pl}\footnote{The prefix \code{protViz\_} is used to benefit from the \code{bash} tab completion.} taking mascot server dat files as input and producing RData output.
 
 \begin{verbatim}
 $ /usr/local/lib/R/site-library/protViz/exec/protViz_mascotDat2RData.pl \
--d=/usr/local/mascot/data/20130116/F178287.dat \
--m=$HOME/mod_file
+  -d=/usr/local/mascot/data/20130116/F178287.dat \
+  -m=$HOME/mod_file
 \end{verbatim}
 
 \code{mascotDat2RData.pl} requires the mascot server \code{mod\_file} keeping all the configured modification of the mascot server.
@@ -138,11 +153,15 @@ par(op)
 @
 
 
-The next graphics show the output of \code{PTM\_MarkerFinder}.
-<<keep.source = TRUE, eval = TRUE, fig = TRUE, width=19, height=12>>=
-d<-list(); d[[1]]<-HexNAc[[3]]; d[[2]]<-HexNAc[[4]];
-d[[3]]<-HexNAc[[5]]
-ss<-PTM_MarkerFinder(data=d, modification=m$mono, 
+Figure \ref{fig:example} dislays the output of \code{PTM\_MarkerFinder}.
+
+
+
+
+<<label=example, eval = TRUE, fig = TRUE, width=20, height=12, echo=TRUE, include=FALSE>>=
+# prepare the input
+d<-list(); d[[1]]<-HexNAc[[3]]; d[[2]]<-HexNAc[[4]]; d[[3]] <- HexNAc[[5]]
+SS <- PTM_MarkerFinder(data=d, modification=m$mono, 
 	modificationName=m$desc,
         minMarkerIntensityRatio=3,
         itol_ppm=20,
@@ -150,10 +169,21 @@ ss<-PTM_MarkerFinder(data=d, modification=m$mono,
 
 @
 
+\begin{sidewaysfigure}
+\centering
+\resizebox{1.0\textwidth}{!}{
+        \includegraphics{PTM_MarkerFinder-example}
+}
+
+\caption{\label{fig:example}Graphical output of the method.}
+\end{sidewaysfigure}
+
+
 \section{Reshaping the output and export}
 reshape the table:
+
 <<keep.source = TRUE, eval = TRUE, fig = FALSE>>=
-w<-reshape(s[,c(1,7,3,4)], direction='wide', 
+w <- reshape(s[,c(1,7,3,4)], direction='wide', 
     timevar="markerIonMZ", idvar=c('scans','query'))
 w
 @
@@ -164,6 +194,16 @@ write.table(w, file="HexNAc_PTM_markerFinder.csv",
     sep=',', row.names=FALSE,col.names=TRUE, quote=FALSE)
 
 @
+
+\section{Session information}
+
+An overview of the package versions used to produce this document are
+shown below.
+
+<<sessioninfo, results=tex, echo=FALSE>>=
+toLatex(sessionInfo())
+@
+
 
 \nocite{pPTM}
 \bibliography{protViz}{}
