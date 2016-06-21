@@ -10,6 +10,22 @@ vignette('protViz')
 
 ## Installation
 
+### CRAN
+
 ```
 install.package('protViz')
 ```
+
+
+### Docker
+
+```
+docker pull cpanse/protviz \
+&& docker run -d -p 8792:8787 cpanse/protviz     
+```
+
+connect to http://yourdockerhost:8791  using a web browser
+
+* username: rstudio
+* password: rstudio
+
