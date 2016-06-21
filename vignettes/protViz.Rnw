@@ -1,7 +1,7 @@
 %\VignetteIndexEntry{protViz primer}
-
-\documentclass[12pt]{article}
-
+%\documentclass[article,nojss,shortnames]{jss}
+%\documentclass[12pt]{article}
+\documentclass[12pt,oneside,a4paper,DIV19]{scrartcl}
 \usepackage[utf8]{inputenc}
 \usepackage{hyperref}
 \usepackage{color}
@@ -22,9 +22,10 @@
 \newcommand{\Robject}[1]{{\texttt{#1}}}
 \newcommand{\Rpackage}[1]{{\textit{#1}}}
 \newcommand{\code}[1]{{\texttt{#1}}}
-
-\author{Christian Panse \and Jonas Grossmann}
 \begin{document}
+\author{Christian Panse \and Jonas Grossmann}
+
+\SweaveOpts{concordance=TRUE}
 \title{\code{protViz}: Visualizing and Analyzing Mass Spectrometry Related Data in Proteomics}
 
 \maketitle
@@ -198,8 +199,8 @@ for (i in 1:length(peptides)){
 The next lines compute the singly and doubly charged fragment ions of the \code{HTLNQIDSVK} peptide. Which are usually the ones that can be used to make an identification.
 <<keep.source = TRUE, eval = TRUE, fig = FALSE>>=
 Hydrogen<-1.007825
-(fi.HTLNQIDSVK.1<-fragmentIon('HTLNQIDSVK'))[[1]]
-(fi.HTLNQIDSVK.2<-(fi.HTLNQIDSVK.1[[1]] + Hydrogen) / 2)
+(fi.HTLNQIDSVK.1 <- fragmentIon('HTLNQIDSVK'))[[1]]
+(fi.HTLNQIDSVK.2 <-(fi.HTLNQIDSVK.1[[1]] + Hydrogen) / 2)
 @
 
 
@@ -231,14 +232,14 @@ in-silico fragment ion is considered as potential hit.
     1267, 1542, 979.2, 9577, 3283, 9441, 1520, 1310, 1.8e+04,
     587.5, 2685, 671.7, 3734, 8266, 3309))
 
-    fi<-fragmentIon(peptideSequence)
-    n<-nchar(peptideSequence)
+    fi <- fragmentIon(peptideSequence)
+    n < -nchar(peptideSequence)
 
     by.mZ<-c(fi[[1]]$b, fi[[1]]$y)
     by.label<-c(paste("b",1:n,sep=''), paste("y",n:1,sep=''))
 
     # should be a R-core function as findInterval!
-    idx<-findNN(by.mZ, spec$mZ) 
+    idx <- findNN(by.mZ, spec$mZ) 
 
     mZ.error<-abs(spec$mZ[idx]-by.mZ)
 
@@ -298,7 +299,7 @@ The labeling of the spectra can be done with the \code{peakplot} function.
 %\setkeys{Gin}{width=0.95\columnwidth}
 <<keep.source = TRUE, eval = TRUE, fig = TRUE>>=
 data(msms)
-op<-par(mfrow=c(2,1))
+op <- par(mfrow=c(2,1))
 peakplot("TAFDEAIAELDTLNEESYK", msms[[1]])
 peakplot("TAFDEAIAELDTLSEESYK", msms[[2]])
 par(op)
@@ -306,7 +307,8 @@ par(op)
 %\subsection{Finding Glyco Patterns}
 
 \section{Quantification}
-For an overview on Quantitative Proteomics read \cite{pmid22772140, pmid22821268}.
+For an overview on Quantitative Proteomics read \cite{pmid22772140, 
+pmid22821268}.
 The authors are aware that meaningful statistics usually require much higher number
 of biological replicates. 
 In almost all cases there are not more than three to six repitions.
@@ -575,6 +577,6 @@ packageDescription('protViz')
 @
 
 \bibliography{protViz}
-\bibliographystyle{plain}
+%\bibliographystyle{plain}
 
 \end{document}

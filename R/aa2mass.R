@@ -10,3 +10,5 @@ aa2mass <- function(peptideSequence,
 
     return(.Call("aa2mass_main", peptideSequence, mass, letter1, PACKAGE = "protViz")$output)
 }
+
+
