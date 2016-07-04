@@ -39,12 +39,16 @@ shinyServer(function(input, output) {
                                rt=x$rt)
                     }))
    
-    op <- par(mfrow=c(2, 1))
-    #hist(sapply(S, function(x){-10 * log((1E-6 + x$score)) / log(10)}))
+    op <- par(mfrow=c(4, 1))
+    
+    hist(sapply(S, function(x){-10 * log((1E-6 + x$score)) / log(10)}), main='score')
     plot(S[[input$id]])
     plot(SS$rt , SS$rt.predicted, main=input$file, 
          sub=paste('number of psm =', length(SS$rt))
          )
+    S.lm <- lm(SS$rt.predicted ~ SS$rt)
+    abline(S.lm, col='cornflowerblue', lwd=4)
+    plot(S)
   })
   
 })

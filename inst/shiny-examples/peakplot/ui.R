@@ -8,17 +8,14 @@
 #
 
 library(shiny)
-DATAROOT <- "/Users/cp/data/20160628/"
+#DATAROOT <- "/Users/cp/data/20160628/"
 DATAROOT<-"/scratch/cpanse/p1352/20160701/"
-<<<<<<< HEAD
 
-=======
->>>>>>> 123c8e40754acf259af39d16a702b82175f7b410
 # Define UI for application that draws a histogram
 shinyUI(fluidPage(
   
   # Application title
-  titlePanel("NestLink peptide prediction"),
+  titlePanel("protViz"),
   
   # Sidebar with a slider input for number of bins 
   sidebarLayout(
@@ -36,7 +33,7 @@ shinyUI(fluidPage(
                    value = 1),
        
        sliderInput("mascotScoreCutOff",
-                   "mascot score cut off:",
+                   "score cut off:",
                    min = 1,
                    max = 150,
                    value = 1)
@@ -44,7 +41,7 @@ shinyUI(fluidPage(
     
     # Show a plot of the generated distribution
     mainPanel(
-       plotOutput("distPlot", height = "800px")
+       plotOutput("distPlot", height = "1200")
     )
   )
 ))
