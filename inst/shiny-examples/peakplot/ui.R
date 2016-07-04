@@ -9,6 +9,8 @@
 
 library(shiny)
 DATAROOT <- "/Users/cp/data/20160628/"
+DATAROOT<-"/scratch/cpanse/p1352/20160701/"
+
 # Define UI for application that draws a histogram
 shinyUI(fluidPage(
   
