@@ -847,7 +847,7 @@ sub main {
         }
 
         my $RdataFileName=&basename($datfilename,".dat");
-        open (RFILE, "| R --no-save --slave") || die "could not open file for writing ...$!\n";
+        open (RFILE, ">/tmp/dat.R") || die "could not open file for writing ...$!\n";
         #open (RFILE, "| tee /tmp/dump.R | R --no-save --slave") || die "could not open file for writing ...$!\n";
 
         &init;
@@ -876,7 +876,7 @@ sub main {
                 }
        }
 
-        print RFILE "#R\n". $RdataFileName .".modification.description <- c('',". $modDesc . ");\n";
+        print RFILE "#R\n". $RdataFileName .".modification.description <- c('', ". $modDesc . ");\n";
         print RFILE $RdataFileName .".modification.mass <- c(0.0,". $modMass . ");\n";
 
         print RFILE $RdataFileName ." <- list()\n";
