@@ -8,7 +8,7 @@
 #
 
 library(shiny)
-#DATAROOT <- "/Users/cp/data/20160628/"
+DATAROOT <- "/Users/cp/data/20160628/"
 DATAROOT<-"/scratch/cpanse/p1352/20160701/"
 
 # Define UI for application that draws a histogram
@@ -20,6 +20,15 @@ shinyUI(fluidPage(
   # Sidebar with a slider input for number of bins 
   sidebarLayout(
     sidebarPanel(
+      textInput("WORKUNITID", 
+                "Workunit Id", 
+                value=140692),
+      textInput("PROJECT", 
+                "Project", 
+                value=1352),
+      textInput("STORAGEPATH",
+                "dir",
+                value="p1352/bfabric/Proteomics/PTM_MarkerFinder_protViz_ADP_Ribosyl/2014/2014-12/2014-12-09/workunit_130109/"),
        textInput("DATAROOT", 
                  "data directory", 
                  value=DATAROOT),
