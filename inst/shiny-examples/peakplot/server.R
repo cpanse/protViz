@@ -10,7 +10,6 @@
 library(shiny)
 library(bibliospec)
 library(specL)
-library(NestLink)
 
 # Define server logic required to draw a histogram
 shinyServer(function(input, output) {
@@ -35,12 +34,12 @@ shinyServer(function(input, output) {
     }
   
     
-   SS <- do.call('rbind',lapply(S[idx], function(x){
+   SS <- do.call('rbind', lapply(S[idx], function(x){
                     data.frame(rt.predicted=ssrc(as.character(x$peptideSequence)), 
                                rt=x$rt)
                     }))
    
-    op <- par(mfrow=c(2,1))
+    op <- par(mfrow=c(2, 1))
     #hist(sapply(S, function(x){-10 * log((1E-6 + x$score)) / log(10)}))
     plot(S[[input$id]])
     plot(SS$rt , SS$rt.predicted, main=input$file, 
