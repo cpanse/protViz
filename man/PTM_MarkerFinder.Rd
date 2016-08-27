@@ -64,7 +64,7 @@ intensities.}
 
 \details{
 
-The functon screens MS2 spectra for the presence of fragment ions specific Post
+The function screens MS2 spectra for the presence of fragment ions specific Post
 Translational Modifications (PTMs). The function requires an R-object containing
 the mass spectrometric measurement, the peptide assignments, potential
 modification information, and a list of marker ions. The R-object can be

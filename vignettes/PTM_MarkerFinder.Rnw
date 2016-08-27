@@ -1,56 +1,75 @@
 %\VignetteIndexEntry{Howto find putative PTM (pPTM) Marker Ion?}
-
-%\documentclass[11pt, DIV19]{scrartcl}
 \documentclass[nojss]{jss}
 \usepackage[utf8]{inputenc}
-%\usepackage{hyperref}
-\usepackage{color}
 \usepackage{rotating}
-\renewcommand*\familydefault{\sfdefault}
 
-\definecolor{NoteGrey}{rgb}{0.96,0.97,0.98}
-
-\newcommand{\scscst}{\scriptscriptstyle}
-\newcommand{\scst}{\scriptstyle}
-\newcommand{\Rfunction}[1]{{\texttt{#1}}}
-\newcommand{\Robject}[1]{{\texttt{#1}}}
-\newcommand{\Rpackage}[1]{{\textit{#1}}}
-%\newcommand{\code}[1]{{\texttt{#1}}}
-%\newcommand{\pkg}[1]{\href{https://cran.r-project.org/package=#1}{\textbf{#1}}}
-
-\begin{document}
-\author{Christian Panse\thanks{
+\author{Christian~Panse\thanks{
 Correspondence: Christian~Panse,
-ETH Z{\"u}rich,
 Functional Genomics Center Zurich,
 Winterthurerstr. 190,
 CH-8057, Z{\"u}rich, Switzerland,
 Telephone: +41-44-63-53910,
 E-mail: \texttt{cp@fgcz.ethz.ch}} 
-\and 
-Paolo Nanni\thanks{
-Correspondence: Paolo~Nanni,
-ETH Z{\"u}rich,
+\and
+Paolo~Nanni\thanks{
+Paolo~Nanni,
 Functional Genomics Center Zurich,
 Winterthurerstr. 190,
 CH-8057, Z{\"u}rich, Switzerland,
 Telephone: +41-44-63-53930,
-E-mail: \texttt{paolo.nanni@fgcz.uzh.ch}}}
-
-\SweaveOpts{concordance=TRUE}
+E-mail: \texttt{paolo.nanni@fgcz.uzh.ch}}\\
+Functional Genomics Center Zurich
+}
 
 \title{On Finding putative PTM (pPTM) Marker Ion in HCD scans using \code{PTM\_MarkerFinder}}
 
-\maketitle
+\Plainauthor{Christian Panse, Paolo Nanni}
+\Plaintitle{On Finding putative PTM (pPTM) Marker Ion in HCD scans using \code{PTM\_MarkerFinder}}
+\Shorttitle{PTM MarkerFinder}
 
-\abstract{
-Glycopeptides as well as acetylated, methylated and other modified peptides release specific fragment ions during CID (collision-induced dissociation) and HCD (higher energy collisional dissociation) fragmentation. These fragment ions can be used to validate the presence of the PTM (post translational modifications) on the peptides. PTM-MarkerFinder, an R function that takes advantage of such marker ions. \code{PTM MarkerFinder} scans the MS/MS spectra in the output of a peptide spectrum match search, e.g., Mascot, for marker ions specific for selected PTMs.
+\Abstract{
+Glycopeptides as well as acetylated, methylated and other modified peptides release 
+specific fragment ions during CID (collision-induced dissociation) and HCD (higher energy 
+collisional dissociation) fragmentation. These fragment ions can be used to validate the 
+presence of the PTM (post translational modifications) on the peptides. 
+\code{PTM\_MarkerFinder}, 
+an R function of the \pkg{protViz} package that takes advantage of such marker ions. 
+\code{PTM\-\_MarkerFinder} scans the 
+MS/MS spectra in the output of a peptide spectrum match search, 
+e.g., Mascot, for marker 
+ions specific for selected PTMs.
+
+While the  software tool has been described in \cite{pPTM} here we provide 
+a step-by-step guide 
+on how the software can be used.
 }
 
-\tableofcontents
-\newpage
+\Keywords{MarkerFinder, putative post translational modifications, R}
+\Plainkeywords{MarkerFinder, putative post translational modifications, R} %% without formatting
 
-\section{Get Data In -- Preprocessing}
+\Submitdate{2016-09-01}
+
+\Address{
+Paolo Nanni and Christian Panse\\
+UZH\texttt{|}ETH Z{\"u}rich\\
+Functional Genomics Center Zurich\\
+Winterthurerstr. 190\\
+CH-8057, Z{\"u}rich, Switzerland\\
+Telephone: +41/44/63-53910
+}
+
+
+
+\begin{document}
+\SweaveOpts{concordance=TRUE}
+<<echo = FALSE, eval = TRUE>>=
+options(prompt = "R> ", continue = "+  ", width = 70, useFancyQuotes = FALSE)
+@
+
+\section{Howto get the software and data}
+The method for finding the marker ions is contained in the R package \pkg{protViz} 
+available through CRAN using \url{https://cran.r-project.org/package=protViz}.
+The package requires R \citep{R} installed.
 
 The minimal data structure requirement for the \code{PTM\_MarkerFinder} function looks as follow. 
 
@@ -74,56 +93,57 @@ $ /usr/local/lib/R/site-library/protViz/exec/protViz_mascotDat2RData.pl \
 In theory \code{PTM\_MarkerFinder} can process the output of any search engine for peptide identification. It is up to the R user writing a wrapper script converting the output of any particular peptide identification search engine to the data structure listed above.
 
 \section{Finding the Marker Ions}
-\subsection{Example 1}
+\subsection{HexNAc -- Example}
 
 \code{PTM\_MarkerFinder} can search for any Marker ion series. The next lines define the \code{HexNAc\_MarkerIons}.
 
 <<>>=
-HexNAc_MarkerIons <- c(126.05495, 138.05495, 144.06552, 168.06552, 
-    186.07608, 204.08665)
+HexNAc_MarkerIons <- c(126.05495, 138.05495, 144.06552,
+   168.06552, 186.07608, 204.08665)
 @
 
 The lines below configure the modification information used by the search engine.
 The HexNAc modification below is described on unimod \url{http://www.unimod.org/modifications_view.php?editid1=43}.
 
 <<>>=
-ptm.0<-cbind(AA="-",
-	mono=0.0, avg=0.0, desc="unmodified", unimodAccID=NA)
+ptm.0 <- cbind(AA = "-",
+	mono = 0.0, avg = 0.0, desc = "unmodified", unimodAccID = NA)
 
-ptm.1<-cbind(AA='N', 
-	mono=317.122300, avg=NA, desc="HexNAc",
+ptm.1 <- cbind(AA='N', 
+	mono = 317.122300, avg = NA, desc = "HexNAc",
         unimodAccID=2)
              
-ptm.2<-cbind(AA='M',
-	mono=147.035400, avg=NA, desc="Oxidation",
+ptm.2 <- cbind(AA='M',
+	mono = 147.035400, avg = NA, desc = "Oxidation",
         unimodAccID=1)
      
-m<-as.data.frame(rbind(ptm.0, ptm.1, ptm.2))
+m <- as.data.frame(rbind(ptm.0, ptm.1, ptm.2))
 @
 
 \code{PTM\_MarkerFinder} is called.
 
 
 <<>>=
-S <- PTM_MarkerFinder(data=HexNAc, modification=m$mono, 
-	modificationName=m$desc,
-        minMarkerIntensityRatio=3,
-        itol_ppm=20,
-        mZmarkerIons=HexNAc_MarkerIons) 
+S <- PTM_MarkerFinder(data = HexNAc,
+	modification = m$mono, 
+	modificationName = m$desc,
+        minMarkerIntensityRatio = 3,
+        itol_ppm = 20,
+        mZmarkerIons = HexNAc_MarkerIons) 
 @
 
-The content of \code{S} can be seen in Table \ref{Table:xtable1}.
-%\resizebox{1.0\textwidth}{!}{
+The content of \code{S} can be seen in the Table below.
+%\ref{Table:xtable1}.
 
 <<xtable1, results=tex, echo=FALSE>>=
 library(xtable)
-print(xtable(S, caption="Result",  label="Table:xtable1"), include.rownames=FALSE, scalebox="0.6")
+print(xtable(S, caption="Result",  label="Table:xtable1"), include.rownames=FALSE, scalebox="0.5")
 @
+
 
 <<>>=
 summary(S)
 @
-
 
 \paragraph{Some overview graphics}
 
@@ -168,11 +188,13 @@ Figure \ref{fig:example1} dislays the output of \code{PTM\_MarkerFinder}.
 \end{figure}
 
 
-\paragraph{Reshaping the output and export}
+\subsection{Reshaping the output and export}
 
-\code{reshape} the table:
+The R method \code{reshape} transforms the data frame \code{S} from a 
+long format to a wide format.
 
-<<keep.source = TRUE, eval = TRUE, fig = FALSE>>=
+
+<<>>=
 names(S)[4] <- "mII"
 S.wide <- reshape(S[,c(1,7,3,4)],
                   direction = 'wide', 
@@ -187,26 +209,27 @@ print(xtable(S.wide, caption="Result",  label="Table:xtable2"), include.rownames
 @
 
 export as comma separeted file
-<<keep.source = TRUE, eval = TRUE, fig = FALSE>>=
-write.table(S.wide, file="HexNAc_PTM_markerFinder.csv",
-    sep=',', row.names=FALSE,col.names=TRUE, quote=FALSE)
 
+<<keep.source = TRUE, eval = TRUE, fig = FALSE>>=
+write.table(S.wide, 
+	file = "HexNAc_PTM_markerFinder.csv",
+    	sep = ',', 
+	row.names = FALSE,
+	col.names = TRUE, 
+	quote = FALSE)
 @
 
 
-
-\subsection{Example 2}
-
+\subsection{Visualization of the Result}
 
 <<label=example2, eval = TRUE, fig = TRUE, width=18, height=12, echo=TRUE, include=FALSE>>=
 # prepare the input
-d <- list(); d[[1]]<-HexNAc[[3]]; d[[2]]<-HexNAc[[4]]; d[[3]] <- HexNAc[[5]]
-S <- PTM_MarkerFinder(data=d, modification=m$mono, 
-	modificationName=m$desc,
-        minMarkerIntensityRatio=3,
-        itol_ppm=20,
-        mZmarkerIons=HexNAc_MarkerIons) 
-
+d <- list(); d[[1]] <- HexNAc[[3]]; d[[2]] <- HexNAc[[4]]; d[[3]] <- HexNAc[[5]]
+S <- PTM_MarkerFinder(data = d, modification = m$mono, 
+	modificationName = m$desc,
+        minMarkerIntensityRatio = 3,
+        itol_ppm = 20,
+        mZmarkerIons = HexNAc_MarkerIons) 
 @
 
 The graphics can be seen in Figure \ref{fig:example2}.
@@ -238,8 +261,5 @@ shown below.
 toLatex(sessionInfo())
 @
 
-
-\nocite{pPTM}
-\bibliography{protViz}{}
-\bibliographystyle{plain}
+\bibliography{protViz}
 \end{document}
