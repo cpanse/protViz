@@ -261,5 +261,6 @@ shown below.
 toLatex(sessionInfo())
 @
 
+\nocite{specL, VM-MAD}
 \bibliography{protViz}
 \end{document}
