@@ -7,7 +7,7 @@ Author: Christian Panse <cp@fgcz.ethz.ch>, Jonas Grossmann <jg@fgcz.ethz.ch>, Si
 Maintainer: Christian Panse <cp@fgcz.ethz.ch>
 Depends: R (>= 3.3), methods, bibliospec
 Imports: Rcpp (>= 0.12.4)
-Suggests: lattice, RUnit, BiocGenerics
+Suggests: lattice, RUnit, BiocGenerics, xtable
 Description: This R package helps with quality checks, visualizations 
     and analysis of mass spectrometry data, coming from proteomics 
     experiments. The package is developed, tested and used at the Functional 
