@@ -233,7 +233,7 @@ in-silico fragment ion is considered as potential hit.
     587.5, 2685, 671.7, 3734, 8266, 3309))
 
     fi <- fragmentIon(peptideSequence)
-    n < -nchar(peptideSequence)
+    n <- nchar(peptideSequence)
 
     by.mZ<-c(fi[[1]]$b, fi[[1]]$y)
     by.label<-c(paste("b",1:n,sep=''), paste("y",n:1,sep=''))
