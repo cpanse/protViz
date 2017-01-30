@@ -1,3 +1,4 @@
+%\VignetteIndexEntry{Hands-on: Using protViz}
 \documentclass[nojss]{jss}
 
 
@@ -47,7 +48,7 @@ options(prompt = "R> ", continue = "+  ", width = 70, useFancyQuotes = FALSE)
 
 
 \section{Related Work}
-{\em The methode of choice in proteomics is mass spectrometry.}
+{\em The method of choice in proteomics is mass spectrometry.}
 There are already packages in R which deal with mass spec related data.
 Some of them are listed here:
 \begin{itemize}
@@ -603,6 +604,7 @@ packageDescription('protViz')
 @
 
 The \pkg{protViz} package has also been used in \cite{pPTM,specL,msqc1}.
+
 \bibliography{protViz}
 %\bibliographystyle{plain}
 

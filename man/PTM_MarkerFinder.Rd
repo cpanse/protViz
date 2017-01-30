@@ -146,12 +146,6 @@ Proteomics. 2013 Aug;13(15):2251-5.
         itol_ppm=20,
         mZmarkerIons=HexNAc_MarkerIons) 
 
-    # some statistics
-    boxplot(markerIonPpmError~as.factor(scans),
-        data=s,
-        main='Overview plot: boxplot of marker ion errors (ppm) for each pPTM spectrum',
-        xlab='scan number', ylab='ppm error')
-    abline(h=0.0,col='grey')
 
     boxplot(s$markerIonIntensity ~ s$markerIonMZ,
         log='y',
