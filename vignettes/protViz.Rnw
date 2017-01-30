@@ -1,80 +1,69 @@
-%\VignetteIndexEntry{protViz primer}
-%\documentclass[article,nojss,shortnames]{jss}
-%\documentclass[12pt]{article}
-\documentclass[12pt,oneside,a4paper,DIV19]{scrartcl}
-\usepackage[utf8]{inputenc}
-\usepackage{hyperref}
-\usepackage{color}
-\renewcommand*\familydefault{\sfdefault}
+\documentclass[nojss]{jss}
 
-\definecolor{NoteGrey}{rgb}{0.96,0.97,0.98}
-
-\textwidth=6.2in
-\textheight=9.5in
-@ \parskip=.3cm
-\oddsidemargin=.1in
-\evensidemargin=.1in
-\headheight=-1in
 
 \newcommand{\scscst}{\scriptscriptstyle}
 \newcommand{\scst}{\scriptstyle}
 \newcommand{\Rfunction}[1]{{\texttt{#1}}}
 \newcommand{\Robject}[1]{{\texttt{#1}}}
-\newcommand{\Rpackage}[1]{{\textit{#1}}}
-\newcommand{\code}[1]{{\texttt{#1}}}
-\begin{document}
-\author{Christian Panse \and Jonas Grossmann}
+\newcommand{\Rpackage}[1]{{\pkg{#1}}}
 
-\SweaveOpts{concordance=TRUE}
-\title{\code{protViz}: Visualizing and Analyzing Mass Spectrometry Related Data in Proteomics}
+\author{Christian Panse, Jonas Grossmann}
+\title{protViz: Visualizing and Analyzing Mass Spectrometry Related Data in Proteomics}
 
-\maketitle
+\Plainauthor{Christian Panse, Jonas Grossmann}
+\Plaintitle{protViz: Visualizing and Analyzing Mass Spectrometry Related Data in Proteomics}
+\Shorttitle{protViz}
 
-\fcolorbox{black}{NoteGrey} {
-\begin{minipage}{13.5cm}
-\vspace{0.5cm}
-\begin{center}
-\textbf{ Vignette for package version $\ge v.0.1.48$}\\
-\vspace{0.5cm}
-Recent changes, updates, and  new features:
-\begin{itemize}
-\item 0.2.9 added \code{sigmamix} data
-\item 0.2.5 export aa2mass
-\item 0.2.0 peakplot margin bug fix
-\end{itemize}
-\end{center}
-\vspace{0.5cm}
-\end{minipage}
+\Keywords{proteomics, mass spectrometry}
+\Plainkeywords{proteomics, mass spectrometry}
+
+\Abstract{
+
+\pkg{protViz} is an R package to do quality checks, visualizations and analysis of mass spectrometry data, coming from proteomics experiments.
+The package is developed, tested and used at the Functional Genomics Center Zurich. 
+We use this package mainly for prototyping, teaching, and having {\em fun} with proteomics data.
+But it can also be used to do data analysis for small scale data sets. Nevertheless, if one is patient, it also handles large data sets.}
+
+\Address{
+  Jonas Grossmann and Christian Panse\\
+  Functional Genomics Center Zurich, UZH\texttt{|}ETHZ\\
+  Winterthurerstr. 190\\
+  CH-8057, Z{\"u}rich, Switzerland\\
+  Telephone: +41-44-63-53912\\
+  E-mail: \email{cp@fgcz.ethz.ch}\\
+  URL: \url{http://www.fgcz.ch}
 }
 
-\tableofcontents
-\newpage
+\begin{document}
+<<echo = FALSE, eval = TRUE>>=
+options(prompt = "R> ", continue = "+  ", width = 70, useFancyQuotes = FALSE)
+@
+\SweaveOpts{concordance=TRUE}
+%\author{Christian Panse \and Jonas Grossmann}
+%\SweaveOpts{concordance=TRUE}
+%\maketitle
+%\tableofcontents
+%\newpage
 
-\section{Preliminary Note}
-
-\code{protViz} is an R package to do quality checks, visualizations and analysis of mass spectrometry data, coming from proteomics experiments.
-The package is developed, tested and used at the Functional Genomics Center Zurich. 
-We use this package mainly for prototyping, teaching, and having \code{fun} with proteomics data.
-But it can also be used to do data analysis for small scale data sets. Nevertheless, if one is patient, it also handles large data sets.
 
 \section{Related Work}
 {\em The methode of choice in proteomics is mass spectrometry.}
 There are already packages in R which deal with mass spec related data.
 Some of them are listed here:
 \begin{itemize}
-\item \code{MSnbase} package (basic functions for mass spec data including quant aspect with iTRAQ data)\\
+\item \pkg{MSnbase} package (basic functions for mass spec data including quant aspect with iTRAQ data)\\
 \url{http://www.bioconductor.org/packages/release/bioc/html/MSnbase.html}
-\item \code{plgem} -- spectral counting quantification, applicable to MudPIT experiments\\
+\item \pkg{plgem} -- spectral counting quantification, applicable to MudPIT experiments\\
 \url{http://www.bioconductor.org/packages/release/bioc/html/plgem.html}
-\item \code{synapter} -- MSe (Hi3 = Top3 Quantification) for Waters Q-tof data aquired in MSe mode\\ 
+\item \pkg{synapter} -- MSe (Hi3 = Top3 Quantification) for Waters Q-tof data aquired in MSe mode\\ 
 \url{http://www.bioconductor.org/packages/release/bioc/html/synapter.html}
-\item \code{mzR} \\ 
+\item \pkg{mzR} \\ 
 \url{http://www.bioconductor.org/packages/release/bioc/html/mzR.html}
 \item isobar iTRAQ/TMT quantification package\\
 \url{http://www.bioconductor.org/packages/release/bioc/html/isobar.html}
-\item \code{readMzXmlData}\\ 
+\item \pkg{readMzXmlData}\\ 
 \url{http://cran.r-project.org/web/packages/readMzXmlData/}
-\item \code{msQC}\\
+\item \pkg{msQC}\\
 \url{http://bioconductor.org/packages/3.0/bioc/html/msQC.html}
 \end{itemize}
 
@@ -297,7 +286,7 @@ fi<-fragmentIon(c('TAFDEAIAELDTLSEESYK',
 The labeling of the spectra can be done with the \code{peakplot} function.
 %\SweaveOpts{width=9.5, height=6}
 %\setkeys{Gin}{width=0.95\columnwidth}
-<<keep.source = TRUE, eval = TRUE, fig = TRUE>>=
+<<keep.source = TRUE, eval = TRUE, fig = TRUE, height=10, width=10>>=
 data(msms)
 op <- par(mfrow=c(2,1))
 peakplot("TAFDEAIAELDTLNEESYK", msms[[1]])
@@ -305,6 +294,43 @@ peakplot("TAFDEAIAELDTLSEESYK", msms[[2]])
 par(op)
 @
 %\subsection{Finding Glyco Patterns}
+
+The following code snippet combine all the function to a simple
+peptide search engine.
+As default arguments the mass spec measurement, a list of mZ and intensity arrays,
+and a character vector of peptide sequences is given.
+
+<<>>=
+peptideSearch <- function (x, 
+                           peptideSequence, 
+                           pimIdx = parentIonMass(peptideSequence), 
+    peptideMassTolerancePPM = 5, 
+    framentIonMassToleranceDa = 0.01, 
+    FUN = .byIon) 
+{
+    query.mass <- ((x$pepmass * x$charge)) - (1.007825 * (x$charge - 
+        1))
+    eps <- query.mass * peptideMassTolerancePPM * 1e-06
+    lower <- findNN(query.mass - eps, pimIdx)
+    upper <- findNN(query.mass + eps, pimIdx)
+    rv <- lapply(peptideSequence[lower:upper], function(p) {
+        psm(p, x, plot = FALSE, FUN = FUN)
+    })
+    rv.error <- sapply(rv, function(p) {
+        sum(abs(p$mZ.Da.error) < framentIonMassToleranceDa)
+    })
+    idx.tophit <- which(rv.error == max(rv.error))[1]
+    data.frame(mass_error = eps, 
+               idxDiff = upper - lower, 
+               charge = x$charge, 
+              pepmass = query.mass, 
+              peptideSequence = rv[[idx.tophit]]$sequence, 
+              groundTrue.peptideSequence = x$peptideSequence, 
+              ms2hit = (rv[[idx.tophit]]$sequence == 
+              x$peptideSequence), hit = (x$peptideSequence %in% 
+              peptideSequence[lower:upper]))
+}
+@
 
 \section{Quantification}
 For an overview on Quantitative Proteomics read \cite{pmid22772140, 
@@ -576,6 +602,7 @@ sessionInfo()
 packageDescription('protViz')
 @
 
+The \pkg{protViz} package has also been used in \cite{pPTM,specL,msqc1}.
 \bibliography{protViz}
 %\bibliographystyle{plain}
 
