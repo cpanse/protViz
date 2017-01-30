@@ -6,6 +6,7 @@ The package ships with two pdf vignettes.
 
 ```
 vignette('protViz')
+vignette('PTM_MarkerFinder')
 ```
 
 ## Installation
@@ -31,7 +32,7 @@ connect to http://yourdockerhost:8791  using a web browser
 
 ## Author
 
-Christian Panse, 2006-2016
+Christian Panse, 2006-2017
 
 ## License
 
