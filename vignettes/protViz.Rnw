@@ -57,15 +57,15 @@ Some of them are listed here:
 \item \pkg{plgem} -- spectral counting quantification, applicable to MudPIT experiments\\
 \url{http://www.bioconductor.org/packages/release/bioc/html/plgem.html}
 \item \pkg{synapter} -- MSe (Hi3 = Top3 Quantification) for Waters Q-tof data aquired in MSe mode\\ 
-\url{http://www.bioconductor.org/packages/release/bioc/html/synapter.html}
+\url{http://bioconductor.org/packages/synapter/}
 \item \pkg{mzR} \\ 
-\url{http://www.bioconductor.org/packages/release/bioc/html/mzR.html}
+\url{ 	http://bioconductor.org/packages/mzR/}
 \item isobar iTRAQ/TMT quantification package\\
-\url{http://www.bioconductor.org/packages/release/bioc/html/isobar.html}
+\url{ 	http://bioconductor.org/packages/isobar/}
 \item \pkg{readMzXmlData}\\ 
-\url{http://cran.r-project.org/web/packages/readMzXmlData/}
-\item \pkg{msQC}\\
-\url{http://bioconductor.org/packages/3.0/bioc/html/msQC.html}
+\url{https://CRAN.R-project.org/package=readMzXmlData}
+%\item \pkg{msQC}\\
+%\url{http://bioconductor.org/packages/3.0/bioc/html/msQC.html}
 \end{itemize}
 
 \section{Get Data In -- Preprocessing}
