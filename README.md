@@ -38,3 +38,6 @@ Christian Panse, 2006-2017
 
 [GPL 3](http://www.gnu.org/licenses/gpl-3.0.en.html)
 
+
+[![Research software impact](http://depsy.org/api/package/cran/protViz/badge.svg)](http://depsy.org/package/r/protViz)
+
