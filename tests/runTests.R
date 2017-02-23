@@ -1,2 +1,2 @@
-BiocGenerics:::testPackage("protViz")
+#BiocGenerics:::testPackage("protViz")
 
