@@ -39,7 +39,7 @@ MS/MS spectra in the output of a peptide spectrum match search,
 e.g., Mascot, for marker 
 ions specific for selected PTMs.
 
-While the  software tool has been described in \cite{pPTM} here we provide 
+While the  software tool has been described by \citet{pPTM} here we provide 
 a step-by-step guide 
 on how the software can be used.
 }
@@ -251,6 +251,12 @@ The user can call the demonstration with
 demo(PTM_MarkerFinder) 
 @
 
+\subsection{Other examples}
+
+The following ADP-Ribose marker ions configuration was described by \citet{pmid28035797}.
+<<>>=
+ADP_Ribose <- c(136.0618, 250.0935, 348.0704, 428.0367)
+@
 
 \section{Session information}
 
