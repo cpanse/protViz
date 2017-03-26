@@ -120,7 +120,7 @@ ETD scans.
     \item  \code{ADP_Ribose <- c(136.0618, 250.0935, 348.0704, 428.0367)}
     Bilan V, Leutert M, Nanni P, Panse C, Hottiger MO.
 Combining Higher-Energy Collision Dissociation and Electron-Transfer/Higher-Energy Collision Dissociation Fragmentation in a Product-Dependent Manner Confidently Assigns Proteomewide ADP-Ribose Acceptor Sites,
-    Anal. Chem., 2017, 89 (3), pp 1523–1530
+    Anal. Chem., 2017, 89 (3), pp 1523-1530
     \url{https://doi.org/10.1021/acs.analchem.6b03365}.
   }
 
@@ -167,13 +167,10 @@ Combining Higher-Energy Collision Dissociation and Electron-Transfer/Higher-Ener
         xlab='markerIon m/z', 
         ylab='log10 based marker ion intensity')
 
-
     # export
     w <- reshape(s[,c(1,7,3,4)], direction='wide', 
         timevar="markerIonMZ", idvar=c('scans','query'))
 
     write.table(w, file="HexNAc_PTM_markerFinder.csv",
         sep=',', row.names=FALSE,col.names=TRUE, quote=FALSE)
-
 }
-

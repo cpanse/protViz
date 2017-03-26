@@ -8,8 +8,15 @@
 #
 
 library(shiny)
+library(jsonlite)
+
 DATAROOT <- "/Users/cp/data/20160628/"
-DATAROOT<-"/scratch/cpanse/p1352/20160701/"
+DATAROOT <- "/scratch/cpanse/p1352/20160701/"
+
+
+#WORKUNITID <- 123456
+#WORKUNITID <- WORKUNITID.g
+
 
 # Define UI for application that draws a histogram
 shinyUI(fluidPage(
@@ -22,17 +29,18 @@ shinyUI(fluidPage(
     sidebarPanel(
       textInput("WORKUNITID", 
                 "Workunit Id", 
-                value=140692),
+                value=WORKUNITID),
+      htmlOutput("WUControls"),
+      uiOutput("selectID"),
       textInput("PROJECT", 
                 "Project", 
-                value=1352),
+                value="123"),
       textInput("STORAGEPATH",
                 "dir",
                 value="p1352/bfabric/Proteomics/PTM_MarkerFinder_protViz_ADP_Ribosyl/2014/2014-12/2014-12-09/workunit_130109/"),
        textInput("DATAROOT", 
                  "data directory", 
-                 value=DATAROOT),
-       
+                 value=DATAROOT),                   
        selectInput('file', 'file', list.files(path=DATAROOT)),
        actionButton("load", "load"),
        sliderInput("id", 

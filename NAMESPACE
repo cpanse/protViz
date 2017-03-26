@@ -1,6 +1,23 @@
+useDynLib(protViz, .registration = TRUE)
+
 import("methods")
 import("Rcpp")
-useDynLib(protViz)
+
+importFrom("grDevices", "dev.off", "gray.colors", "pdf", "rainbow",
+             "rgb")
+
+importFrom("graphics", "abline", "axis", "barplot", "box", "boxplot",
+             "close.screen", "hist", "image", "legend", "lines", "par",
+             "pie", "plot", "points", "rect", "screen", "segments",
+             "split.screen", "text")
+
+importFrom("stats", "aov", "cor", "dist", "dnorm", "quantile",
+             "reshape", "sd", "t.test")
+
+importFrom("utils", "combn", "packageVersion", "read.table",
+             "write.table")
+
+importFrom("utils", "packageVersion")
 
 export("aa2mass")
 export("defaultIon")
@@ -23,20 +40,3 @@ export("pps")
 export("psm")
 export("PTM_MarkerFinder")
 export("PTM_MarkerFinder_util")
-
-
-importFrom("grDevices", "dev.off", "gray.colors", "pdf", "rainbow",
-             "rgb")
-
-importFrom("graphics", "abline", "axis", "barplot", "box", "boxplot",
-             "close.screen", "hist", "image", "legend", "lines", "par",
-             "pie", "plot", "points", "rect", "screen", "segments",
-             "split.screen", "text")
-
-importFrom("stats", "aov", "cor", "dist", "dnorm", "quantile",
-             "reshape", "sd", "t.test")
-
-importFrom("utils", "combn", "packageVersion", "read.table",
-             "write.table")
-
-importFrom("utils", "packageVersion")

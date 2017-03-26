@@ -3,6 +3,12 @@
 \newcommand{\ghpr}{\href{https://github.com/protViz/protViz/pull/#1}{##1}}
 \newcommand{\ghit}{\href{https://github.com/protViz/protViz/issues/#1}{##1}}
 
+\section{Changes in protViz version 0.2.30 (2017-03-26)}{
+  \itemize{
+    \item fixed register native routine issue by using \code{tools::package_native_routine_registration_skeleton(".")}
+  }
+}
+
 \section{Changes in protViz version 0.2.16 (2016-06-01)}{
   \itemize{
     \item PTM Marker Finder:

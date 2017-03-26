@@ -11,8 +11,13 @@ library(shiny)
 library(bibliospec)
 library(specL)
 
+getRes <- function(wuid=140693){
+       baseUrl = 'http://localhost:5000/bfabric/api/workunitid'
+       fromJSON(paste(baseUrl, wuid, sep='/'))$resources
+}
+
 # Define server logic required to draw a histogram
-shinyServer(function(input, output) {
+shinyServer(function(input, output, session) {
   
   
   
@@ -22,6 +27,13 @@ shinyServer(function(input, output) {
     
   #})
   
+  output$WUControl <- renderUI({
+       selectInput('resources', 'resources', getRes(input$WORKUNITID))
+  })
+
+  output$selectID <- renderUI({
+       selectInput('resources', 'resources', getRes(input$WORKUNITID))
+  })
   
   output$distPlot <- renderPlot({
     #S <- NULL
