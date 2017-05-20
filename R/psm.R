@@ -4,10 +4,37 @@
 # $Date: 2014-03-13 15:22:34 +0100 (Thu, 13 Mar 2014) $
 
 
+#' get unimod
+#'
+#' @param url 
+#'
+#' @return a list of lists
+#'
+#' @examples .xml2unimod()
+.xml2unimod <- function(url = "http://www.unimod.org/xml/unimod.xml"){
+  if(require(XML)){
+    # url <- "~/Desktop/unimod.xml"
+    
+    U <- xmlToList(XML::xmlParse(url))
+   
+    
+    deltaMass <- lapply(U$modifications, function(x){
+      data.frame(full_name = x$.attrs['full_name'], delta = as.numeric(x$delta$.attrs['mono_mass']))
+    })
+    
+    deltaMass <- do.call('rbind', deltaMass)
+    # colnames(deltaMass) <- paste("mod", seq(0, (nrow(deltaMass)-1), by=1), sep='')
+    
+    return (deltaMass[order(deltaMass$delta),])
+  }
+  NULL
+}
+
+
 # TODO 
 # compute score by sum of error div. by number of hits
 
-psm<-function(sequence, spec, FUN=defaultIon,
+psm <- function(sequence, spec, FUN=defaultIon,
     plot=TRUE, 
     fi=fragmentIon(sequence, FUN=FUN)[[1]],
     fragmentIonError=0.6) { 
