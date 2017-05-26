@@ -3,11 +3,15 @@
 \newcommand{\ghpr}{\href{https://github.com/protViz/protViz/pull/#1}{##1}}
 \newcommand{\ghit}{\href{https://github.com/protViz/protViz/issues/#1}{##1}}
 
-\section{Changes in protViz version 0.2.30 (2017-05-26)}{
+\section{Changes in protViz version 0.2.31 (2017-05-26)}{
   \itemize{
-    \item fixed register native routine issue by using \code{tools::package_native_routine_registration_skeleton(".") by renaming .C exports to \code{__findNN_} and \code{__findNN}}
-    \item added suport for Matrixce Sciense Mascot xml export 
-    \item cosmetics on \code{protViz.Rnw} vigennte file
+    \item fixed ``register native routine issue'' by using \code{tools::package_native_routine_registration_skeleton(".")} and renaming .C exports to \code{__findNN_} and \code{__findNN} \ghit{1}.
+    
+    \item added suport for Matrixce Sciense Mascot xml export; new S3classes: \code{mascot} and \code{mascot_query}.
+    
+    \item cosmetics on \code{protViz.Rnw} vignette file.
+    
+    \item added \code{ssrc} method for ``Sequence Specific Retention Calculator''.
   }
   
 }
@@ -16,7 +20,7 @@
   \itemize{
     \item PTM Marker Finder:
     \itemize{
-      \item added PeptideSequence and modification to csv output
+      \item added PeptideSequence and modification to csv output.
     }
   }
 }
@@ -25,9 +29,9 @@
   \itemize{
     \item General:
     \itemize{
-      \item added NEWS.Rd, CITATION
-      \item changed URL
-      \item fix \code{R CMD check} issues with R version 3.3
+      \item added NEWS.Rd, CITATION.
+      \item changed URL.
+      \item fix \code{R CMD check} issues with R version 3.3.
     }
   }
 }
@@ -40,7 +44,7 @@
     }
     \item Testing:
     \itemize{
-      \item added more tests for \code{deisotoper.R} and \code{fragmentIon.R}
+      \item added more tests for \code{deisotoper.R} and \code{fragmentIon.R}.
     }
   }
 }
