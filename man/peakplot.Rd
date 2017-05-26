@@ -5,6 +5,7 @@
 \alias{peakplot.pie}
 \alias{peakplot}
 \alias{protViz}
+\alias{plot.mascot_query}
 
 \title{Labelling of Peptide Fragment Mass Spectra}
 

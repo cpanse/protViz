@@ -10,7 +10,7 @@ $Id: findNN_.cpp 6603 2014-08-12 11:17:31Z cpanse $
 */
 
 extern "C" {
-    void findNN_ (int *m_, int *n_, double *q_, double *vec_, int *NN_) {
+    void __findNN_ (int *m_, int *n_, double *q_, double *vec_, int *NN_) {
 
         size_t dist;
         double d;

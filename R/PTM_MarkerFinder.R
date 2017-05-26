@@ -159,7 +159,7 @@ PTM_MarkerFinder <- function(data,
 
     for (i in 2:length(data)){
 
-        idx<-findNN(mZmarkerIons, data[[i]]$mZ)
+        idx <- findNN(mZmarkerIons, data[[i]]$mZ)
 
 # ppm.itol.cutoff
         ppm.error <- 1e-06 * itol_ppm * data[[i]]$mZ[idx]

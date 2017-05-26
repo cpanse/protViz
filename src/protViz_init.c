@@ -8,26 +8,28 @@
 */
 
 /* .C calls */
-extern void computeFragmentIons(void *, void *, void *, void *, void *);
+extern void __findNN(void *, void *, void *, void *, void *);
+extern void __findNN_(void *, void *, void *, void *, void *);
 extern void _computeFragmentIons(void *, void *, void *, void *);
+extern void computeFragmentIons(void *, void *, void *, void *, void *);
 extern void computeFragmentIonsModification(void *, void *, void *, void *, void *, void *, void *);
 extern void computeParentIonMass(void *, void *, void *);
 extern void computeParentIonMass2(void *, void *, void *, void *, void *);
-extern void findNN(void *, void *, void *, void *, void *);
-extern void findNN_(void *, void *, void *, void *, void *);
+// extern void findNN_(void *, void *, void *, void *, void *);
 
 /* .Call calls */
 extern SEXP aa2mass_main(SEXP, SEXP, SEXP);
 extern SEXP deisotoper_main(SEXP, SEXP, SEXP, SEXP, SEXP);
 
 static const R_CMethodDef CEntries[] = {
-    {"computeFragmentIons",             (DL_FUNC) &computeFragmentIons,             5},
+    {"__findNN",                        (DL_FUNC) &__findNN,                        5},
+    {"__findNN_",                       (DL_FUNC) &__findNN_,                       5},
     {"_computeFragmentIons",            (DL_FUNC) &_computeFragmentIons,            4},
+    {"computeFragmentIons",             (DL_FUNC) &computeFragmentIons,             5},
     {"computeFragmentIonsModification", (DL_FUNC) &computeFragmentIonsModification, 7},
     {"computeParentIonMass",            (DL_FUNC) &computeParentIonMass,            3},
     {"computeParentIonMass2",           (DL_FUNC) &computeParentIonMass2,           5},
-    {"findNN",                          (DL_FUNC) &findNN,                          5},
-    {"findNN_",                         (DL_FUNC) &findNN_,                         5},
+ //   {"findNN_",                         (DL_FUNC) &findNN_,                         5},
     {NULL, NULL, 0}
 };
 

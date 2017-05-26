@@ -2,7 +2,7 @@ Package: protViz
 Type: Package
 Title: Visualizing and Analyzing Mass Spectrometry Related Data in
         Proteomics
-Version: 0.2.30
+Version: 0.2.31
 Authors@R: c(person("Christian", "Panse", email = "cp@fgcz.ethz.ch", role = c("aut", "cre")),
 	person("Jonas", "Grossmann", email = "jg@fgcz.ethz.ch", role = "aut"),
 	person("Simon", "Barkow-Oesterreicher", role = "ctb"))
@@ -25,10 +25,26 @@ Description: Helps with quality checks, visualizations
 License: GPL-3
 URL: https://github.com/protViz/protViz/
 BugReports: https://github.com/protViz/protViz/issues
-Collate: aa2mass.R deisotoper.R de_novo.R findNN_.R findNN.R
-        fragmentIon.R genMod.R iTRAQ2GroupAnalysis.R lcmsmap.R mdp.R
-        parentIonMass.R peakplot.R pgImporter.R pgLFQ.R pp.R psm.R
-        PTM_MarkerFinder.R
+Collate: aa2mass.R 
+  deisotoper.R 
+  de_novo.R 
+  findNN_.R 
+  findNN.R
+  fragmentIon.R 
+  genMod.R 
+  iTRAQ2GroupAnalysis.R 
+  lcmsmap.R 
+  mascot.R
+  mdp.R
+  parentIonMass.R
+  peakplot.R
+  pgImporter.R
+  pgLFQ.R
+  pp.R
+  psm.R
+  PTM_MarkerFinder.R
+  ssrc.R
+  zzz.R
 LazyData: true
 NeedsCompilation: yes
 Repository: CRAN

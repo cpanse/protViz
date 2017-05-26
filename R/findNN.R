@@ -14,7 +14,7 @@ findNN<-function(q, vec, check=FALSE) {
     }}
 
 
-    out <- .C("findNN",
+    out <- .C("__findNN",
         m=as.integer(length(q)),
         n=as.integer(length(vec)),
         q=as.double(q),

@@ -4,52 +4,26 @@
 # $Date: 2014-03-13 15:22:34 +0100 (Thu, 13 Mar 2014) $
 
 
-#' get unimod
-#'
-#' @param url 
-#'
-#' @return a list of lists
-#'
-#' @examples .xml2unimod()
-.xml2unimod <- function(url = "http://www.unimod.org/xml/unimod.xml"){
-  if(require(XML)){
-    # url <- "~/Desktop/unimod.xml"
-    
-    U <- xmlToList(XML::xmlParse(url))
-   
-    
-    deltaMass <- lapply(U$modifications, function(x){
-      data.frame(full_name = x$.attrs['full_name'], delta = as.numeric(x$delta$.attrs['mono_mass']))
-    })
-    
-    deltaMass <- do.call('rbind', deltaMass)
-    # colnames(deltaMass) <- paste("mod", seq(0, (nrow(deltaMass)-1), by=1), sep='')
-    
-    return (deltaMass[order(deltaMass$delta),])
-  }
-  NULL
-}
-
 
 # TODO 
 # compute score by sum of error div. by number of hits
 
-psm <- function(sequence, spec, FUN=defaultIon,
-    plot=TRUE, 
-    fi=fragmentIon(sequence, FUN=FUN)[[1]],
-    fragmentIonError=0.6) { 
+psm <- function(sequence, spec, FUN = defaultIon,
+    plot = TRUE, 
+    fi = fragmentIon(sequence, FUN=FUN)[[1]],
+    fragmentIonError = 0.6) { 
 
-    n<-nchar(sequence)
+    n <- nchar(sequence)
 
-    pim<-fi$y[nrow(fi)]
+    pim <- fi$y[nrow(fi)]
 
     # consider only b and y ions
     # by.mZ<-c(fi$b, fi$y)
     # by.label<-c(paste("b",1:n,sep=''), paste("y",1:n,sep=''))
 
-    by.mZ<-numeric()
-    by.label<-character()
-    fi.names<-names(fi)
+    by.mZ <- numeric()
+    by.label <- character()
+    fi.names <- names(fi)
 
     for (i in 1:ncol(fi)){
         by.mZ <- c(by.mZ, fi[,i])
@@ -57,7 +31,7 @@ psm <- function(sequence, spec, FUN=defaultIon,
     }
 
 
-    out <- .C("findNN_",
+    out <- .C("__findNN_",
         nbyion=as.integer(length(by.mZ)),
         nmZ=as.integer(length(spec$mZ)),
         byion=as.double(by.mZ),

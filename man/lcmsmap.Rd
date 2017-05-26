@@ -4,6 +4,7 @@
 \alias{lcmsmap}
 \alias{lcmsoverview}
 
+
 \title{LC-MS Map}
 
 \description{
@@ -15,16 +16,20 @@ The rt is on the x axis and the y axis represents the peptide mass.
 
 \usage{
 
-    lcmsmap(data, sub)
+    lcmsmap(data, charges=2:3, score.cutoff = 30, ...)
 
 }
 
 \arguments{
 
-  \item{data}{an R data  object as it can be obtained by \code{mascotDat2RData.pl}}
+  \item{data}{an R data  object as it can be obtained by \code{mascotDat2RData.pl} or 
+  by using mascots export function.}
 
-  \item{sub}{a sub title for the plot}
+  \item{charges}{a vector of charge states to be displayed.}
 
+  \item{score.cutoff}{a numeric value taken as score cut-off.}
+  
+  \item{...}{pass arguments to \code{plot} function.}
 }
 
 \author{

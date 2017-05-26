@@ -13,7 +13,7 @@ findNN_<-function(q, vec, check=FALSE) {
         return (list(error="vec is not sorted"))
     }}
 
-    out <- .C("findNN_",
+    out <- .C("__findNN_",
         m=as.integer(length(q)),
         n=as.integer(length(vec)),
         q=as.double(q),
