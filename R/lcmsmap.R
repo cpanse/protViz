@@ -13,7 +13,7 @@ lcmsmap <- function(data, charges=2:3, score.cutoff = 30, ...){
   s.charge <- NULL
   
     if (is.mascot(data)){
-      s.rtinseconds <- as.numeric(unlist(lapply(data$queries, function(x){x$RTINSECONDS}))) 
+      s.rtinseconds <- .mascot.get.rt(data) 
       s.pepmass <- as.numeric(unlist(lapply(data$queries, function(x){x$query_moverz})))
       s.intensity <- as.numeric(lapply(data$queries, function(x){x$TotalIonsIntensity}))
       s.score <- .mascot.get.pep_score(data)

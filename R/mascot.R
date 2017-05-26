@@ -1,6 +1,21 @@
 #R
 # Christian Panse <cp@fgcz.ethz.ch> 20170525
 
+.mascot.get.pep_seq <- function(obj){
+  rv <- sapply(obj$queries, function(x) { 
+    if ("q_peptide" %in% names(x)){
+      if ("pep_seq" %in% names(x$q_peptide)){
+        return (x$q_peptide$pep_seq)
+      }
+    }
+    NA
+  })
+  as.vector(rv)
+}
+
+.mascot.get.rt <- function(obj){
+  as.numeric(unlist(lapply(obj$queries, function(x){x$RTINSECONDS})))
+}
 
 .mascot.get.ms2 <- function(query){
   S <- lapply(strsplit(query$StringIons1, ","), function(x){strsplit(x, ':')})[[1]]
@@ -42,7 +57,7 @@ is.mascot <- function(obj){
 
 is.mascot_query <- function(obj){
   mascor_query.names <- c("query_charge", "query_moverz", "SCANS", "StringIons1",
-                          "RTINSECONDS")
+                          "RTINSECONDS", "StringTitle")
   
   if ('mascot_query' %in% class(obj) 
       & length(mascor_query.names) == sum(mascor_query.names %in% names(obj))){
@@ -57,12 +72,17 @@ plot.mascot <- function(x, ...){
     pep_score <- .mascot.get.pep_score(x)
     pep_expect <- .mascot.get.pep_expect(x)
     
+    # peptide scores versus e-value
     plot(pep_score, 1 / log(pep_expect,10),log='x', pch=16, col=rgb(0.1, 0.1, 0.1, alpha = 0.2))
     
+    # SSRC
+    rt.ssrc.predicted <- as.vector(sapply(.mascot.get.pep_seq(x), function(p){if(is.na(p)){NA}else{ssrc(p)}}))
+    rtinseconds <- .mascot.get.rt(x)
+    plot(rt.ssrc.predicted ~ rtinseconds, pch=16, col=rgb(0.1, 0.1, 0.1, alpha = 0.2))
+    
+    # LC-MS map
     lcmsmap(x, ...)
   }
-  
- 
 }
 
 
@@ -70,9 +90,16 @@ plot.mascot_query <- function(x, ...){
  
   if (is.mascot_query(x)){
     spec <- .mascot.get.ms2(x)
+    pep_seq <- ""
     
-    peakplot(peptideSequence = x$q_peptide$pep_seq, 
-             spec = spec, sub='')
+    if ("q_peptide" %in% names(x)){
+      if ("pep_seq" %in% names(x$q_peptide)){
+        pep_seq <- x$q_peptide$pep_seq
+      }
+    }
+    peakplot(peptideSequence = pep_seq, 
+             spec = spec, 
+             sub=x$StringTitle)
   }
 
 }
