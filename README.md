@@ -35,7 +35,7 @@ connect to http://yourdockerhost:8791  using a web browser
 
 The package ships with a package vignette (browseVignettes('protViz') and a reference manual (just type ?protViz on the R shell).
 
-Both documents are also available on the (package's CRAN)[https://CRAN.R-project.org/package=recmap] page.
+Both documents are also available on the [package's CRAN](https://CRAN.R-project.org/package=recmap) page.
 
 ## Related approaches
 
