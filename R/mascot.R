@@ -27,6 +27,7 @@
              peptideSequence = NA,
              proteinInformation = NA,
              id = NA,
+             varModification = NA,
              pepmass = as.numeric(query$query_moverz),
              charge = as.numeric(gsub("[+]", "", query$query_charge, perl=TRUE)),
              scans = query$SCANS, 
@@ -37,7 +38,8 @@
     rv$title <- query$q_peptide$pep_scan_title
     rv$mascotScore <- as.numeric(query$q_peptide$pep_score)
     rv$modification <- query$q_peptide$pep_var_mod_pos
-    rv$peptideSequence <- query$q_peptide$pep_seq
+    rv$peptideSequence <- as.character(query$q_peptide$pep_seq)
+    rv$varModification <- rep(0.0, nchar(query$q_peptide$pep_seq))
   }
 
   class(rv) <- c('psm', 'list')
