@@ -17,6 +17,55 @@
   as.numeric(unlist(lapply(obj$queries, function(x){x$RTINSECONDS})))
 }
 
+.mascot.get.query <- function(query){
+  L <-  .mascot.get.ms2(query)
+  
+  rv <- list(mZ = L$mZ, 
+             intensity = L$intensity,
+             modification=NA,
+             mascotScore = NA,
+             peptideSequence = NA,
+             proteinInformation = NA,
+             id = NA,
+             pepmass = as.numeric(query$query_moverz),
+             charge = as.numeric(gsub("[+]", "", query$query_charge, perl=TRUE)),
+             scans = query$SCANS, 
+             rtinseconds = as.numeric(query$RTINSECONDS))
+             
+
+  if ('q_peptide' %in% names(query)){
+    rv$title <- query$q_peptide$pep_scan_title
+    rv$mascotScore <- as.numeric(query$q_peptide$pep_score)
+    rv$modification <- query$q_peptide$pep_var_mod_pos
+    rv$peptideSequence <- query$q_peptide$pep_seq
+  }
+
+  class(rv) <- c('psm', 'list')
+  rv
+}
+
+#' transformas a mascot object into a psmSet
+#'
+#' @param mascot obj 
+#'
+#' @return a psmSet object
+
+.mascot.get <- function(obj){
+  if (is.mascot(obj)){
+    # todo(cp): class('psmSet')
+    rv <- lapply(obj$queries, .mascot.get.query)
+    
+    # assign the ``query number''
+    for (id in 1:length(rv)){
+        rv[[id]]$id <- id
+    }
+    class(rv) <- c("psmSet", "list")
+    return(rv)
+  }
+  
+  NULL
+}
+
 .mascot.get.ms2 <- function(query){
   S <- lapply(strsplit(query$StringIons1, ","), function(x){strsplit(x, ':')})[[1]]
   

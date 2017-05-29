@@ -1,5 +1,6 @@
 \name{plot.mascot_query}
 \alias{plot.mascot_query}
+\alias{mascot}
 
 \title{
   \link{peakplot} - mascot query

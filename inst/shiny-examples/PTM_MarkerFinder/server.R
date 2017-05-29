@@ -11,40 +11,70 @@
  
 library(protViz)
 library(parallel)
-library(shiny)
+library(bfabricShiny)
+
 source("./ptm_marker_finder.R")
 
-  server <- shinyServer(function(input, output, session) {
+.ssh_load_RData <- function(host = 'fgcz-r-021.uzh.ch', user = 'cpanse', file = NULL){
+  e <- new.env()
+  
+  cmd <- paste('cat ',  file)
+  
+  ssh_cmd <- paste("ssh ", user, "@", host, " '", cmd, "'", sep="")
+  message(ssh_cmd)
+  
+  S <- load(pipe(ssh_cmd))
+  
+  for (x in S){
+    assign(x, get(x), e)
+  }
+  e
+}
 
+
+shinyServer(function(input, output, session) {
+
+
+    bf <- callModule(bfabric, "bfabric8",  applicationid = c(155))
+
+    
+    output$load <- renderUI({
+        actionButton("load", "load data", icon("upload"))
+    })
+    
       output$mZmarkerIons <- renderUI({
-     		markerIons <- sort(c(428.0367, 348.0704, 250.0935, 136.0618, 524.057827, 542.068392, 560.078957, 559.094941, 584.090190))
+     		markerIons <- sort(c(428.0367, 348.0704, 250.0935, 136.0618, 524.057827,
+     		                     542.068392, 560.078957, 559.094941, 584.090190))
 
-		selectInput('mZmarkerIons', 'marker ions:',  markerIons, multiple = TRUE, selected = markerIons[1:5])
+		selectInput('mZmarkerIons', 'marker ions:',  markerIons, multiple = TRUE,
+		            selected = markerIons[1:5])
       })
 
 
      output$INPUT <- renderUI({
-           ff <- list.files(path=input$DATAROOT)
-     	   ff <- ff[grepl("RData$", ff)]
-           selectInput('file', 'file', ff)
+            S <- getRDataEnv()
+            
+            if(length(ls(S)) > 0){
+                selectInput('file', 'file', ls(S))
+            }
      })
 
-     output$DATAROOT <- renderUI({
-		selectInput("DATAROOT", "data directory", list.dirs(path='/scratch/cpanse/p1352/'))
-     })
-     
 
-
-	getData <- eventReactive(input$file, {
-		filename <- paste(input$DATAROOT, input$file, sep='/')
-
-		load(filename); 
-		return(get(strsplit(input$file, ".RData")[[1]]))
+	getRDataEnv <- eventReactive(input$load, {
+	    .ssh_load_RData(file='/home/cpanse/dump.RData')
 		})
+	
+	getData <- eventReactive(input$file, {
+	  
+	  protViz:::.mascot.get(get(input$file, getRDataEnv()))
+	  
+	})
 
  processedData <- reactive({
-       S<-getData()
+       S <- getData()
+       
        mZmarkerIons <- sapply(input$mZmarkerIons, as.numeric)
+       
        return(summary.PTM_MarkerFinder(S, 
        				itol_ppm = 10,
        				mZmarkerIons=mZmarkerIons,
@@ -133,11 +163,5 @@ source("./ptm_marker_finder.R")
           	})
 	   	#write.csv(processData(input), file, row.names = FALSE)
 	   }
-       #res <- my.test() 
-       #dump <- lapply(head(unique(res$summary$query)), 
-       #   function(idx){
-       #     #protViz:::.PTM_MarkerFinder_writeMGF(res$PsmSet[[idx]], file)
-       #   })
-       #   write.csv(processData(input), file, row.names = FALSE)
 	)
   })

@@ -67,9 +67,11 @@ function is assigned \code{fragmentIon} will
 
 \details{
 
-\code{peakplot} computes the in-silico fragment ion and matches them again 
+\code{peakplot} computes the in-silico fragment ion, using the 
+\code{\link{fragmentIon}} function, and matches them again 
 the MS2. If the mass error between the in-silico peak and the meassured one 
-is below a 0.6 Da (default setting) the match is considered has hit.
+is below a 0.6 Da (default setting) the peptide spectrum match 
+(\code{\link{psm}}) is considered has hit.
 
 The major objective of the labelling is avoidance of overlapping labels for 
 which purpose \code{peakplot} applies filtering. A label is only drawn if the 
@@ -88,7 +90,8 @@ dependent on the instrument setting applied during the initial search.
 
 \value{
 
-	returns a list object containing all the peptide spectrum match information.
+	returns a list object containing all the peptide spectrum match relevant
+	information.
 
 }
 
@@ -96,16 +99,35 @@ dependent on the instrument setting applied during the initial search.
 
    Bertran Gerrits, Christian Panse 
    
-   2006-2016; 
+   2006-2017; 
 
 }
    
 \references{
 
-   \code{\link{peakplot}} has been used for generating 
-   figures and supplemental material in
+  \itemize{
+  \item PEAKPLOT: Visualizing Fragmented Peptide Mass Spectra in Proteomics (2009)
+  Panse Christian, Gerrits Bertran, Schlapbach Ralph, useR!2009,
+  
+  abstract: \url{https://www.r-project.org/conferences/useR-2009/abstracts/pdf/Panse+Gerrits+Schlapbach.pdf},
+  
+  slides: \url{https://www.r-project.org/conferences/useR-2009/slides/Panse+Gerrits+Schlapbach.pdf}.
+  }
+}
+
+\seealso{
+\itemize{
+
+   \item \link{mascot}
    
-   \itemize{
+	 \item{\code{\link{fragmentIon}}}
+	 
+	 \item{\code{\link{psm}}}
+	 
+	 \item{\code{\link{PTM_MarkerFinder}}}
+		
+		\item \code{\link{peakplot}} has been used for generating 
+   figures and supplemental material in:    \itemize{
 
     \item{\url{http://www.ncbi.nlm.nih.gov/pubmed/17114649}}
 
@@ -116,17 +138,8 @@ dependent on the instrument setting applied during the initial search.
     \item{\url{http://www.ncbi.nlm.nih.gov/pubmed/23713006}}
     
     \item{\url{http://www.ncbi.nlm.nih.gov/pubmed/26944343}}
-}
-}
-
-\seealso{
-\itemize{
-	 \item{\code{\link{fragmentIon}}}
-	 
-	 \item{\code{\link{psm}}}
-	 
-	 \item{\code{\link{PTM_MarkerFinder}}}
-		}
+    }
+  }
 }
 
 

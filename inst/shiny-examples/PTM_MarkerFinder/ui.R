@@ -9,20 +9,21 @@
 # $Date: 2017-04-11 14:36:53 +0200 (Tue, 11 Apr 2017) $
 
  
-library(shiny)
+library(bfabricShiny)
 
-source("ptm_marker_finder.R")
+# source("ptm_marker_finder.R")
 
   
-  ui <- shinyUI(fluidPage(
+shinyUI(fluidPage(
      # Application title
      titlePanel(paste("PTM Marker Finder -- https://CRAN.R-project.org/package=protViz Version:", packageVersion('protViz'))),
      
      # Sidebar with a slider input for number of bins 
      sidebarLayout(
         sidebarPanel(
-	   htmlOutput("DATAROOT"),
-	   htmlOutput("INPUT"),
+     bfabricInput("bfabric8"),
+     htmlOutput("load"),
+     htmlOutput("INPUT"),
 	   htmlOutput("mZmarkerIons"),
 
            sliderInput("minMarkerIntensityRatio",
