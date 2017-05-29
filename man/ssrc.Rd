@@ -28,12 +28,6 @@
 
 }
 
-\details{
-
-  t.b.d.
-  
-}
-
 \references{
 Krokhin, O. V. et al. An improved model for prediction of retention times of tryptic peptides in ion
     pair reversed-phase HPLC: its application to protein peptide mapping by off-line HPLC-MALDI MS.
@@ -43,8 +37,13 @@ Krokhin, O. V. et al. An improved model for prediction of retention times of try
 }
 \seealso{ 
 
- \url{http://hs2.proteome.ca/SSRCalc/SSRCalcX.html}
-
+  \itemize{
+    \item \url{http://hs2.proteome.ca/SSRCalc/SSRCalcX.html}
+    
+    \item \url{http://bioconductor.org/packages/release/bioc/vignettes/specL/inst/doc/ssrc.html}
+    
+    \item \code{\link{iRTpeptides}}
+  }
 }
 
 \author{
@@ -58,4 +57,5 @@ Krokhin, O. V. et al. An improved model for prediction of retention times of try
   # example of table iv [PMID:15238601]
   lapply(c("SCHTAVGR", "SCHTGLGR", "EDLIAYLK"), ssrc)
   
+  plot(sapply(as.character(iRTpeptides$peptide), ssrc) ~  iRTpeptides$rt)
 }

@@ -3,6 +3,13 @@
 \newcommand{\ghpr}{\href{https://github.com/protViz/protViz/pull/#1}{##1}}
 \newcommand{\ghit}{\href{https://github.com/protViz/protViz/issues/#1}{##1}}
 
+\section{Changes in protViz version 0.2.32 (2017-05-29)}{
+  \itemize{
+    \item added unit test for \code{ssrc} function.
+    \item  deleted  superfluous sigmamix data; please use \url{http://bioconductor.org/packages/msqc1/} described in \url{http://doi.org/10.1002/pmic.201500502}.
+  }
+}
+
 \section{Changes in protViz version 0.2.31 (2017-05-26)}{
   \itemize{
     \item fixed ``register native routine issue'' by using \code{tools::package_native_routine_registration_skeleton(".")} and renaming .C exports to \code{__findNN_} and \code{__findNN} \ghit{1}.
