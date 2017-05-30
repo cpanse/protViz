@@ -478,4 +478,51 @@ PTM_MarkerFinder_util<-function(dataFileName,
 }
 
 # ToDo adapt the parameter mZmarkerIon in all function 
+find.psmSet <- function(data, 
+                        mZmarkerIons = sort(c(428.0367, 348.0704, 250.0935,
+                                              136.0618, 524.057827, 542.068392,
+                                              560.078957, 559.094941, 584.090190)),
+                        itol_ppm = 10, 
+                        minNumberIons = 2, 
+                        minMarkerIntensityRatio = 10){
+  
+  S <- lapply(data, function(x){ 
+    
+    idx <- findNN(mZmarkerIons, x$mZ) 
+    
+    ppm.error <- 1e-06 * itol_ppm * x$mZ[idx]
+    
+    b <- (abs(mZmarkerIons - (x$mZ[idx])) < ppm.error)
+    
+    sum.mZmarkerIons.intensity <- sum(x$intensity[idx[b]])
+    
+    sum.intensity <- sum(x$intensity)
+    
+    (percent.mZmarkerIons <- round(100 * sum.mZmarkerIons.intensity / sum.intensity, 1))
+    
+    if (sum.mZmarkerIons.intensity > 0 
+        & sum(b) >= minNumberIons 
+        & percent.mZmarkerIons > minMarkerIntensityRatio){
+      
+      data.frame(query = x$id, 
+                 percent.mZmarkerIons = percent.mZmarkerIons, 
+                 sum.intensity = sum.intensity,
+                 markerIonIntensity = x$intensity[idx[b]], 
+                 markerIonMZ = mZmarkerIons[b], 
+                 peptideSequence = x$peptideSequence,
+                 #scans=x$scans,
+                 markerIonPpmError = ppm.error[b],
+                 mZ = x$mZ[idx[b]],
+                 pepmass = x$pepmass,
+                 modification = as.character(paste(x$varModification, collapse = '')),
+                 score = x$mascotScore
+      )
+      
+    }else{
+      NULL
+    }
+  }
+  )
+  do.call('rbind', S)  
+}
 

@@ -49,3 +49,5 @@ export("psm")
 export("PTM_MarkerFinder")
 export("PTM_MarkerFinder_util")
 export("ssrc")
+
+export("find.psmSet")
