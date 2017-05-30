@@ -72,8 +72,8 @@ shinyServer(function(input, output, session) {
 	  }
 		})
 	
-	getData <- eventReactive(input$file, {
-	  protViz:::.mascot.get(get(input$file, getRDataEnv()))
+	getData <- eventReactive(input$relativepath, {
+	  protViz:::.mascot.get(get(input$relativepath, getRDataEnv()))
 	})
 
  processedData <- reactive({
