@@ -33,18 +33,18 @@ summary.PTM_MarkerFinder <- function(data, itol_ppm = 10,
         & sum(b) >= minNumberIons 
         & percent.mZmarkerIons > minMarkerIntensityRatio){
       
-      data.frame( query=x$id, 
-                  percent.mZmarkerIons=percent.mZmarkerIons, 
-                  sum.intensity=sum.intensity,
-                  markerIonIntensity=x$intensity[idx[b]], 
-                  markerIonMZ=mZmarkerIons[b], 
-                  peptideSequence=x$peptideSequence,
+      data.frame(query = x$id, 
+                  percent.mZmarkerIons = percent.mZmarkerIons, 
+                  sum.intensity = sum.intensity,
+                  markerIonIntensity = x$intensity[idx[b]], 
+                  markerIonMZ = mZmarkerIons[b], 
+                  peptideSequence = x$peptideSequence,
                   #scans=x$scans,
                   markerIonPpmError = ppm.error[b],
                   mZ = x$mZ[idx[b]],
-                  pepmass=x$pepmass,
-                  modification = x$modification,
-                  score=x$mascotScore
+                  pepmass = x$pepmass,
+                  modification = as.character(paste(x$varModification, collapse ='')),
+                  score = x$mascotScore
       )
       
     }else{

@@ -7,8 +7,6 @@
 # $HeadURL: svn+ssh://cp@fgcz-148.uzh.ch/home/cp/__SUBVERSION_REPOSITORY__/__projects/2016/20160704_pptm_shiny/server.R $
 # $Id: server.R 915 2017-04-11 12:36:53Z cp $
 # $Date: 2017-04-11 14:36:53 +0200 (Tue, 11 Apr 2017) $
-
- 
 library(protViz)
 library(parallel)
 library(bfabricShiny)
@@ -31,16 +29,20 @@ source("./ptm_marker_finder.R")
   e
 }
 
+.load_RData <- function(file = NULL){
+  e <- new.env()
+  
+  S <- load(file)
+  
+  for (x in S){
+    assign(x, get(x), e)
+  }
+  e
+}
 
 shinyServer(function(input, output, session) {
-
-
     bf <- callModule(bfabric, "bfabric8",  applicationid = c(155))
-
     
-    output$load <- renderUI({
-        actionButton("load", "load data", icon("upload"))
-    })
     
       output$mZmarkerIons <- renderUI({
      		markerIons <- sort(c(428.0367, 348.0704, 250.0935, 136.0618, 524.057827,
@@ -51,23 +53,27 @@ shinyServer(function(input, output, session) {
       })
 
 
-     output$INPUT <- renderUI({
-            S <- getRDataEnv()
-            
-            if(length(ls(S)) > 0){
-                selectInput('file', 'file', ls(S))
+     output$load <- renderUI({
+            if(length(input$relativepath) > 0){
+                actionButton("load", "load selected RData", icon("upload"))
             }
      })
 
-
 	getRDataEnv <- eventReactive(input$load, {
-	    .ssh_load_RData(file='/home/cpanse/dump.RData')
+	  message("eventReactive(input$load")
+	  message(input$relativepath)
+	  
+	  filename <- file.path('/srv/www/htdocs/', input$relativepath)
+	  #.ssh_load_RData(file='/home/cpanse/dump.RData')
+	  if (file.exists(filename)){
+	    .load_RData(file=filename)
+	  }else{
+	   .ssh_load_RData(file = filename, host = 'fgcz-r-021.uzh.ch')
+	  }
 		})
 	
 	getData <- eventReactive(input$file, {
-	  
 	  protViz:::.mascot.get(get(input$file, getRDataEnv()))
-	  
 	})
 
  processedData <- reactive({
@@ -85,13 +91,9 @@ shinyServer(function(input, output, session) {
 
 
      output$PTM_MarkerFinder <- renderPlot({
-
         S <- processedData()
-
         op <- par(mfrow=c(1,1))
-
         if (!is.null(S)){
-
         b <- boxplot(markerIonIntensity ~ markerIonMZ,
                 data=S,
                 log = "y",
@@ -143,9 +145,6 @@ shinyServer(function(input, output, session) {
 	   }
 
 	   )
-
-
-
        output$downloadMgf <- downloadHandler(
            filename = function() { paste(unlist(strsplit(input$file, 
                                                          split="[.]"))[1], "mgf", sep=".")  },

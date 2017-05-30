@@ -18,12 +18,11 @@ shinyUI(fluidPage(
      # Application title
      titlePanel(paste("PTM Marker Finder -- https://CRAN.R-project.org/package=protViz Version:", packageVersion('protViz'))),
      
-     # Sidebar with a slider input for number of bins 
+    
      sidebarLayout(
         sidebarPanel(
      bfabricInput("bfabric8"),
      htmlOutput("load"),
-     htmlOutput("INPUT"),
 	   htmlOutput("mZmarkerIons"),
 
            sliderInput("minMarkerIntensityRatio",

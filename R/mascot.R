@@ -55,7 +55,7 @@
 .mascot.get <- function(obj){
   if (is.mascot(obj)){
     # todo(cp): class('psmSet')
-    rv <- lapply(obj$queries, .mascot.get.query)
+    rv <- mclapply(obj$queries, .mascot.get.query, mc.cores = 8)
     
     # assign the ``query number''
     for (id in 1:length(rv)){
