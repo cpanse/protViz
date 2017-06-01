@@ -45,26 +45,62 @@ shinyServer(function(input, output, session) {
     
     
       output$mZmarkerIons <- renderUI({
+        
      		markerIons <- sort(c(428.0367, 348.0704, 250.0935, 136.0618, 524.057827,
      		                     542.068392, 560.078957, 559.094941, 584.090190))
 
-		selectInput('mZmarkerIons', 'marker ions:',  markerIons, multiple = TRUE,
-		            selected = markerIons[1:5])
+     		e <- getRDataEnv()
+     		
+     		if (length(ls(e)) > 0){
+     		tagList(
+     		  
+     		 hr(),
+     		    selectInput('mascot_object', 'mascot_object:',  ls(e), multiple = FALSE),
+     		 hr(),
+     		  sliderInput("minMarkerIntensityRatio",
+     		              "minMarkerIntensityRatio",
+     		              min = 1,
+     		              max = 100,
+     		              value = 10),
+     		  
+     		  sliderInput("minNumberIons",
+     		              "minNumberIons",
+     		              min = 1,
+     		              max = 6,
+     		              value = 2),
+     		  
+     		  sliderInput("score_cutoff",
+     		              "mascot score cut-off",
+     		              min = 0,
+     		              max = 100,
+     		              value = 25),
+		      selectInput('mZmarkerIons', 'marker ions:',  markerIons, multiple = TRUE,
+		              selected = markerIons[1:5]),
+		      checkboxGroupInput("plotLines", label = h3("plot lines"), choices = list("yes" = 1), selected = 1),
+		      sliderInput("alpha", "alpha blending %", min=1, max=100, value=40),
+     		 
+		      downloadButton('downloadData', 'Download'),
+		      downloadButton('downloadDataWide', 'Download (wide)'),
+		      downloadButton('downloadMgf', 'Generate MGF(under construction!)')
+     		)}
       })
 
 
+    
+       
      output$load <- renderUI({
             if(length(input$relativepath) > 0){
                 actionButton("load", "load selected RData", icon("upload"))
             }
      })
 
+  # return an env
 	getRDataEnv <- eventReactive(input$load, {
 	  message("eventReactive(input$load")
 	  message(input$relativepath)
 	  
 	  filename <- file.path('/srv/www/htdocs/', input$relativepath)
-	  #.ssh_load_RData(file='/home/cpanse/dump.RData')
+	
 	  if (file.exists(filename)){
 	    .load_RData(file=filename)
 	  }else{
@@ -72,8 +108,10 @@ shinyServer(function(input, output, session) {
 	  }
 		})
 	
-	getData <- eventReactive(input$relativepath, {
-	  protViz:::.mascot.get(get(input$relativepath, getRDataEnv()))
+	getData <- eventReactive(input$mascot_object, {
+	  
+	  message(input$mascot_object)
+	  as.psmSet(get(input$mascot_object, getRDataEnv()))
 	})
 
  processedData <- reactive({
@@ -81,7 +119,7 @@ shinyServer(function(input, output, session) {
        
        mZmarkerIons <- sapply(input$mZmarkerIons, as.numeric)
        
-       return(summary.PTM_MarkerFinder(S, 
+       return(findMz(S, 
        				itol_ppm = 10,
        				mZmarkerIons=mZmarkerIons,
                                 minMarkerIntensityRatio=input$minMarkerIntensityRatio,
@@ -106,7 +144,7 @@ shinyServer(function(input, output, session) {
 
 	if (1 %in% input$plotLines){
 		lines(as.factor(S$markerIonMZ), S$markerIonIntensity, 
-			col=rgb(0.1,0.1,0.1, alpha=0.1),
+			col=rgb(0.1,0.1,0.1, alpha=input$alpha/100),
 			lwd=6)
 	}
 

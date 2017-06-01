@@ -50,4 +50,16 @@ export("PTM_MarkerFinder")
 export("PTM_MarkerFinder_util")
 export("ssrc")
 
-export("find.psmSet")
+export("is.psm")
+export("plot.psm")
+
+export("is.psmSet")
+export("summary.psmSet")
+export("plot.psmSet")
+
+export("findMz")
+S3method(findMz, psmSet)
+S3method(findMz, mascot)
+
+export("as.psmSet")
+S3method(as.psmSet, mascot)

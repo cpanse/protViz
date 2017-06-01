@@ -2,6 +2,7 @@
 
 \alias{PTM_MarkerFinder}
 \alias{pPTM}
+\alias{findMz}
 
 \title{PTM MarkerFinder}
 

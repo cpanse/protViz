@@ -48,7 +48,7 @@ psm <- function(sequence, spec, FUN = defaultIon,
             pch='o',
             cex=0.5,
             sub=paste('The error cut-off is', 
-                fragmentIonError, 'Da (grey line).'),
+                fragmentIonError, 'Da (grey line).')
             )
 
         abline(h=fragmentIonError,col='grey')
@@ -81,4 +81,158 @@ psm <- function(sequence, spec, FUN = defaultIon,
         sequence=sequence,
         fragmentIon=fi))
 }
+
+
+
+
+summary.psmSet <- function (object, ...){
+  cat("Summary of a \"psmSet\" object.")
+  
+  cat("\nNumber of precursor:\n\t")
+  cat(length(object))
+  
+  cat("\nNumber of precursors in Filename(s)\n")
+  t <- (table(unlist(lapply(object, function(x){x$fileName}))))
+  
+  n <- names(t)
+  w <- getOption("width") / 2
+  for (i in 1:length(t)){
+    cat('\t')
+    cat(substr(n[i], nchar(n[i])-w, nchar(n[i])))
+    cat('\t')
+    cat(t[i])
+    cat('\n')
+  }
+  
+  cat("Number of annotated precursor:\n\t")
+  cat(sum(unlist(lapply(object, function(x){x$proteinInformation != ''}))))
+  cat ("\n")
+}
+
+
+plot.psmSet <- function (x, iRTpeptides = iRTpeptides, ...){
+
+  if (is.psmSet(x)){
+    lcmsmap(x, ...)
+  }
+  
+  #if (!is.null(iRTpeptides)){
+  #  rt <- unlist(lapply(data, function(x){x$rt}))
+  #  pepmass <- unlist(lapply(data, function(xx){xx$pepmass}))
+  #  
+  #  peptide <- unlist(lapply(data, function(xx){xx$peptideSequence}))
+  #  idx.iRT <- which(peptide %in% iRTpeptides$peptide)
+  #  
+  #  points(rt[idx.iRT], pepmass[idx.iRT],
+  #         pch = 16, cex = 2, 
+  #         col = rgb(0.9,0.1,0.1, alpha = 0.4))
+  #}
+}
+
+
+is.psm <- function(object){
+
+  psm.names <- c("MonoisotopicAAmass",
+                 "charge",
+                 "id",
+                 "intensity",
+                 "mZ",
+                 "mascotScore",
+                 "modification",
+                 "pepmass",
+                 "peptideSequence",
+                 "proteinInformation",
+                 "rtinseconds",
+                 "scans",
+                 "searchEngine",
+                 "title")
+  
+  object.names <- names(object)
+  
+  idx.missing <- which(!psm.names %in% names(object))
+
+  if (length(idx.missing) > 0){
+    msg <- paste("while checking psm '", psm.names[idx.missing], "' is missing.", sep=' ')
+    message(msg)
+    return (FALSE)
+  }
+  
+  return(TRUE)
+}
+
+is.psmSet <- function(object){
+  sum(sapply(object, is.psm)) == length(object)
+}
+
+plot.psm <- function (x, ...){
+  
+  AAmass <- aa2mass(x$peptideSequence)[[1]]#, protViz::AA$Monoisotopic, protViz::AA$letter1)
+  AAmodifiedMass <- AAmass + x$varModification
+  fi <- fragmentIon(AAmodifiedMass)[[1]]
+  spec <- list(mZ = x$mZ, intensity = x$intensity)
+  return(peakplot(peptideSequence = x$peptideSequence, 
+                  spec=spec, fi = fi, ...))
+}
+
+  
+findMz <- function(data, ...){
+  UseMethod("findMz")
+}
+
+findMz.mascot <- function(data, ...){
+  findMz(as.psmSet(data), ...)
+}
+
+findMz.psmSet <- function(data, 
+                          mZmarkerIons = sort(c(428.0367, 348.0704, 250.0935,
+                                                136.0618, 524.057827, 542.068392,
+                                                560.078957, 559.094941, 584.090190)),
+                          itol_ppm = 10, 
+                          minNumberIons = 2, 
+                          minMarkerIntensityRatio = 10){
+  if(is.psmSet(data)){
+    S <- lapply(data, function(x){ 
+      
+      idx <- findNN(mZmarkerIons, x$mZ) 
+      
+      ppm.error <- 1e-06 * itol_ppm * x$mZ[idx]
+      
+      b <- (abs(mZmarkerIons - (x$mZ[idx])) < ppm.error)
+      
+      sum.mZmarkerIons.intensity <- sum(x$intensity[idx[b]])
+      
+      sum.intensity <- sum(x$intensity)
+      
+      (percent.mZmarkerIons <- round(100 * sum.mZmarkerIons.intensity / sum.intensity, 1))
+      
+      if (sum.mZmarkerIons.intensity > 0 
+          & sum(b) >= minNumberIons 
+          & percent.mZmarkerIons > minMarkerIntensityRatio){
+        
+        data.frame(query = x$id, 
+                   percent.mZmarkerIons = percent.mZmarkerIons, 
+                   sum.intensity = sum.intensity,
+                   markerIonIntensity = x$intensity[idx[b]], 
+                   markerIonMZ = mZmarkerIons[b], 
+                   peptideSequence = x$peptideSequence,
+                   #scans=x$scans,
+                   markerIonPpmError = ppm.error[b],
+                   mZ = x$mZ[idx[b]],
+                   pepmass = x$pepmass,
+		   charge = x$charge,
+		   rtinseconds = x$rtinseconds,
+                   modification = as.character(paste(x$varModification, collapse = '')),
+                   score = x$mascotScore
+        )
+      }else{
+        return(NULL)
+      }
+    }
+    )
+    rv <- do.call('rbind', S)  
+    row.names(rv) <- 1:nrow(rv)
+    rv
+  }else{NULL}
+}
+
 

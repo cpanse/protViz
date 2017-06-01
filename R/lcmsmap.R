@@ -13,17 +13,18 @@ lcmsmap <- function(data, charges=2:3, score.cutoff = 30, ...){
   s.charge <- NULL
   
     if (is.mascot(data)){
+      # TODO(cp): think of using .mascot.get function
       s.rtinseconds <- .mascot.get.rt(data) 
       s.pepmass <- as.numeric(unlist(lapply(data$queries, function(x){x$query_moverz})))
       s.intensity <- as.numeric(lapply(data$queries, function(x){x$TotalIonsIntensity}))
       s.score <- .mascot.get.pep_score(data)
       s.charge <- as.integer(gsub("[+]", "", unlist(lapply(data$queries, function(x){(x$query_charge)}))))
-    }else{
-      s.rtinseconds <- lapply(data, function(x){return (x$rtinseconds)})
-      s.pepmass <- lapply(data, function(x){return (x$pepmass)})
-      s.intensity <- lapply(data, function(x){return (sum(x$intensity))})
-      s.score <- lapply(data, function(x){return (x$mascotScore)})
-      s.charge <- as.double(lapply(data, function(x){return (x$charge)}))
+    }else {
+      s.rtinseconds <- as.numeric(unlist(lapply(data, function(x){return (x$rtinseconds)})))
+      s.pepmass <- as.numeric(unlist(lapply(data, function(x){return (x$pepmass)})))
+      s.intensity <- as.numeric(unlist(lapply(data, function(x){return (sum(x$intensity))})))
+      s.score <- as.numeric(unlist(lapply(data, function(x){return (x$mascotScore)})))
+      s.charge <- as.integer(unlist((lapply(data, function(x){return (x$charge)}))))
     }
 
   S <- data.frame(rt = s.rtinseconds,

@@ -1,12 +1,13 @@
 \name{psm}
 
 \alias{psm}
-\alias{peptidespectrummatching}
+\alias{is.psm}
+\alias{summary.psmSet}
 
 \title{Compute a matching between a peptide sequence and a MS2 spectrum}
 
 \description{
-    The function computes the matching between a given peptide sequence and a tandem mass spectrum (MS2).
+    The function computes a matching between a given peptide sequence and a given tandem mass spectrum (MS2).
     \code{\link{psm}} determines for each fragment ion mass peak the smallest mass error to a peak in the theretical spectrum from the peptide sequence.
     If the mass error is below the given \code{fragmentIonError} the match is considered a hit. 
     \code{psm} returns a list of computed fragment ions and a vector of the mass error (Da and ppm).
@@ -26,6 +27,7 @@
         fi=fragmentIon(sequence, FUN=FUN)[[1]],
         fragmentIonError)
 
+ 
 }
 
 \arguments{
@@ -49,9 +51,12 @@
 
 }
 
+\value{ returns a psm match.}
+
+
 \author{
 
-   Christian Panse 2007, 2008, 2009, 2010, 2012
+   Christian Panse 2007, 2008, 2009, 2010, 2012, 2017
 
 }
 

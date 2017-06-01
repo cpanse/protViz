@@ -4,6 +4,7 @@
 \alias{lcmsmap}
 \alias{lcmsoverview}
 \alias{plot.mascot}
+\alias{plot.psmSet}
 
 
 \title{LC-MS Map}
@@ -17,7 +18,7 @@ The rt is on the x axis and the y axis represents the peptide mass.
 
 \usage{
 
-    lcmsmap(data, charges=2:3, score.cutoff = 30, ...)
+    lcmsmap(data, charges=2:3, score.cutoff = 30, \dots)
 
 }
 
@@ -30,7 +31,7 @@ The rt is on the x axis and the y axis represents the peptide mass.
 
   \item{score.cutoff}{a numeric value taken as score cut-off.}
   
-  \item{...}{pass arguments to \code{plot} function.}
+  \item{\dots}{pass arguments to \code{plot} function.}
 }
 
 \author{

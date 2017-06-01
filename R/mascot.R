@@ -20,25 +20,36 @@
 .mascot.get.query <- function(query){
   L <-  .mascot.get.ms2(query)
   
-  rv <- list(mZ = L$mZ, 
+  rv <- list(MonoisotopicAAmass = NA,
+             charge = as.numeric(gsub("[+]", "", query$query_charge, perl=TRUE)),
+             id = 0,
              intensity = L$intensity,
-             modification=NA,
+             mZ = L$mZ, 
              mascotScore = NA,
+             modification = NA,
+             pepmass = as.numeric(query$query_moverz),
              peptideSequence = NA,
              proteinInformation = NA,
-             id = NA,
-             varModification = NA,
-             pepmass = as.numeric(query$query_moverz),
-             charge = as.numeric(gsub("[+]", "", query$query_charge, perl=TRUE)),
+             rtinseconds = as.numeric(query$RTINSECONDS),
              scans = query$SCANS, 
-             rtinseconds = as.numeric(query$RTINSECONDS))
-             
+             searchEngine = "mascot",
+             title = '',
+             varModification = NA)
 
+  # TODO: add proteinInformation
   if ('q_peptide' %in% names(query)){
     rv$title <- query$q_peptide$pep_scan_title
     rv$mascotScore <- as.numeric(query$q_peptide$pep_score)
-    rv$modification <- query$q_peptide$pep_var_mod_pos
+    
+    if ( is.null(query$q_peptide$pep_var_mod)){
+      rv$modification <- NA
+    }else{
+      rv$modification <- query$q_peptide$pep_var_mod
+    }
+    
     rv$peptideSequence <- as.character(query$q_peptide$pep_seq)
+    
+    # TODO: $q_peptide$pep_var_mod_pos
     rv$varModification <- rep(0.0, nchar(query$q_peptide$pep_seq))
   }
 
@@ -46,21 +57,32 @@
   rv
 }
 
+
+# just define a generic S3 method
+as.psmSet <- function(object, ...){
+  UseMethod("as.psmSet")
+}
+
 #' transformas a mascot object into a psmSet
 #'
 #' @param mascot obj 
 #'
 #' @return a psmSet object
-
-.mascot.get <- function(obj){
-  if (is.mascot(obj)){
+as.psmSet.mascot <- function(object, ...){
+  
+  if (is.mascot(object)){
     # todo(cp): class('psmSet')
-    rv <- mclapply(obj$queries, .mascot.get.query, mc.cores = 8)
+    rv <- NULL
+    #if(require(parallel)){
+    #  rv <- mclapply(obj$queries, .mascot.get.query, ...)
+    #} else{
+    rv <- lapply(object$queries, .mascot.get.query)
+    #}
     
     # assign the ``query number''
-    for (id in 1:length(rv)){
-        rv[[id]]$id <- id
-    }
+    for (idx in 1:(length(rv)-1))
+      rv[[idx]]$id <- idx
+    
     class(rv) <- c("psmSet", "list")
     return(rv)
   }
@@ -69,13 +91,19 @@
 }
 
 .mascot.get.ms2 <- function(query){
-  S <- lapply(strsplit(query$StringIons1, ","), function(x){strsplit(x, ':')})[[1]]
   
-  mZ <- as.numeric(sapply(S, function(x){x[1]}))
-  intensity <- as.numeric(sapply(S, function(x){x[2]}))
-  idx <- order(mZ)
   
-  list(mZ=mZ[idx], intensity=intensity[idx])
+  if (is.character(query$StringIons1)){
+    S <- lapply(strsplit(query$StringIons1, ","), function(x){strsplit(x, ':')})[[1]]
+  
+    mZ <- as.numeric(sapply(S, function(x){x[1]}))
+    intensity <- as.numeric(sapply(S, function(x){x[2]}))
+    idx <- order(mZ)
+    
+    return(list(mZ=mZ[idx], intensity=intensity[idx]))
+  }
+  
+  return(list(mZ=NULL, intensity=NULL))
 }
 
 .mascot.get.pep_score <- function(obj){
@@ -97,10 +125,10 @@ summary.mascot <- function(object, ...){
 }
 
 is.mascot <- function(obj){
-  if ('mascot' %in% class(obj) 
-      & is.list(obj$queries) 
-      & sum(sapply(obj$queries, is.mascot_query)) == length(obj$queries)){
-    return(TRUE)
+  if ('mascot' %in% class(obj)){
+    if (is.list(obj$queries) & sum(sapply(obj$queries, is.mascot_query)) == length(obj$queries)){
+      return(TRUE)
+    }
   }
   
   return(FALSE)
@@ -129,7 +157,7 @@ plot.mascot <- function(x, ...){
     # SSRC
     rt.ssrc.predicted <- as.vector(sapply(.mascot.get.pep_seq(x), function(p){if(is.na(p)){NA}else{ssrc(p)}}))
     rtinseconds <- .mascot.get.rt(x)
-    plot(rt.ssrc.predicted ~ rtinseconds, pch=16, col=rgb(0.1, 0.1, 0.1, alpha = 0.2))
+    plot(rt.ssrc.predicted ~ rtinseconds, pch = 16, col=rgb(0.1, 0.1, 0.1, alpha = 0.2))
     
     # LC-MS map
     lcmsmap(x, ...)

@@ -18,36 +18,13 @@ shinyUI(fluidPage(
      # Application title
      titlePanel(paste("PTM Marker Finder -- https://CRAN.R-project.org/package=protViz Version:", packageVersion('protViz'))),
      
-    
+     
      sidebarLayout(
         sidebarPanel(
-     bfabricInput("bfabric8"),
-     htmlOutput("load"),
+     #bfabricInput("bfabric8"),
+     
+     hr(),
 	   htmlOutput("mZmarkerIons"),
-
-           sliderInput("minMarkerIntensityRatio",
-                       "minMarkerIntensityRatio",
-                       min = 1,
-                       max = 100,
-                       value = 10),
-           
-           sliderInput("minNumberIons",
-                       "minNumberIons",
-                       min = 1,
-                       max = 5,
-                       value = 2),
-
-           sliderInput("score_cutoff",
-                       "mascot score cut-off",
-                       min = 0,
-                       max = 100,
-                       value = 25),
-
-	   checkboxGroupInput("plotLines", label = h3("plot lines"), choices = list("yes" = 1), selected = 1),
-
-	   downloadButton('downloadData', 'Download'),
-	   downloadButton('downloadDataWide', 'Download (wide)'),
-	   downloadButton('downloadMgf', 'Generate MGF(under construction!)'),
 	   hr(),
 	   p('publication:'),
 	   p('Nanni, P., Panse, C., Gehrig, P., Mueller, S., Grossmann, J. and Schlapbach, R. (2013), PTM MarkerFinder, a software tool to detect and validate spectra from peptides carrying post-translational modifications. Proteomics, 13: 2251–2255. ', a('DOI: 10.1002/pmic.201300036', href='http://onlinelibrary.wiley.com/doi/10.1002/pmic.201300036/abstract;jsessionid=717FB314BBA9A6BD2E722BD257D3D2A9.f01t04'))
@@ -55,8 +32,11 @@ shinyUI(fluidPage(
         
         # Show a plot of the generated distribution
           mainPanel(
-	  p('please wait some seconds until the data are processed...'),
-           plotOutput("PTM_MarkerFinder", height = "700px")
+            tabsetPanel(
+              tabPanel("bfabric", {bfabricInput("bfabric8"), htmlOutput("load")}),
+              tabPanel("boxplot", plotOutput("PTM_MarkerFinder"))) 
+	  #p('please wait some seconds until the data are processed...'),
+     #      plotOutput("PTM_MarkerFinder", height = "700px")
         )
      )
   ))
