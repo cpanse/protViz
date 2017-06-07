@@ -69,7 +69,7 @@ Some of them are listed here:
 \end{itemize}
 
 \section{Get Data In -- Preprocessing}
-The most time consuming and challenging part for data analysis and visualization is shaping the data the way that they can easily be processed. In this package, we intentionally left this part away because it is very infrastructure dependent. Moreover we use also commercial tools to analyze data and export the data into R accessible formats. We provide different kind of importers if these formats are available, but with very little effort, one can bring other exports in a similar format which will make it easy to use our package for a variety of tools.
+The most time consuming and challenging part for data analysis and visualization is shaping the data the way that they can easily further processed. In this package, we intentionally left this part away because it is very infrastructure dependent. Moreover, we use also commercial tools to analyze data and export the data into R accessible formats. We provide a different kind of importers if these formats are available, but with little effort, one can bring other exports in a similar format which will make it easy to use our package for a variety of tools.
 
 \subsection{Identification - In-silico from Proteins to Peptides}
 For demonstration we use a sequence of peptides derived from a tryptics digest using the Swissprot \code{FETUA\_BOVIN Alpha-2-HS-glycoprotein precursor (Fetuin-A) (Asialofetuin)} protein.
@@ -122,7 +122,7 @@ I
 
 \section{Peptide Identification}
 {\em The currency in proteomics are the peptides.}
-In proteomics, proteins are digested to so-called peptides since peptides are much easier to handle biochemically than proteins. Proteins are very different in nature some are very sticky while others are soluble in aqueous solutions while again are only sitting in membranes. Therefore, proteins are chopped up into peptides because it is fair to assume, that for each protein, there will be a number of peptides behaving well, so that they can actually be measured with the mass spectrometer. This step introduces another problem, the so-called protein inference problem. In this package here, we do not at all touch upon the protein inference.
+In proteomics, proteins are digested to so-called peptides since peptides are much easier to handle biochemically than proteins. Proteins are very different in nature some are very sticky while others are soluble in aqueous solutions while again are only sitting in membranes. Therefore, proteins are chopped up into peptides because it is fair to assume, that for each protein, there will be many peptides behaving well so that they can be measured with the mass spectrometer. This step introduces another problem, the so-called protein inference problem. In this package here, we do not touch at all upon the protein inference.
 
 \subsection{Computing the Parent Ion Mass}
 <<keep.source = TRUE, eval = TRUE, fig = TRUE>>=

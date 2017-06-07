@@ -1,7 +1,7 @@
 Package: protViz
 Type: Package
 Title: Visualizing and Analyzing Mass Spectrometry Related Data in Proteomics
-Version: 0.2.33
+Version: 0.2.34
 Authors@R: c(person("Christian", "Panse", email = "cp@fgcz.ethz.ch", role = c("aut", "cre")),
 	person("Jonas", "Grossmann", email = "jg@fgcz.ethz.ch", role = "aut"),
 	person("Simon", "Barkow-Oesterreicher", role = "ctb"))

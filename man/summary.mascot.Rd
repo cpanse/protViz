@@ -1,5 +1,6 @@
 \name{summary.mascot}
 \alias{summary.mascot}
+
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
   Mascot Search Result Summary
@@ -9,6 +10,7 @@
 }
 \usage{
   \method{summary}{mascot}(object, \dots)
+
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{

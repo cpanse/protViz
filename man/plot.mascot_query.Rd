@@ -1,6 +1,7 @@
 \name{plot.mascot_query}
 \alias{plot.mascot_query}
 \alias{mascot}
+\alias{as.data.frame.mascot}
 
 \title{
   \link{peakplot} - mascot query
@@ -10,6 +11,8 @@
 }
 \usage{
   \method{plot}{mascot_query}(x, \dots)
+  
+  \method{as.data.frame}{mascot}(x, \dots)
 }
 
 \arguments{
@@ -17,7 +20,7 @@
     a \code{mascot_query} S3 class object.
   }
   \item{\dots}{
-    arguments will be passwed through \code{\link{lcmsmap}} function.
+    arguments will be passwed through.
   }
 }
 \details{

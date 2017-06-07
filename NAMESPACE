@@ -41,7 +41,8 @@ export("pgLFQtNpq")
 S3method(plot, mascot)
 S3method(plot, mascot_query)
 S3method(summary, mascot)
-export("plot.mascot", "plot.mascot_query", "summary.mascot")#, "is.mascot", "is.mascot_query")
+S3method(as.data.frame, mascot)
+export("plot.mascot", "plot.mascot_query", "summary.mascot", "as.data.frame.mascot")#, "is.mascot", "is.mascot_query")
 
 export("ppp")
 export("pps")
@@ -56,6 +57,7 @@ export("plot.psm")
 export("is.psmSet")
 export("summary.psmSet")
 export("plot.psmSet")
+
 
 export("findMz")
 S3method(findMz, psmSet)

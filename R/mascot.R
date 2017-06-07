@@ -182,3 +182,52 @@ plot.mascot_query <- function(x, ...){
   }
 
 }
+
+# Bernd R.
+# 2017-06-06 FGCZ
+
+.get_RTINSECONDS <- function(object){
+  
+  as.numeric(unlist(lapply(object$queries, function(x){
+    x$RTINSECONDS})))
+}
+
+.get_moverz <- function(object){
+  as.numeric(unlist(lapply(object$queries, function(x){
+    x$query_moverz
+  })))
+}
+
+.get_charge <- function(object){
+  (unlist(lapply(object$queries, function(x){
+    x$query_charge
+  })))
+}
+
+
+#' Convert a mascot nested list into a data.frame object
+#'
+#' @param a mascot object 
+#'
+#' @author Bernd Roschitzki, 2017
+#' @return a data.frame
+#' @export
+#'
+#' @examples
+#'  lapply(list(F225712, F225714, F225715, F225716), 
+#'     function(x){
+#'        S <- as.data.frame.mascot(x); 
+#'        plot(S$RTINSECONDS , S$moverz, pch=16, col=rgb(0.4,0.4,0.4,alpha=0.1))
+#'     })
+#'     
+as.data.frame.mascot <- function(x, ...){
+  # TODO
+  # score 
+  # %in%
+  # shiny cut-off score
+  # reformat charge into integer
+  data.frame(RTINSECONDS = .get_RTINSECONDS(x), 
+             moverz = .get_moverz(x), 
+             charge = .get_charge(x)
+  )
+}

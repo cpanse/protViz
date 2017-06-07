@@ -49,7 +49,7 @@ function is assigned \code{fragmentIon} will
 
   \item{fi}{fragment ion table, if not specified 
   \code{fragmentIon(sequence, FUN=FUN)[[1]]} is called.
-  This argument is usefull if you have PTM or specific ion series.}
+  This argument is useful if you have PTM or specific ion series.}
 
   \item{sub}{a sub title for the plot}
   \item{main}{a main title for the plot}
@@ -62,7 +62,7 @@ function is assigned \code{fragmentIon} will
 
   \item{pattern.xyz}{\code{regexpr pattern} for x, y, z like ions.}
 
-  \item{ion.axes}{boolean default is \code{TRUE}. determines wether the fragment ion labels should be plotted instead of m/z values.}
+  \item{ion.axes}{boolean default is \code{TRUE}. determines whether the fragment ion labels should be plotted instead of m/z values.}
 
 }
 
@@ -70,7 +70,7 @@ function is assigned \code{fragmentIon} will
 
 \code{peakplot} computes the in-silico fragment ion, using the 
 \code{\link{fragmentIon}} function, and matches them again 
-the MS2. If the mass error between the in-silico peak and the meassured one 
+the MS2. If the mass error between the in-silico peak and the measured one 
 is below a 0.6 Da (default setting) the peptide spectrum match 
 (\code{\link{psm}}) is considered has hit.
 
@@ -82,8 +82,8 @@ a good cut off value. To most efficiently use the limited screen and printout
 space and to ensure that labels representing important local peaks are also 
 considered for drawing, \code{peakplot} divides the display space into a 
 number of bins depending on the peptide sequence length along the m/z axis. 
-From these bins the top n labels are ordered according to abundance. For the 
-visual clustering effect the abc and xyz ions are drawn on different y-axis 
+From these bins, the top n labels are ordered according to abundance. For the 
+visual clustering effect, the abc and xyz ions are drawn on different y-axis 
 levels using different colours. Ion types considered for labelling is 
 dependent on the instrument setting applied during the initial search.
 
