@@ -4,55 +4,48 @@
 # $Date: 2014-02-27 10:33:30 +0100 (Thu, 27 Feb 2014) $
 
 
-lcmsmap <- function(data, charges=2:3, score.cutoff = 30, ...){
+as.data.frame.psmSet <- function(x, ...){
+  data <- x
+  rtinseconds <- as.numeric(unlist(lapply(data, function(x){return (x$rtinseconds)})))
+  pepmass <- as.numeric(unlist(lapply(data, function(x){return (x$pepmass)})))
+  intensity <- as.numeric(unlist(lapply(data, function(x){return (sum(x$intensity))})))
+  score <- as.numeric(unlist(lapply(data, function(x){return (x$mascotScore)})))
+  charge <- as.integer(unlist((lapply(data, function(x){return (x$charge)}))))
   
-  s.rtinseconds <- NULL
-  s.pepmass <- NULL 
-  s.intensity <- NULL
-  s.score <- NULL
-  s.charge <- NULL
-  
-    if (is.mascot(data)){
-      # TODO(cp): think of using .mascot.get function
-      s.rtinseconds <- .mascot.get.rt(data) 
-      s.pepmass <- as.numeric(unlist(lapply(data$queries, function(x){x$query_moverz})))
-      s.intensity <- as.numeric(lapply(data$queries, function(x){x$TotalIonsIntensity}))
-      s.score <- .mascot.get.pep_score(data)
-      s.charge <- as.integer(gsub("[+]", "", unlist(lapply(data$queries, function(x){(x$query_charge)}))))
-    }else {
-      s.rtinseconds <- as.numeric(unlist(lapply(data, function(x){return (x$rtinseconds)})))
-      s.pepmass <- as.numeric(unlist(lapply(data, function(x){return (x$pepmass)})))
-      s.intensity <- as.numeric(unlist(lapply(data, function(x){return (sum(x$intensity))})))
-      s.score <- as.numeric(unlist(lapply(data, function(x){return (x$mascotScore)})))
-      s.charge <- as.integer(unlist((lapply(data, function(x){return (x$charge)}))))
-    }
+  data.frame(RTINSECONDS = rtinseconds,
+                  moverz = pepmass,
+                  intensity = intensity,
+                  score = score,
+                  charge = charge, ...)
+}
 
-  S <- data.frame(rt = s.rtinseconds,
-                  pepmass = s.pepmass,
-                  intensity = s.intensity,
-                  score = s.score,
-                  charge = s.charge)
+lcmsmap <- function(data, charges = 2:3, score.cutoff = 30, ...){
+  S <- as.data.frame(data)
+  cm <- rev(rainbow(max(charges), alpha=0.3))
   
-    for (c in charges){
-        plot(S$rt, S$pepmass,
-            type='n',
-            main=paste('LC-MS overview [', c, ' +]', sep=''),
-            xlab='rt [seconds]',
-            ylab='pepmass [m/Z]', ...)
-      
-        S.f <- S[S$charge == c & S$score < score.cutoff, ]
-      
-        points(S.f$rt, S.f$pepmass, 
-            pch=16, col=rgb(0.1,0.1,0.1, alpha=0.1), cex=0.75)
-        
-        
-        S.f <- S[S$charge == c & S$score >= score.cutoff, ] 
-        points(S.f$rt, S.f$pepmass, 
-            pch=16, col=rgb(0.1,0.1,0.8, alpha=0.4), cex=1)
-
-        legend("topleft", c(paste('score.cutoff = ', score.cutoff), 'rest'), 
-               lwd=c(4), 
-               col=c(rgb(0.1,0.1,0.8, alpha=0.9), 
-                     'grey')) 
-    }
+  plot(S$RTINSECONDS, S$moverz,
+       type = 'n',
+       main = 'LC-MS overview',
+       xlab = 'rt [seconds]',
+       ylab = 'pepmass [m/Z]', ...)
+  
+  legend("topleft", paste(charges, "+", sep=''),
+         title = paste('score.cutoff >= ', score.cutoff), 
+         pch = 16,
+         col = cm[charges]) 
+  
+  
+  S.f <- S[!(S$charge %in% charges) & S$score < score.cutoff, ]
+  
+  points(S.f$RTINSECONDS, S.f$moverz, 
+         pch = 16, 
+         col = rgb(0.1,0.1,0.1, alpha=0.05), 
+         cex = 0.75)
+  
+  S.f <- S[S$charge %in% charges & S$score >= score.cutoff, ] 
+  
+  points(S.f$RTINSECONDS, S.f$moverz, 
+         pch = 16,
+         col = cm[S.f$charge],
+         cex = 1.0)
 }

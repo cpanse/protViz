@@ -1,7 +1,35 @@
 #R
 # Christian Panse <cp@fgcz.ethz.ch> 20170525
 
-.mascot.get.pep_seq <- function(obj){
+.get_RTINSECONDS <- function(object){
+  
+  as.numeric(unlist(lapply(object$queries, function(x){
+    x$RTINSECONDS})))
+}
+
+.get_moverz <- function(object){
+  as.numeric(unlist(lapply(object$queries, function(x){
+    x$query_moverz
+  })))
+}
+
+.get_charge <- function(object){
+  as.numeric(
+    gsub("[+]", "", 
+         unlist(
+           lapply(object$queries, 
+                  function(x){
+                    x$query_charge
+                    }
+                  )
+           )
+         , perl = TRUE
+    )
+  )
+  #as.numeric(gsub("[+]", "", query$query_charge, perl=TRUE)),
+}
+
+.get_pep_seq <- function(obj){
   rv <- sapply(obj$queries, function(x) { 
     if ("q_peptide" %in% names(x)){
       if ("pep_seq" %in% names(x$q_peptide)){
@@ -13,12 +41,44 @@
   as.vector(rv)
 }
 
-.mascot.get.rt <- function(obj){
-  as.numeric(unlist(lapply(obj$queries, function(x){x$RTINSECONDS})))
+#' Convert a mascot nested list into a data.frame object
+#'
+#' @param a mascot object 
+#'
+#' @author Bernd Roschitzki, 2017
+#' @return a data.frame
+#' @export
+#'
+#' @examples
+#'  lapply(list(F225712, F225714, F225715, F225716), 
+#'     function(x){
+#'        S <- as.data.frame.mascot(x); 
+#'        plot(S$RTINSECONDS , S$moverz, pch=16, col=rgb(0.4,0.4,0.4,alpha=0.1))
+#'     })
+#'     
+as.data.frame.mascot <- function(x, ...){
+  # TODO
+  # score 
+  # %in%
+  # shiny cut-off score
+  # reformat charge into integer
+  data.frame(RTINSECONDS = .get_RTINSECONDS(x), 
+             moverz = .get_moverz(x), 
+             charge = .get_charge(x),
+             pep_seq = .get_pep_seq(x),
+             pep_expect = .get_pep_expect(x),
+             score = .get_pep_score(x)
+  )
 }
 
-.mascot.get.query <- function(query){
-  L <-  .mascot.get.ms2(query)
+
+# just define a generic S3 method
+as.psm <- function(object, ...){
+  UseMethod("as.psm")
+}
+
+as.psm.mascot_query <- function(query){
+  L <-  .get_ms2(query)
   
   rv <- list(MonoisotopicAAmass = NA,
              charge = as.numeric(gsub("[+]", "", query$query_charge, perl=TRUE)),
@@ -74,9 +134,9 @@ as.psmSet.mascot <- function(object, ...){
     # todo(cp): class('psmSet')
     rv <- NULL
     #if(require(parallel)){
-    #  rv <- mclapply(obj$queries, .mascot.get.query, ...)
+    #  rv <- mclapply(obj$queries, as.psm.mascot_query, ...)
     #} else{
-    rv <- lapply(object$queries, .mascot.get.query)
+    rv <- lapply(object$queries, as.psm.mascot_query)
     #}
     
     # assign the ``query number''
@@ -90,7 +150,7 @@ as.psmSet.mascot <- function(object, ...){
   NULL
 }
 
-.mascot.get.ms2 <- function(query){
+.get_ms2 <- function(query){
   
   
   if (is.character(query$StringIons1)){
@@ -106,11 +166,11 @@ as.psmSet.mascot <- function(object, ...){
   return(list(mZ=NULL, intensity=NULL))
 }
 
-.mascot.get.pep_score <- function(obj){
+.get_pep_score <- function(obj){
   as.vector(unlist(lapply(obj$queries, function(x){rv <- x$q_peptide$pep_score; if(is.null(rv)){NA}else{as.numeric(rv)}})))
 }
 
-.mascot.get.pep_expect <- function(obj){
+.get_pep_expect <- function(obj){
   as.vector(unlist(lapply(obj$queries, function(x){rv <- x$q_peptide$pep_expect; if(is.null(rv)){NA}else{as.numeric(rv)}})))
 }
 
@@ -119,7 +179,7 @@ summary.mascot <- function(object, ...){
     cat("number of queries:\n")
     cat(paste("\t", length(object$queries), "\n"))
     cat("quantile pep_score:\n")
-    quantile(.mascot.get.pep_score(object), na.rm=TRUE)
+    quantile(.get_pep_score(object), na.rm=TRUE)
   }
   #NextMethod('summary')
 }
@@ -148,15 +208,15 @@ is.mascot_query <- function(obj){
 
 plot.mascot <- function(x, ...){
   if (is.mascot(x)){
-    pep_score <- .mascot.get.pep_score(x)
-    pep_expect <- .mascot.get.pep_expect(x)
+    pep_score <- .get_pep_score(x)
+    pep_expect <- .get_pep_expect(x)
     
     # peptide scores versus e-value
     plot(pep_score, 1 / log(pep_expect,10),log='x', pch=16, col=rgb(0.1, 0.1, 0.1, alpha = 0.2))
     
     # SSRC
-    rt.ssrc.predicted <- as.vector(sapply(.mascot.get.pep_seq(x), function(p){if(is.na(p)){NA}else{ssrc(p)}}))
-    rtinseconds <- .mascot.get.rt(x)
+    rt.ssrc.predicted <- as.vector(sapply(.get_pep_seq(x), function(p){if(is.na(p)){NA}else{ssrc(p)}}))
+    rtinseconds <- .get_RTINSECONDS(x)
     plot(rt.ssrc.predicted ~ rtinseconds, pch = 16, col=rgb(0.1, 0.1, 0.1, alpha = 0.2))
     
     # LC-MS map
@@ -168,7 +228,7 @@ plot.mascot <- function(x, ...){
 plot.mascot_query <- function(x, ...){
  
   if (is.mascot_query(x)){
-    spec <- .mascot.get.ms2(x)
+    spec <- .get_ms2(x)
     pep_seq <- ""
     
     if ("q_peptide" %in% names(x)){
@@ -183,51 +243,3 @@ plot.mascot_query <- function(x, ...){
 
 }
 
-# Bernd R.
-# 2017-06-06 FGCZ
-
-.get_RTINSECONDS <- function(object){
-  
-  as.numeric(unlist(lapply(object$queries, function(x){
-    x$RTINSECONDS})))
-}
-
-.get_moverz <- function(object){
-  as.numeric(unlist(lapply(object$queries, function(x){
-    x$query_moverz
-  })))
-}
-
-.get_charge <- function(object){
-  (unlist(lapply(object$queries, function(x){
-    x$query_charge
-  })))
-}
-
-
-#' Convert a mascot nested list into a data.frame object
-#'
-#' @param a mascot object 
-#'
-#' @author Bernd Roschitzki, 2017
-#' @return a data.frame
-#' @export
-#'
-#' @examples
-#'  lapply(list(F225712, F225714, F225715, F225716), 
-#'     function(x){
-#'        S <- as.data.frame.mascot(x); 
-#'        plot(S$RTINSECONDS , S$moverz, pch=16, col=rgb(0.4,0.4,0.4,alpha=0.1))
-#'     })
-#'     
-as.data.frame.mascot <- function(x, ...){
-  # TODO
-  # score 
-  # %in%
-  # shiny cut-off score
-  # reformat charge into integer
-  data.frame(RTINSECONDS = .get_RTINSECONDS(x), 
-             moverz = .get_moverz(x), 
-             charge = .get_charge(x)
-  )
-}

@@ -53,15 +53,22 @@ export("ssrc")
 
 export("is.psm")
 export("plot.psm")
+S3method(plot, psm)
+S3method(plot, psmSet)
+S3method(summary, psmSet)
 
 export("is.psmSet")
 export("summary.psmSet")
 export("plot.psmSet")
 
+S3method(as.psmSet, mascot)
+S3method(as.data.frame, mascot)
+export("as.data.frame.mascot")
+export("as.data.frame.psmSet")
 
 export("findMz")
 S3method(findMz, psmSet)
 S3method(findMz, mascot)
 
 export("as.psmSet")
-S3method(as.psmSet, mascot)
+S3method(as.data.frame, psmSet)

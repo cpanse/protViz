@@ -3,7 +3,7 @@
 \alias{pep3d}
 \alias{lcmsmap}
 \alias{lcmsoverview}
-\alias{plot.mascot}
+
 \alias{plot.psmSet}
 
 
