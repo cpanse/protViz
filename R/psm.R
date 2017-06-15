@@ -175,18 +175,16 @@ plot.psm <- function (x, ...){
 }
 
   
-findMz <- function(data, ...){
+findMz <- function(data, mZmarkerIons, itol_ppm = 10, minNumberIons = 2, minMarkerIntensityRatio = 10){
   UseMethod("findMz")
 }
 
-findMz.mascot <- function(data, ...){
-  findMz(as.psmSet(data), ...)
+findMz.mascot <- function(data, mZmarkerIons, itol_ppm = 10, minNumberIons = 2, minMarkerIntensityRatio = 10){
+  findMz.psmSet(as.psmSet(data), mZmarkerIons, itol_ppm , minNumberIons , minMarkerIntensityRatio)
 }
 
 findMz.psmSet <- function(data, 
-                          mZmarkerIons = sort(c(428.0367, 348.0704, 250.0935,
-                                                136.0618, 524.057827, 542.068392,
-                                                560.078957, 559.094941, 584.090190)),
+                          mZmarkerIons,
                           itol_ppm = 10, 
                           minNumberIons = 2, 
                           minMarkerIntensityRatio = 10){

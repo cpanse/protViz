@@ -15,7 +15,7 @@
   \itemize{
     \item fixed ``register native routine issue'' by using \code{tools::package_native_routine_registration_skeleton(".")} and renaming .C exports to \code{__findNN_} and \code{__findNN} \ghit{1}.
     
-    \item added suport for Matrixce Sciense Mascot xml export; new S3classes: \code{mascot} and \code{mascot_query}.
+    \item added support for Matrixce Sciense Mascot xml export; new S3classes: \code{mascot} and \code{mascot_query}.
     
     \item cosmetics on \code{protViz.Rnw} vignette file.
     

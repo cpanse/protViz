@@ -20,7 +20,13 @@ as.data.frame.psmSet <- function(x, ...){
 }
 
 lcmsmap <- function(data, charges = 2:3, score.cutoff = 30, ...){
-  S <- as.data.frame(data)
+  
+  if (is.mascot(data)){
+    S <- as.data.frame.mascot(data)
+  }else if(is.psmSet(data)){
+    S <- as.data.frame.psmSet(data)
+  }else{return(NULL)}
+  
   cm <- rev(rainbow(max(charges), alpha=0.3))
   
   plot(S$RTINSECONDS, S$moverz,
@@ -36,14 +42,12 @@ lcmsmap <- function(data, charges = 2:3, score.cutoff = 30, ...){
   
   
   S.f <- S[!(S$charge %in% charges) & S$score < score.cutoff, ]
-  
   points(S.f$RTINSECONDS, S.f$moverz, 
          pch = 16, 
          col = rgb(0.1,0.1,0.1, alpha=0.05), 
          cex = 0.75)
   
   S.f <- S[S$charge %in% charges & S$score >= score.cutoff, ] 
-  
   points(S.f$RTINSECONDS, S.f$moverz, 
          pch = 16,
          col = cm[S.f$charge],

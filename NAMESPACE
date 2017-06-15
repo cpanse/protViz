@@ -3,6 +3,8 @@ useDynLib(protViz, .registration = TRUE)
 import("methods")
 import("Rcpp")
 
+importFrom("stats", "lm")
+
 importFrom("grDevices", "dev.off", "gray.colors", "pdf", "rainbow",
              "rgb")
 
@@ -36,13 +38,7 @@ export("pgImporter")
 export("pgLFQaov")
 export("pgLFQtNpq")
 
-#S3method(is, mascot)
-#S3method(is, mascot_query)
-S3method(plot, mascot)
-S3method(plot, mascot_query)
-S3method(summary, mascot)
-S3method(as.data.frame, mascot)
-export("plot.mascot", "plot.mascot_query", "summary.mascot", "as.data.frame.mascot")#, "is.mascot", "is.mascot_query")
+
 
 export("ppp")
 export("pps")
@@ -54,21 +50,29 @@ export("ssrc")
 export("is.psm")
 export("plot.psm")
 S3method(plot, psm)
+
 S3method(plot, psmSet)
 S3method(summary, psmSet)
 
 export("is.psmSet")
 export("summary.psmSet")
 export("plot.psmSet")
-
-S3method(as.psmSet, mascot)
-S3method(as.data.frame, mascot)
-export("as.data.frame.mascot")
 export("as.data.frame.psmSet")
-
 export("findMz")
+export("findMz.psmSet")
 S3method(findMz, psmSet)
-S3method(findMz, mascot)
-
 export("as.psmSet")
 S3method(as.data.frame, psmSet)
+
+
+S3method(is, mascot)
+S3method(is, mascot_query)
+S3method(plot, mascot)
+S3method(plot, mascot_query)
+S3method(summary, mascot)
+S3method(as.data.frame, mascot)
+S3method(findMz, mascot)
+S3method(as.psmSet, mascot)
+export("plot.mascot", "plot.mascot_query", "summary.mascot",
+       "as.data.frame.mascot", "is.mascot", "is.mascot_query",
+       "findMz.mascot")

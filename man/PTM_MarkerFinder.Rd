@@ -3,6 +3,8 @@
 \alias{PTM_MarkerFinder}
 \alias{pPTM}
 \alias{findMz}
+\alias{findMz.mascot}
+\alias{findMz.psmSet}
 
 \title{PTM MarkerFinder}
 
@@ -25,6 +27,12 @@ PTM_MarkerFinder(data,
     mgfFilename=-1,
     PEAKPLOT=TRUE
     )
+
+findMz(data, mZmarkerIons, itol_ppm = 10, minNumberIons = 2, minMarkerIntensityRatio = 10)
+
+\method{findMz}{psmSet}(data, mZmarkerIons, itol_ppm, minNumberIons, minMarkerIntensityRatio)
+
+\method{findMz}{mascot}(data, mZmarkerIons, itol_ppm = 10, minNumberIons = 2, minMarkerIntensityRatio = 10)
 
 }
 
@@ -61,6 +69,7 @@ intensities.}
 
   \item{PEAKPLOT}{If this boolean is \code{FALSE} the \code{peakplot} function is not used.}
 
+  \item{\dots}{passed}
 }
 
 \details{

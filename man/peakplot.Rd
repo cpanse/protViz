@@ -161,6 +161,20 @@ dependent on the instrument setting applied during the initial search.
         fi=fi.cyz,
         itol=0.6,
         ion.axes=FALSE)
+        
+          
+    # customizing the ion series
+    ions <- function(b, y){
+      Hydrogen <- 1.007825
+      Oxygen <- 15.994915
+      Nitrogen <- 14.003074
+  
+      y0 <- fi$y - Oxygen - Hydrogen - Hydrogen
+      c <- b + (Nitrogen + (3 * Hydrogen))
+      z <- y - (Nitrogen + (3 * Hydrogen))
+      
+      return(cbind(b, y, c ,z, y0))
+  }
 
 }
 

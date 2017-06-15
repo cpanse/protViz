@@ -11,6 +11,13 @@
 # http://hs2.proteome.ca/SSRCalc/SSRCalcX.html
 
 ssrc <- function(x, H=list()){
+  if (is.na(x)){
+    return (NA)
+  }
+  
+  if (!is.character(x)){
+    x <- as.character(x)
+  }
   
   if (length(H) != 20){
     H <- list()
