@@ -1,0 +1,504 @@
+%\VignetteIndexEntry{poster (in portrait)}
+\pdfminorversion=4
+\documentclass[portrait,a0]{a0poster}
+\usepackage{times,colordvi,amsmath,epsfig,float,color,multicol,subfigure}
+\usepackage{rotating}
+\usepackage{subfigure}
+\usepackage{wrapfig}
+\usepackage{fancybox}
+\usepackage{url}
+%\usepackage{natbib}
+\usepackage{amssymb}
+\usepackage[scaled]{helvet}
+\usepackage[latin1]{inputenc}
+\graphicspath{{./graphics/}}
+
+\addtolength{\textwidth}{1cm}
+\addtolength{\oddsidemargin}{-1cm}
+\setlength{\topmargin}{-2.6cm}
+\setlength{\headheight}{0cm}
+\setlength{\headsep}{0cm}
+\setlength{\footskip}{0cm}
+\setlength{\columnsep}{3cm}
+\setlength{\parindent}{0cm}
+\setlength{\parskip}{2ex}
+\pagestyle{empty}
+\renewcommand{\familydefault}{phv}
+\renewcommand*\familydefault{\sfdefault}
+\definecolor{NTNUBlue}{rgb}{0,0.6,1}
+\definecolor{FGCZ}{rgb}{0,0.6,1}
+%\definecolor{NTNUBlue}{rgb}{0.0470,0,0.5294}
+\makeatletter
+\renewcommand{\section}{\@startsection
+        {section}%                          % the name
+        {1}%                                % the level
+        {0mm}%                              % the indent
+        {-\baselineskip}%                   % the beforeskip
+        {1mm}%                              % the afterskip
+        {\Large\color{NTNUBlue}\bfseries}}% % the style
+\renewcommand{\subsection}{\@startsection
+        {subsection}%                       % the name
+        {2}%                                % the level
+        {0mm}%                              % the indent
+        {-0.9\baselineskip}%                % the beforeskip
+        {1mm}%                              % the afterskip
+        {\large\color{NTNUBlue}\bfseries}}% % the style
+\renewcommand{\subsubsection}{\@startsection
+        {subsubsection}%                    % the name
+        {3}%                                % the level
+        {0mm}%                              % the indent
+        {-0.7\baselineskip}%                % the beforeskip
+        {1mm}%                              % the afterskip
+        {\color{NTNUBlue}\bfseries}}% % the style
+\makeatother
+
+\def\subfigtopskip{-1pt}       % Length from the top of the subfigure box to
+                               %   the begining of the FIGURE box.
+\def\subfigbottomskip{-1pt}    % Length from the bottom of the CAPTION to
+                               %   the bottom of the subfigure.
+\def\subfigcapskip{-1pt}       % Length from the bottom of the FIGURE to the
+                               %   begining of the CAPTION.
+\def\subfigcapmargin{-1pt}     % Indentation of the caption from the sides
+                               %   of the subfigure box.
+
+%\renewcommand{\normalsize}{\fontsize{24.88}{30}\selectfont}
+%\renewcommand{\normalsize}{\fontsize{20.74}{25}\selectfont}
+\renewcommand{\normalsize}{\fontsize{22.00}{26.52}\selectfont}
+\newcommand{\Rcode}[1]{{\texttt{#1}}}
+
+
+\usepackage{eso-pic}
+\newcommand\BackgroundPic{
+\put(0,0){
+\parbox[b][\paperheight]{\paperwidth}{%
+\vfill
+\centering
+%\includegraphics[width=\paperwidth,height=\paperheight, keepaspectratio]{background}
+\vfill
+}}}
+
+\SweaveOpts{prefix.string=plot, eps = FALSE, pdf = TRUE, prefix.string = graphics/protViz}
+<<style-Sweave, eval=TRUE, echo=FALSE, results=tex>>=
+options(prompt = "R> ", continue = "+  ", width = 60, useFancyQuotes = FALSE)
+@
+
+\begin{document}
+\AddToShipoutPicture{\BackgroundPic}
+\begin{center}
+%\noindent\centerline{\includegraphics[width=84cm]{FGCZ-multiple}}\\[2ex]
+\noindent\centerline{\includegraphics[width=\paperwidth]{FGCZ_Poster_Header_2014}}\\[2cm]
+\parbox{0.95\textwidth}{
+%\minipage{
+   \begin{center}
+     \textsf{
+     \textbf{\huge{\Rcode{protViz}: Visualizing and Analyzing Mass Spectrometry Related Data in Proteomics in R}}\\[1.0cm]
+{\Large Christian Panse and Jonas Grossmann}\\[1.5cm]
+     }
+   \end{center}
+}
+\end{center}
+\vspace{0.00cm}
+\begin{multicols}{4}
+\setlength{\columnseprule}{1pt}
+
+% =============================================================================
+\section{Package Description}
+
+\Rcode{protViz} is an R package to do quality checks, vizualizations and analysis of mass spectrometry data, coming from proteomics experiments.
+The package is developed, tested and used at the Functional Genomics Center Zurich. 
+We use this package mainly for prototyping, teaching, and having \Rcode{fun} with proteomics data.
+But it can also be used to do solid data analysis for small scale data sets.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Peptide Identification}
+{\em The currency in proteomics are the peptides.}
+In proteomics, proteins are digested to so-called peptides since peptides are much easier to handle biochemically than proteins. Proteins are very different in nature some are very sticky while others are soluble in aqueous solutions while again are only sitting in membranes. Therefore, proteins are chopped up into peptides because it is fair to assume, that for each protein, there will be a number of peptides behaving well so that they can actually be measured with the mass spectrometer. This step introduces another problem, the so-called protein inference problem. In this package here, we do not at all touch upon the protein inference.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Computing the Parent Ion Mass}
+\setkeys{Gin}{width=\columnwidth, height=0.5\columnwidth}
+<<label=digest, keep.source = TRUE, eval = TRUE, fig = TRUE, include=FALSE, width=8, height=4>>=
+library(protViz)
+irt.peptide <- as.character(
+protViz::iRTpeptides$peptide)
+irt.pim <- parentIonMass(irt.peptide)
+
+op <- par(mfrow = c(1,2), 
+pch = 16, 
+col = rgb(0.5, 0.5, 0.5, alpha = 0.5))
+hist(irt.pim, xlab="peptide mass [in Da]")
+
+irt.ssrc <- sapply(irt.peptide, ssrc)
+plot(irt.pim ~ irt.ssrc,
+lwd=2,
+main='In-silico LC-MS map')
+par(op)
+@
+\resizebox{1.0\columnwidth}{!}{
+	\includegraphics{graphics/protViz-digest}
+}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{In-silico Peptide Fragmentation}
+The fragment ions of a peptide can be computed following the rules proposed in \cite{6525415}.
+Beside the \Rcode{b} and \Rcode{y} ions, the \Rcode{FUN} argument of \Rcode{fragmentIon} defines 
+which ions are computed.
+the default ions beeing computed are defined in the function \Rcode{defaultIon}.
+The are no limits for defining other forms of fragment ions for ETD (c and z ions) CID (b and y ions).
+
+<<>>=
+defaultIon
+peptides <- c('HTLNQIDSVK', 'ALGGEDVR',
+'TPIVGQPSIPGGPVR')
+pim <- parentIonMass(peptides)
+fi <- fragmentIon(peptides)
+@
+
+<<label=insilico, keep.source = TRUE, eval = TRUE, fig = TRUE, include=FALSE, width=9, height=9, echo=FALSE>>=
+par(mfrow=c(3,1)); 
+for (i in 1:length(peptides)){
+    plot(0,0,
+        xlab='m/Z',
+        ylab='',
+        xlim=range(c(fi[i][[1]]$b,fi[i][[1]]$y)),
+        ylim=c(0,1),
+        type='n',
+        axes=FALSE,
+        sub=paste( pim[i], "Da"));
+    box()
+    axis(1,fi[i][[1]]$b,round(fi[i][[1]]$b,2))
+    pepSeq <- strsplit(peptides[i],"")
+    axis(3,fi[i][[1]]$b,pepSeq[[1]])
+
+    abline(v=fi[i][[1]]$b, col='red',lwd=2) 
+    abline(v=fi[i][[1]]$c, col='orange') 
+    abline(v=fi[i][[1]]$y, col='blue',lwd=2)
+    abline(v=fi[i][[1]]$z, col='cyan')
+}
+@
+
+\resizebox{1.0\columnwidth}{!}{
+	\includegraphics{graphics/protViz-insilico}
+}
+
+The next lines compute the singly and doubly charged fragment ions of the \Rcode{HTLNQIDSVK} peptide. 
+Which are usually the ones that can be used to make an identification.
+
+<<>>=
+fi.HTLNQIDSVK.1 <- 
+fragmentIon('HTLNQIDSVK')[[1]]
+Hydrogen <- 1.007825
+fi.HTLNQIDSVK.2 <-
+(fi.HTLNQIDSVK.1 + Hydrogen) / 2
+@
+
+<<xtable2, results=tex, echo=FALSE>>=
+df <- as.data.frame(cbind(fi.HTLNQIDSVK.1, fi.HTLNQIDSVK.2))
+names(df)<-c(paste(names(fi.HTLNQIDSVK.1),1,sep=''), paste(names(fi.HTLNQIDSVK.2),2,sep=''))
+library(xtable)
+print.xtable(xtable(df,
+	caption = "\\Rcode{fi.HTLNQIDSVK.2}",
+	label = "Table:xtable2"), 
+  include.rownames = FALSE, 
+  table.placement = "H",
+  scalebox = 0.8)
+@
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Fragment Ion Matching}
+Given a peptide sequence and a tandem mass spectrum.
+For the assignment of a canditate peptide an in-silico fragment ion
+spectra \Rcode{fi}  is computed.
+The function \Rcode{findNN} determines for each fragment ion the closesed 
+peak in the MS2.
+If the difference between the in-silico mass and the measured mass  
+is inside the 'accuracy' mass window of the mass spec device the 
+in-silico fragment ion is considered as potential hit.
+
+<<echo=FALSE>>=
+spec <- list(scans=1138,
+   title = "178: (rt=22.3807) [20080816_23_fetuin_160.RAW]",
+   rtinseconds = 1342.8402,
+   charge = 2,
+   mZ = c(195.139940, 221.211970, 239.251780, 290.221750, 
+316.300770, 333.300050, 352.258420, 448.384360, 466.348830, 
+496.207570, 509.565910, 538.458310, 547.253380, 556.173940, 
+560.358050, 569.122080, 594.435500, 689.536940, 707.624790, 
+803.509240, 804.528220, 822.528020, 891.631250, 909.544400, 
+916.631600, 973.702160, 990.594520, 999.430580, 1008.583600, 
+1017.692500, 1027.605900),
+   intensity=c(931.8, 322.5, 5045, 733.9, 588.8, 9186, 604.6,
+1593, 531.8, 520.4, 976.4, 410.5, 2756, 2279, 5819, 2.679e+04,
+1267, 1542, 979.2, 9577, 3283, 9441, 1520, 1310, 1.8e+04,
+587.5, 2685, 671.7, 3734, 8266, 3309))
+@
+
+<<>>=
+peptideSequence <- 'HTLNQIDSVK'
+str(spec, nchar.max = 25, vec.len = 2)
+
+fi <- fragmentIon(peptideSequence)
+n <- nchar(peptideSequence)
+by.mZ <- c(fi[[1]]$b, fi[[1]]$y)
+idx <- findNN(by.mZ, spec$mZ)
+mZ.error <- abs(spec$mZ[idx]-by.mZ)
+which(mZ.error < 0.1)
+@
+
+\subsection{MS2 Labeling}
+The above-described peptide assignment is handled by the peakplot function.
+<<label=peakplot, keep.source = TRUE, eval = TRUE, fig = TRUE, include=FALSE, height=3, width=8>>=
+p <- peakplot('HTLNQIDSVK', spec)
+@
+\resizebox{1.0\columnwidth}{!}{
+	\includegraphics{graphics/protViz-peakplot}
+}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Quantification}
+For an overview on Quantitative Proteomics read \cite{22772140, 22821268}.
+The authors are aware that meaningful statistics usually require much higher number
+of biological replicates. 
+In almost all cases there are not more than three to six repitions.
+For the moment there are limited options due to the availabilty of machine time
+and the limits of the technologies.
+
+\subsection{Relative and absolute label-free methods on protein level}
+The data set \Rcode{fetuinLFQ} contains a subset of our results descriped in \cite{20576481}.
+The example below shows a visualization using trellis plots. It graphs 
+the abundance of four protein in dependency from the 
+fetuin concentration spiked into the sample. 
+
+<<label=LFQtrellis, echo=FALSE, fig=TRUE, include=FALSE, width=8, height=4>>=
+library(lattice)
+data(fetuinLFQ)
+
+cv<-1-1:7/10
+t<-trellis.par.get("strip.background")
+t$col<-(rgb(cv,cv,cv))
+trellis.par.set("strip.background",t)
+
+print(xyplot(abundance ~ conc | prot * method,
+    groups = prot,
+    xlab = "Fetuin concentration spiked into experiment [fmol]",
+    ylab = "Abundance",
+    aspect = 1,
+    data = fetuinLFQ$t3pq[fetuinLFQ$t3pq$prot
+        %in% c('Fetuin', 'P15891', 'P32324', 'P34730'),],
+    panel = function(x, y, subscripts, groups) {
+        if (groups[subscripts][1] == "Fetuin")  {
+            panel.fill(col="#ffcccc")
+        }
+        panel.grid(h=-1,v=-1)
+        panel.xyplot(x, y)
+        panel.loess(x,y, span=1)
+        if (groups[subscripts][1] == "Fetuin")  {
+            panel.text(min(fetuinLFQ$t3pq$conc),
+                max(fetuinLFQ$t3pq$abundance),
+                paste("R-squared:", 
+                round(summary(lm(x~y))$r.squared,2)),
+                cex=0.75,
+                pos=4)
+        }
+    }
+))
+@
+\resizebox{1.0\columnwidth}{!}{
+	\includegraphics{graphics/protViz-LFQtrellis}
+}
+
+The plot shows the estimated concentration of the four proteins using the top 3 most intense peptides. The Fetuin peptides are spiked in with increasing concentration while the three other yeast proteins are kept stable in the background.
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{pgLFQ -- LC MS based relative label-free} 
+LCMS based label-free quantification is a very popular method to extract relative quantitative information from mass spectrometry experiments.
+At the FGCZ we use the software ProgenesisLCMS for this workflow \url{http://www.nonlinear.com/products/progenesis/lc-ms/overview/}.
+Progenesis is a graphical software which does the aligning and extracts signal intensities from LCMS maps.
+
+{\tiny
+\setkeys{Gin}{width=0.6\columnwidth}
+<<keep.source = TRUE, eval = TRUE, fig = TRUE>>=
+data(pgLFQfeature)
+data(pgLFQprot)
+
+featureDensityPlot<-function(data, n=ncol(data), nbins=30){
+    my.col<-rainbow(n);
+    mids<-numeric()
+    density<-numeric()
+    for (i in 1:n) { 
+        h<-hist(data[,i],nbins, plot=F)
+        mids<-c(mids, h$mids)
+        density<-c(density, h$density)
+    }
+    plot(mids,density, type='n')
+    for (i in 1:n) { 
+        h<-hist(data[,i],nbins, plot=F)
+        lines(h$mids,h$density, col=my.col[i])
+    }
+    legend("topleft", names(data), cex=0.5,
+        text.col=my.col
+    )
+}
+
+par(mfrow=c(1,1)); 
+featureDensityPlot(asinh(pgLFQfeature$"Normalized abundance"), 
+    nbins=25)
+@
+}
+
+The plots shows the normalized signal intensity distribution (asinh transformed) over the 24 LCMS runs aligned in this experiment.
+
+{\tiny
+\setkeys{Gin}{width=0.6\columnwidth}
+<<keep.source = TRUE, eval = TRUE, fig = TRUE>>=
+op<-par(mfrow=c(1,1),mar=c(18,18,4,1),cex=0.5)
+samples<-names(pgLFQfeature$"Normalized abundance")
+image(cor(asinh(pgLFQfeature$"Normalized abundance")),
+    col=gray(seq(0,1,length=20)),
+    main='pgLFQfeature correlation',
+    axes=FALSE)
+
+axis(1,at=seq(from=0, to=1, 
+    length.out=length(samples)), 
+    labels=samples, las=2)
+
+axis(2,at=seq(from=0, to=1, 
+    length.out=length(samples)), labels=samples, las=2)
+par(op)
+@
+}
+
+This figure shows the correlation between runs on feature level (values are asinh transformed). White is perfect correlation while black indicates a poor correlation.
+
+{\tiny
+\setkeys{Gin}{width=0.6\columnwidth}
+<<keep.source = TRUE, eval = TRUE, fig = TRUE>>=
+op<-par(mfrow=c(1,1),mar=c(18,18,4,1),cex=0.5)
+image(cor(asinh(pgLFQprot$"Normalized abundance")),
+    main='pgLFQprot correlation',
+    axes=FALSE,
+    col=gray(seq(0,1,length=20)))
+axis(1,at=seq(from=0, to=1, 
+    length.out=length(samples)), labels=samples, las=2)
+axis(2,at=seq(from=0, to=1, 
+    length.out=length(samples)), labels=samples, las=2)
+par(op)
+@
+}
+
+This figure shows the correlation between runs on protein level (values are \Rcode{asinh} transformed). White is perfect correlation while black indicates a poor correlation.
+Striking is the fact that the six biological replicates for each condition cluster very well.
+
+{\tiny
+\setkeys{Gin}{width=0.60\columnwidth}
+<<keep.source = TRUE, eval = TRUE, fig = TRUE>>=
+par(mfrow=c(2,2),mar=c(6,3,4,1))
+ANOVA<-pgLFQaov(pgLFQprot$"Normalized abundance", 
+    groups=as.factor(pgLFQprot$grouping), 
+    names=pgLFQprot$output$Accession,
+    idx=c(15,16,196,107),
+    plot=TRUE)
+@
+}
+
+This figure shows the result of four proteins which either differ significantly in expression across conditions (green boxplots) using an analysis of variance test, or nondiffering protein expression (red boxplot).
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{iTRAQ -- Two Group Analysis} 
+The data for the next section is an iTRAQ-8-plex experiment where two conditions are compared (each condition has four biological replicates)
+\subsubsection{Sanity Check}
+{\tiny
+\centering
+\setkeys{Gin}{width=0.6\columnwidth}
+<<keep.source = TRUE, eval = TRUE, fig = TRUE>>=
+data(iTRAQ)
+x<-rnorm(100)
+par(mfrow=c(3,3),mar=c(6,4,3,0.5));
+for (i in 3:10){
+    qqnorm(asinh(iTRAQ[,i]), 
+        main=names(iTRAQ)[i])
+    qqline(asinh(iTRAQ[,i]), col='grey')
+}
+b<-boxplot(asinh(iTRAQ[,c(3:10)]), main='boxplot iTRAQ')
+@
+}
+
+A first check to see if all reporter ion channels are having the same distributions. Shown in the figure are Q-Q plots of the individual reporter channels against a normal distribution.
+The last is a boxplot for all individual channels.
+
+\subsubsection{On Protein Level}
+{\tiny
+\setkeys{Gin}{width=0.6\columnwidth}
+<<keep.source = TRUE, eval = TRUE, fig = TRUE>>=
+data(iTRAQ)
+group1Protein<-numeric()
+group2Protein<-numeric()
+
+for (i in c(3,4,5,6))
+    group1Protein<-cbind(group1Protein,
+        asinh(tapply(iTRAQ[,i], paste(iTRAQ$prot), sum, na.rm=TRUE)))
+         
+for (i in 7:10)
+    group2Protein<-cbind(group2Protein,
+        asinh(tapply(iTRAQ[,i], paste(iTRAQ$prot), sum, na.rm=TRUE)))
+                  
+                  
+par(mfrow=c(2,3),mar=c(6,3,4,1))
+for (i in 1:nrow(group1Protein)){
+    boxplot.color="#ffcccc"
+    tt.p_value<-t.test(as.numeric(group1Protein[i,]), 
+        as.numeric(group2Protein[i,]))$p.value       
+
+    if (tt.p_value < 0.05)
+        boxplot.color='lightgreen'
+
+    b<-boxplot(as.numeric(group1Protein[i,]), 
+        as.numeric(group2Protein[i,]),
+        main=row.names(group1Protein)[i],
+        sub=paste("t-Test: p-value =", round(tt.p_value,2)),
+        col=boxplot.color,
+        axes=F)
+    axis(1, 1:2, c('group_1','group_2')); axis(2); box()
+
+    points(rep(1,b$n[1]), as.numeric(group1Protein[i,]), col='blue')
+    points(rep(2,b$n[2]), as.numeric(group2Protein[i,]), col='blue')
+}
+@
+}
+
+This figure shows five proteins which are tested if they differ across conditions using the four biological replicates with a t-Test.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%{\tiny
+\begin{thebibliography}{99}
+\bibitem{6525415} Roepstorff P, Fohlman J., Proposal for a common nomenclature for sequence ions in mass spectra of peptides.  Biomed Mass Spectrom. 1984 Nov;11(11):601 (pubmed ID:6525415). 
+
+\bibitem {20576481} Grossmann J, Roschitzki B, Panse C, Fortes C, Barkow-Oesterreicher S, Rutishauser D, Schlapbach R., Implementation and evaluation of relative and absolute quantification in shotgun proteomics with label-free methods. J Proteomics. 2010 Aug 5;73(9):1740-6. Epub 2010 May 31 (pubmed ID:20576481). 
+
+\bibitem {23000593} Ortea I, Roschitzki B, Ovalles JG, Longo JL, de la Torre I, Gonz{\'a}lez I, G{\'o}mez-Reino JJ, Gonz{\'a}lez A., Discovery of serum proteomic biomarkers for prediction of response to infliximab (a monoclonal anti-TNF antibody) treatment in rheumatoid arthritis: An exploratory analysis., J Proteomics. 2012 Sep 20. pii: S1874-3919(12)00655-0. doi: 10.1016/j.jprot.2012.09.011 
+
+\bibitem {22772140} Bantscheff M, Lemeer S, Savitski MM, Kuster B., Quantitative mass spectrometry in proteomics: critical review update from 2007 to the presen., Anal Bioanal Chem. 2012 Sep;404(4):939-65. doi: 10.1007/s00216-012-6203-4
+
+\bibitem {22821268} Cappadona S, Baker PR, Cutillas PR, Heck AJ, van Breukelen B, Current challenges in software solutions for mass spectrometry-based quantitative proteomics., Amino Acids. 2012 Sep;43(3):1087-108. Epub 2012 Jul 22. (pubmed ID: 22821268)
+\end{thebibliography}
+%}
+\end{multicols}
+\vspace{-0.5cm}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{flushleft}
+{\small
+Contact: 
+Functional Genomics Center Zurich,
+Y32 H94,
+Winterthurerstr. 190,
+CH-8057 Zurich,
+SWITZERLAND,
+Phone: +41 44 635 39 10,
+Fax: +41 44 635 39 22,
+EMail: \url{{cp,jg}@fgcz.ethz.ch},
+URL: \url{https://CRAN.R-project.org/package=protViz}.}
+\end{flushleft}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\end{document}
