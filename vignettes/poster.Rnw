@@ -83,6 +83,7 @@ options(prompt = "R> ", continue = "+  ", width = 60, useFancyQuotes = FALSE)
 @
 
 \begin{document}
+\SweaveOpts{concordance=TRUE}
 \AddToShipoutPicture{\BackgroundPic}
 \begin{center}
 %\noindent\centerline{\includegraphics[width=84cm]{FGCZ-multiple}}\\[2ex]
@@ -91,7 +92,7 @@ options(prompt = "R> ", continue = "+  ", width = 60, useFancyQuotes = FALSE)
 %\minipage{
    \begin{center}
      \textsf{
-     \textbf{\huge{\Rcode{protViz}: Visualizing and Analyzing Mass Spectrometry Related Data in Proteomics in R}}\\[1.0cm]
+     \textbf{\huge{\Rcode{protViz}: Visualizing and Analyzing Mass Spectrometry Related Data in Proteomics using R}}\\[1.0cm]
 {\Large Christian Panse and Jonas Grossmann}\\[1.5cm]
      }
    \end{center}
@@ -129,8 +130,8 @@ hist(irt.pim, xlab="peptide mass [in Da]")
 
 irt.ssrc <- sapply(irt.peptide, ssrc)
 plot(irt.pim ~ irt.ssrc,
-lwd=2,
-main='In-silico LC-MS map')
+cex = 2,
+main = 'In-silico LC-MS map')
 par(op)
 @
 \resizebox{1.0\columnwidth}{!}{
@@ -153,14 +154,14 @@ pim <- parentIonMass(peptides)
 fi <- fragmentIon(peptides)
 @
 
-<<label=insilico, keep.source = TRUE, eval = TRUE, fig = TRUE, include=FALSE, width=9, height=9, echo=FALSE>>=
-par(mfrow=c(3,1)); 
+<<label=insilico, eval = TRUE, fig = TRUE, include=FALSE, width=9, height=9, echo=FALSE>>=
+par <- par(mfrow = c(3, 1))
 for (i in 1:length(peptides)){
     plot(0,0,
         xlab='m/Z',
         ylab='',
         xlim=range(c(fi[i][[1]]$b,fi[i][[1]]$y)),
-        ylim=c(0,1),
+        ylim=c(0, 1),
         type='n',
         axes=FALSE,
         sub=paste( pim[i], "Da"));
@@ -174,11 +175,11 @@ for (i in 1:length(peptides)){
     abline(v=fi[i][[1]]$y, col='blue',lwd=2)
     abline(v=fi[i][[1]]$z, col='cyan')
 }
+par(op)
 @
 
-\resizebox{1.0\columnwidth}{!}{
-	\includegraphics{graphics/protViz-insilico}
-}
+{\centering
+\includegraphics[width=0.8\columnwidth, keepaspectratio]{graphics/protViz-insilico}}
 
 The next lines compute the singly and doubly charged fragment ions of the \Rcode{HTLNQIDSVK} peptide. 
 Which are usually the ones that can be used to make an identification.
@@ -242,17 +243,20 @@ n <- nchar(peptideSequence)
 by.mZ <- c(fi[[1]]$b, fi[[1]]$y)
 idx <- findNN(by.mZ, spec$mZ)
 mZ.error <- abs(spec$mZ[idx]-by.mZ)
-which(mZ.error < 0.1)
+which(mZ.error < 0.3)
 @
 
 \subsection{MS2 Labeling}
 The above-described peptide assignment is handled by the peakplot function.
+
 <<label=peakplot, keep.source = TRUE, eval = TRUE, fig = TRUE, include=FALSE, height=3, width=8>>=
 p <- peakplot('HTLNQIDSVK', spec)
 @
-\resizebox{1.0\columnwidth}{!}{
-	\includegraphics{graphics/protViz-peakplot}
-}
+
+The plot below graphs a peptide-spectrum match of the \Rcode{'HTLNQIDSVK'} peptide.
+
+\includegraphics[width=\columnwidth, keepaspectratio]{graphics/protViz-peakplot}
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Quantification}
 For an overview on Quantitative Proteomics read \cite{22772140, 22821268}.
@@ -262,7 +266,8 @@ In almost all cases there are not more than three to six repitions.
 For the moment there are limited options due to the availabilty of machine time
 and the limits of the technologies.
 
-\subsection{Relative and absolute label-free methods on protein level}
+%\subsection{Relative and absolute label-free methods on protein level}
+\subsection{Absolute Label-Free}
 The data set \Rcode{fetuinLFQ} contains a subset of our results descriped in \cite{20576481}.
 The example below shows a visualization using trellis plots. It graphs 
 the abundance of four protein in dependency from the 
@@ -302,104 +307,108 @@ print(xyplot(abundance ~ conc | prot * method,
     }
 ))
 @
-\resizebox{1.0\columnwidth}{!}{
-	\includegraphics{graphics/protViz-LFQtrellis}
-}
+
+	\includegraphics[width=\columnwidth, keepaspectratio]{graphics/protViz-LFQtrellis}
+
 
 The plot shows the estimated concentration of the four proteins using the top 3 most intense peptides. The Fetuin peptides are spiked in with increasing concentration while the three other yeast proteins are kept stable in the background.
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsection{pgLFQ -- LC MS based relative label-free} 
+%\subsection{pgLFQ -- LC MS based relative label-free} 
+\subsection{Relative Label-Free} 
 LCMS based label-free quantification is a very popular method to extract relative quantitative information from mass spectrometry experiments.
 At the FGCZ we use the software ProgenesisLCMS for this workflow \url{http://www.nonlinear.com/products/progenesis/lc-ms/overview/}.
 Progenesis is a graphical software which does the aligning and extracts signal intensities from LCMS maps.
 
-{\tiny
-\setkeys{Gin}{width=0.6\columnwidth}
-<<keep.source = TRUE, eval = TRUE, fig = TRUE>>=
+
+<<echo=FALSE>>=
 data(pgLFQfeature)
 data(pgLFQprot)
 
-featureDensityPlot<-function(data, n=ncol(data), nbins=30){
-    my.col<-rainbow(n);
-    mids<-numeric()
-    density<-numeric()
-    for (i in 1:n) { 
-        h<-hist(data[,i],nbins, plot=F)
-        mids<-c(mids, h$mids)
-        density<-c(density, h$density)
-    }
-    plot(mids,density, type='n')
-    for (i in 1:n) { 
-        h<-hist(data[,i],nbins, plot=F)
-        lines(h$mids,h$density, col=my.col[i])
-    }
-    legend("topleft", names(data), cex=0.5,
-        text.col=my.col
-    )
-}
 
-par(mfrow=c(1,1)); 
-featureDensityPlot(asinh(pgLFQfeature$"Normalized abundance"), 
-    nbins=25)
 @
-}
+
+<<label=featureDensityPlot, keep.source = TRUE, eval = TRUE, fig = TRUE, width=8, height=5>>=
+par(mfrow=c(1,1)); 
+data(pgLFQfeature)
+data(pgLFQprot)
+protViz:::.featureDensityPlot(
+asinh(
+pgLFQfeature$"Normalized abundance"), 
+nbins=25)
+@
+
 
 The plots shows the normalized signal intensity distribution (asinh transformed) over the 24 LCMS runs aligned in this experiment.
 
-{\tiny
-\setkeys{Gin}{width=0.6\columnwidth}
-<<keep.source = TRUE, eval = TRUE, fig = TRUE>>=
-op<-par(mfrow=c(1,1),mar=c(18,18,4,1),cex=0.5)
-samples<-names(pgLFQfeature$"Normalized abundance")
-image(cor(asinh(pgLFQfeature$"Normalized abundance")),
-    col=gray(seq(0,1,length=20)),
-    main='pgLFQfeature correlation',
-    axes=FALSE)
 
-axis(1,at=seq(from=0, to=1, 
-    length.out=length(samples)), 
-    labels=samples, las=2)
+<<label=image1, keep.source = TRUE, eval = TRUE, fig = TRUE, include=FALSE, width=10, height=10>>=
+op <- par(mfrow=c(1,1),
+mar = c(18,18,4,1),
+cex=0.5)
 
-axis(2,at=seq(from=0, to=1, 
-    length.out=length(samples)), labels=samples, las=2)
+samples <-
+names(pgLFQfeature$"Normalized abundance")
+
+image(cor(
+  asinh(
+    pgLFQfeature$"Normalized abundance")),
+col = gray(seq(0,1,length=20)),
+asp = 1,
+main = 'pgLFQfeature correlation',
+axes=FALSE)
+
+axis(1, 
+at=seq(from = 0, to = 1, 
+length.out=length(samples)), 
+labels=samples, las=2)
+
+axis(2,
+at=seq(from = 0, to = 1, 
+length.out=length(samples)), 
+labels=samples, las=2)
 par(op)
 @
-}
 
-This figure shows the correlation between runs on feature level (values are asinh transformed). White is perfect correlation while black indicates a poor correlation.
+This left figure below shows the correlation between runs on feature level (values are asinh transformed). White is perfect correlation while black indicates a poor correlation.
 
-{\tiny
-\setkeys{Gin}{width=0.6\columnwidth}
-<<keep.source = TRUE, eval = TRUE, fig = TRUE>>=
-op<-par(mfrow=c(1,1),mar=c(18,18,4,1),cex=0.5)
+<<label=image2, keep.source = TRUE, eval = TRUE, fig = TRUE, include=FALSE, echo=FALSE, width=10, height=10>>=
+op<-par(mfrow=c(1,1),mar=c(18,18,4,1), cex=0.5)
 image(cor(asinh(pgLFQprot$"Normalized abundance")),
-    main='pgLFQprot correlation',
-    axes=FALSE,
-    col=gray(seq(0,1,length=20)))
+    main = 'pgLFQprot correlation',
+    asp = 1,
+    axes = FALSE,
+    col = gray(seq(0,1,length=20)))
 axis(1,at=seq(from=0, to=1, 
     length.out=length(samples)), labels=samples, las=2)
 axis(2,at=seq(from=0, to=1, 
     length.out=length(samples)), labels=samples, las=2)
 par(op)
 @
+{
+\centering
+\includegraphics[width=0.5\columnwidth, keepaspectratio]{graphics/protViz-image1}
+\includegraphics[width=0.5\columnwidth, keepaspectratio]{graphics/protViz-image2}
 }
 
-This figure shows the correlation between runs on protein level (values are \Rcode{asinh} transformed). White is perfect correlation while black indicates a poor correlation.
+This right figure above shows the correlation between runs on protein level (values are \Rcode{asinh} transformed). White is perfect correlation while black indicates a poor correlation.
 Striking is the fact that the six biological replicates for each condition cluster very well.
 
-{\tiny
-\setkeys{Gin}{width=0.60\columnwidth}
-<<keep.source = TRUE, eval = TRUE, fig = TRUE>>=
-par(mfrow=c(2,2),mar=c(6,3,4,1))
-ANOVA<-pgLFQaov(pgLFQprot$"Normalized abundance", 
+
+<<label=ANOVA, keep.source = TRUE, eval = TRUE, fig = TRUE, width=8, height=3, include=FALSE>>=
+par(mfrow=c(1,4),mar=c(6,3,4,1))
+ANOVA <- pgLFQaov(
+  pgLFQprot$"Normalized abundance", 
     groups=as.factor(pgLFQprot$grouping), 
     names=pgLFQprot$output$Accession,
     idx=c(15,16,196,107),
     plot=TRUE)
 @
-}
+
+\includegraphics[width=\columnwidth, keepaspectratio]{graphics/protViz-ANOVA}
+
+
 
 This figure shows the result of four proteins which either differ significantly in expression across conditions (green boxplots) using an analysis of variance test, or nondiffering protein expression (red boxplot).
 
@@ -408,29 +417,37 @@ This figure shows the result of four proteins which either differ significantly 
 \subsection{iTRAQ -- Two Group Analysis} 
 The data for the next section is an iTRAQ-8-plex experiment where two conditions are compared (each condition has four biological replicates)
 \subsubsection{Sanity Check}
-{\tiny
-\centering
-\setkeys{Gin}{width=0.6\columnwidth}
-<<keep.source = TRUE, eval = TRUE, fig = TRUE>>=
+
+<<keep.source = TRUE, eval = TRUE, fig = TRUE, include=TRUE, width=6, height=4>>=
 data(iTRAQ)
-x<-rnorm(100)
-par(mfrow=c(3,3),mar=c(6,4,3,0.5));
+par(mfrow = c(2,4),
+    mar = c(6,4,3,0.5));
 for (i in 3:10){
     qqnorm(asinh(iTRAQ[,i]), 
+    asp = 1,
         main=names(iTRAQ)[i])
     qqline(asinh(iTRAQ[,i]), col='grey')
 }
-b<-boxplot(asinh(iTRAQ[,c(3:10)]), main='boxplot iTRAQ')
 @
+
+<<label=iTRAQboxplot, keep.source = TRUE, eval = TRUE, fig = TRUE, include=FALSE, width=8, height=4>>=
+b <- boxplot(asinh(iTRAQ[, c(3:10)]),
+main='boxplot iTRAQ')
+@
+{
+\centering
+\resizebox{1.0\columnwidth}{!}{
+	\includegraphics{graphics/protViz-iTRAQboxplot}
+}
 }
 
 A first check to see if all reporter ion channels are having the same distributions. Shown in the figure are Q-Q plots of the individual reporter channels against a normal distribution.
 The last is a boxplot for all individual channels.
 
 \subsubsection{On Protein Level}
-{\tiny
-\setkeys{Gin}{width=0.6\columnwidth}
-<<keep.source = TRUE, eval = TRUE, fig = TRUE>>=
+
+
+<<keep.source = TRUE, eval = TRUE, fig = TRUE, width=8, height=3, include=TRUE, echo=FALSE>>=
 data(iTRAQ)
 group1Protein<-numeric()
 group2Protein<-numeric()
@@ -444,7 +461,7 @@ for (i in 7:10)
         asinh(tapply(iTRAQ[,i], paste(iTRAQ$prot), sum, na.rm=TRUE)))
                   
                   
-par(mfrow=c(2,3),mar=c(6,3,4,1))
+par(mfrow = c(1,4), mar = c(6,3,4,1))
 for (i in 1:nrow(group1Protein)){
     boxplot.color="#ffcccc"
     tt.p_value<-t.test(as.numeric(group1Protein[i,]), 
@@ -453,7 +470,7 @@ for (i in 1:nrow(group1Protein)){
     if (tt.p_value < 0.05)
         boxplot.color='lightgreen'
 
-    b<-boxplot(as.numeric(group1Protein[i,]), 
+    b <- boxplot(as.numeric(group1Protein[i,]), 
         as.numeric(group2Protein[i,]),
         main=row.names(group1Protein)[i],
         sub=paste("t-Test: p-value =", round(tt.p_value,2)),
@@ -465,7 +482,6 @@ for (i in 1:nrow(group1Protein)){
     points(rep(2,b$n[2]), as.numeric(group2Protein[i,]), col='blue')
 }
 @
-}
 
 This figure shows five proteins which are tested if they differ across conditions using the four biological replicates with a t-Test.
 

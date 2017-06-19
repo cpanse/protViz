@@ -176,4 +176,23 @@ peakplot <- function(peptideSequence,
 }    
 
 
+.featureDensityPlot <- function(data, n=ncol(data), nbins = 30){
+  my.col<-rainbow(n);
+  mids<-numeric()
+  density<-numeric()
+  for (i in 1:n) { 
+    h<-hist(data[,i],nbins, plot=F)
+    mids<-c(mids, h$mids)
+    density<-c(density, h$density)
+  }
+  plot(mids,density, type='n')
+  for (i in 1:n) { 
+    h<-hist(data[,i],nbins, plot=F)
+    lines(h$mids,h$density, col=my.col[i])
+  }
+  legend("topleft", names(data), cex=0.5,
+         text.col=my.col
+  )
+}
+
 
