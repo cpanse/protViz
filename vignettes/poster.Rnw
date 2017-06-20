@@ -7,6 +7,7 @@
 \usepackage{wrapfig}
 \usepackage{fancybox}
 \usepackage{url}
+\usepackage{hyperref}
 %\usepackage{natbib}
 \usepackage{amssymb}
 \usepackage[scaled]{helvet}
@@ -103,8 +104,7 @@ options(prompt = "R> ", continue = "+  ", width = 60, useFancyQuotes = FALSE)
 \setlength{\columnseprule}{1pt}
 
 % =============================================================================
-\section{Package Description}
-
+\section*{Package Description}
 \Rcode{protViz} is an R package to do quality checks, vizualizations and analysis of mass spectrometry data, coming from proteomics experiments.
 The package is developed, tested and used at the Functional Genomics Center Zurich. 
 We use this package mainly for prototyping, teaching, and having \Rcode{fun} with proteomics data.
@@ -116,7 +116,11 @@ In proteomics, proteins are digested to so-called peptides since peptides are mu
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Computing the Parent Ion Mass}
-\setkeys{Gin}{width=\columnwidth, height=0.5\columnwidth}
+The function \Rcode{parentIonMass} determans the mass of a amino acid sequance
+while the function \Rcode{ssrc} returns a  hydrophobicity value for a given
+sequence of amino acids which can be used to predict the retention times
+\cite{pmid15238601}.
+
 <<label=digest, keep.source = TRUE, eval = TRUE, fig = TRUE, include=FALSE, width=8, height=4>>=
 library(protViz)
 irt.peptide <- as.character(
@@ -134,13 +138,13 @@ cex = 2,
 main = 'In-silico LC-MS map')
 par(op)
 @
-\resizebox{1.0\columnwidth}{!}{
-	\includegraphics{graphics/protViz-digest}
-}
+
+\includegraphics[width=1.0\columnwidth, keepaspectratio]{graphics/protViz-digest}
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{In-silico Peptide Fragmentation}
-The fragment ions of a peptide can be computed following the rules proposed in \cite{6525415}.
+The fragment ions of a peptide can be computed following the rules proposed in \cite{pmid6525415}.
 Beside the \Rcode{b} and \Rcode{y} ions, the \Rcode{FUN} argument of \Rcode{fragmentIon} defines 
 which ions are computed.
 the default ions beeing computed are defined in the function \Rcode{defaultIon}.
@@ -148,14 +152,14 @@ The are no limits for defining other forms of fragment ions for ETD (c and z ion
 
 <<>>=
 defaultIon
-peptides <- c('HTLNQIDSVK', 'ALGGEDVR',
-'TPIVGQPSIPGGPVR')
-pim <- parentIonMass(peptides)
+peptides <- c('HTLNQIDSVK')
+
 fi <- fragmentIon(peptides)
 @
 
-<<label=insilico, eval = TRUE, fig = TRUE, include=FALSE, width=9, height=9, echo=FALSE>>=
-par <- par(mfrow = c(3, 1))
+<<label=insilico, eval = TRUE, fig = TRUE, include=FALSE, width=9, height=3, echo=FALSE>>=
+par <- par(mfrow = c(1, 1))
+pim <- parentIonMass(peptides)
 for (i in 1:length(peptides)){
     plot(0,0,
         xlab='m/Z',
@@ -179,7 +183,7 @@ par(op)
 @
 
 {\centering
-\includegraphics[width=0.8\columnwidth, keepaspectratio]{graphics/protViz-insilico}}
+\includegraphics[width=1.0\columnwidth, keepaspectratio]{graphics/protViz-insilico}}
 
 The next lines compute the singly and doubly charged fragment ions of the \Rcode{HTLNQIDSVK} peptide. 
 Which are usually the ones that can be used to make an identification.
@@ -197,7 +201,7 @@ df <- as.data.frame(cbind(fi.HTLNQIDSVK.1, fi.HTLNQIDSVK.2))
 names(df)<-c(paste(names(fi.HTLNQIDSVK.1),1,sep=''), paste(names(fi.HTLNQIDSVK.2),2,sep=''))
 library(xtable)
 print.xtable(xtable(df,
-	caption = "\\Rcode{fi.HTLNQIDSVK.2}",
+	caption = "Singly and doubly charged fragment ion of the HTLNQIDSVK tryptic peptide of the swissprot P12763 FETUA BOVIN Alpha-2-HS-glycoprotein protein are listed.",
 	label = "Table:xtable2"), 
   include.rownames = FALSE, 
   table.placement = "H",
@@ -245,7 +249,7 @@ idx <- findNN(by.mZ, spec$mZ)
 mZ.error <- abs(spec$mZ[idx]-by.mZ)
 which(mZ.error < 0.3)
 @
-
+The function \Rcode{fragmentIon} is also used for generating ion libraries in the specL Bioconductor package \cite{specL}.
 \subsection{MS2 Labeling}
 The above-described peptide assignment is handled by the peakplot function.
 
@@ -259,7 +263,7 @@ The plot below graphs a peptide-spectrum match of the \Rcode{'HTLNQIDSVK'} pepti
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Quantification}
-For an overview on Quantitative Proteomics read \cite{22772140, 22821268}.
+For an overview on Quantitative Proteomics read \cite{pmid22772140, pmid22821268}.
 The authors are aware that meaningful statistics usually require much higher number
 of biological replicates. 
 In almost all cases there are not more than three to six repitions.
@@ -268,7 +272,7 @@ and the limits of the technologies.
 
 %\subsection{Relative and absolute label-free methods on protein level}
 \subsection{Absolute Label-Free}
-The data set \Rcode{fetuinLFQ} contains a subset of our results descriped in \cite{20576481}.
+The data set \Rcode{fetuinLFQ} contains a subset of our results descriped in \cite{pmid20576481}.
 The example below shows a visualization using trellis plots. It graphs 
 the abundance of four protein in dependency from the 
 fetuin concentration spiked into the sample. 
@@ -277,7 +281,7 @@ fetuin concentration spiked into the sample.
 library(lattice)
 data(fetuinLFQ)
 
-cv<-1-1:7/10
+cv <- 1-1:7/10
 t<-trellis.par.get("strip.background")
 t$col<-(rgb(cv,cv,cv))
 trellis.par.set("strip.background",t)
@@ -308,8 +312,7 @@ print(xyplot(abundance ~ conc | prot * method,
 ))
 @
 
-	\includegraphics[width=\columnwidth, keepaspectratio]{graphics/protViz-LFQtrellis}
-
+\includegraphics[width=\columnwidth, keepaspectratio]{graphics/protViz-LFQtrellis}
 
 The plot shows the estimated concentration of the four proteins using the top 3 most intense peptides. The Fetuin peptides are spiked in with increasing concentration while the three other yeast proteins are kept stable in the background.
 
@@ -325,12 +328,10 @@ Progenesis is a graphical software which does the aligning and extracts signal i
 <<echo=FALSE>>=
 data(pgLFQfeature)
 data(pgLFQprot)
-
-
 @
 
-<<label=featureDensityPlot, keep.source = TRUE, eval = TRUE, fig = TRUE, width=8, height=5>>=
-par(mfrow=c(1,1)); 
+<<label=featureDensityPlot, keep.source = TRUE, eval = TRUE, fig = TRUE, width=8, height=5, include=FALSE>>=
+par(mfrow = c(1,1)); 
 data(pgLFQfeature)
 data(pgLFQprot)
 protViz:::.featureDensityPlot(
@@ -339,6 +340,7 @@ pgLFQfeature$"Normalized abundance"),
 nbins=25)
 @
 
+\includegraphics[width=\columnwidth, keepaspectratio]{graphics/protViz-featureDensityPlot}
 
 The plots shows the normalized signal intensity distribution (asinh transformed) over the 24 LCMS runs aligned in this experiment.
 
@@ -408,17 +410,14 @@ ANOVA <- pgLFQaov(
 
 \includegraphics[width=\columnwidth, keepaspectratio]{graphics/protViz-ANOVA}
 
-
-
 This figure shows the result of four proteins which either differ significantly in expression across conditions (green boxplots) using an analysis of variance test, or nondiffering protein expression (red boxplot).
-
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{iTRAQ -- Two Group Analysis} 
 The data for the next section is an iTRAQ-8-plex experiment where two conditions are compared (each condition has four biological replicates)
 \subsubsection{Sanity Check}
 
-<<keep.source = TRUE, eval = TRUE, fig = TRUE, include=TRUE, width=6, height=4>>=
+<<label=iTRAQqqnorm, keep.source = TRUE, eval = TRUE, fig = TRUE, width=6, height=4, include=FALSE>>=
 data(iTRAQ)
 par(mfrow = c(2,4),
     mar = c(6,4,3,0.5));
@@ -430,15 +429,16 @@ for (i in 3:10){
 }
 @
 
-<<label=iTRAQboxplot, keep.source = TRUE, eval = TRUE, fig = TRUE, include=FALSE, width=8, height=4>>=
+\includegraphics[width=\columnwidth, keepaspectratio]{graphics/protViz-iTRAQqqnorm}
+
+<<label=iTRAQboxplot, keep.source = TRUE, eval = TRUE, fig = TRUE, include=FALSE, width=8, height=3>>=
 b <- boxplot(asinh(iTRAQ[, c(3:10)]),
 main='boxplot iTRAQ')
 @
 {
 \centering
-\resizebox{1.0\columnwidth}{!}{
-	\includegraphics{graphics/protViz-iTRAQboxplot}
-}
+
+\includegraphics[width=\columnwidth, keepaspectratio]{graphics/protViz-iTRAQboxplot}
 }
 
 A first check to see if all reporter ion channels are having the same distributions. Shown in the figure are Q-Q plots of the individual reporter channels against a normal distribution.
@@ -446,8 +446,7 @@ The last is a boxplot for all individual channels.
 
 \subsubsection{On Protein Level}
 
-
-<<keep.source = TRUE, eval = TRUE, fig = TRUE, width=8, height=3, include=TRUE, echo=FALSE>>=
+<<label=iTRAQboxplot2, keep.source = TRUE, eval = TRUE, fig = TRUE, width=8, height=3, include=FALSE, echo=FALSE>>=
 data(iTRAQ)
 group1Protein<-numeric()
 group2Protein<-numeric()
@@ -482,23 +481,26 @@ for (i in 1:nrow(group1Protein)){
     points(rep(2,b$n[2]), as.numeric(group2Protein[i,]), col='blue')
 }
 @
+{
+\centering
+
+\includegraphics[width=\columnwidth, keepaspectratio]{graphics/protViz-iTRAQboxplot2}
+}
+
 
 This figure shows five proteins which are tested if they differ across conditions using the four biological replicates with a t-Test.
 
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%{\tiny
-\begin{thebibliography}{99}
-\bibitem{6525415} Roepstorff P, Fohlman J., Proposal for a common nomenclature for sequence ions in mass spectra of peptides.  Biomed Mass Spectrom. 1984 Nov;11(11):601 (pubmed ID:6525415). 
-
-\bibitem {20576481} Grossmann J, Roschitzki B, Panse C, Fortes C, Barkow-Oesterreicher S, Rutishauser D, Schlapbach R., Implementation and evaluation of relative and absolute quantification in shotgun proteomics with label-free methods. J Proteomics. 2010 Aug 5;73(9):1740-6. Epub 2010 May 31 (pubmed ID:20576481). 
-
-\bibitem {23000593} Ortea I, Roschitzki B, Ovalles JG, Longo JL, de la Torre I, Gonz{\'a}lez I, G{\'o}mez-Reino JJ, Gonz{\'a}lez A., Discovery of serum proteomic biomarkers for prediction of response to infliximab (a monoclonal anti-TNF antibody) treatment in rheumatoid arthritis: An exploratory analysis., J Proteomics. 2012 Sep 20. pii: S1874-3919(12)00655-0. doi: 10.1016/j.jprot.2012.09.011 
-
-\bibitem {22772140} Bantscheff M, Lemeer S, Savitski MM, Kuster B., Quantitative mass spectrometry in proteomics: critical review update from 2007 to the presen., Anal Bioanal Chem. 2012 Sep;404(4):939-65. doi: 10.1007/s00216-012-6203-4
-
-\bibitem {22821268} Cappadona S, Baker PR, Cutillas PR, Heck AJ, van Breukelen B, Current challenges in software solutions for mass spectrometry-based quantitative proteomics., Amino Acids. 2012 Sep;43(3):1087-108. Epub 2012 Jul 22. (pubmed ID: 22821268)
-\end{thebibliography}
-%}
+\nocite{pmid15238601,specL}
+{\small
+\bibliographystyle{plainurl}
+\bibliography{protViz}
+}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+This poster has been produced by using \Sexpr{R.Version()$version.string} and
+protViz package version \Sexpr{packageVersion('protViz')}.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \end{multicols}
 \vspace{-0.5cm}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
