@@ -31,7 +31,7 @@ lcmsmap <- function(data, charges = 2:3, score.cutoff = 30, ...){
   
   plot(S$RTINSECONDS, S$moverz,
        type = 'n',
-       main = 'LC-MS overview',
+       main = 'LC-MS2 overview',
        xlab = 'rt [seconds]',
        ylab = 'pepmass [m/Z]', ...)
   
