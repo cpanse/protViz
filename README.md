@@ -18,6 +18,17 @@ install.packages('protViz')
 ```
 
 
+### from [github](https://github.com/protViz/protViz)
+
+install the latest development version
+
+```{r}
+install.packages('devtools')
+library(devtools)
+install_git('https://github.com/protViz/protViz', build_vignettes = TRUE, quiet = FALSE)
+library(protViz)
+```
+
 ### Docker
 
 ```
