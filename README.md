@@ -14,7 +14,7 @@ vignette('PTM_MarkerFinder')
 ### CRAN
 
 ```
-install.package('protViz')
+install.packages('protViz')
 ```
 
 
