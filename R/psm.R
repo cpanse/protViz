@@ -166,12 +166,17 @@ is.psmSet <- function(object){
 
 plot.psm <- function (x, ...){
   
+  if (is.na(x$peptideSequence)){
+	  plot(x$mZ, x$intensity, sub='no assigned peptide sequence', type='h')
+  }else{
+
   AAmass <- aa2mass(x$peptideSequence)[[1]]#, protViz::AA$Monoisotopic, protViz::AA$letter1)
   AAmodifiedMass <- AAmass + x$varModification
   fi <- fragmentIon(AAmodifiedMass)[[1]]
   spec <- list(mZ = x$mZ, intensity = x$intensity)
   return(peakplot(peptideSequence = x$peptideSequence, 
                   spec=spec, fi = fi, ...))
+  }
 }
 
   

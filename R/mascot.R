@@ -48,6 +48,7 @@ as.data.frame.mascot <- function(x, ...){
              TotalIonsIntensity = as.numeric(.get_(x, attribute = 'TotalIonsIntensity')),
              pep_exp_mz = .get_q_peptide(x, attribute = 'pep_exp_mz'),
              pep_exp_mr = .get_q_peptide(x, attribute = 'pep_exp_mr'),
+             StringTitle = .get_q_peptide(x, attribute = 'StringTitle'),
              pep_exp_z = as.numeric(.get_q_peptide(x, attribute = 'pep_exp_z')),
              pep_calc_mr = .get_q_peptide(x, attribute = 'pep_calc_mr'),
              pep_delta = .get_q_peptide(x, attribute = 'pep_delta'),
@@ -55,11 +56,12 @@ as.data.frame.mascot <- function(x, ...){
              pep_local_mod_pos = .get_q_peptide(x, attribute = 'pep_local_mod_pos'),
              pep_scan_title = .get_q_peptide(x, attribute = 'pep_scan_title'),
              pep_seq = .get_q_peptide(x, attribute = 'pep_seq'),
-             pep_expect = .get_q_peptide(x, attribute = 'pep_expect'),
-             pep_score = .get_q_peptide(x, attribute = 'pep_score'),
+             pep_expect = as.numeric(.get_q_peptide(x, attribute = 'pep_expect')),
+             pep_score = as.numeric(.get_q_peptide(x, attribute = 'pep_score')),
              pep_var_mod = .get_q_peptide(x, attribute = 'pep_var_mod'),
              pep_var_mod_pos = .get_q_peptide(x, attribute = 'pep_var_mod_pos'),
-             pep_summed_mod_pos = .get_q_peptide(x, attribute = 'pep_summed_mod_pos')
+             pep_summed_mod_pos = .get_q_peptide(x, attribute = 'pep_summed_mod_pos'),
+             pep_var_mod_conf = .get_q_peptide(x, attribute = 'pep_var_mod_conf')
   )
 }
 

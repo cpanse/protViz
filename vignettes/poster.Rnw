@@ -1,4 +1,4 @@
-%\VignetteIndexEntry{poster (in portrait)}
+%\VignetteIndexEntry{protViz package poster (in portrait)}
 \pdfminorversion=4
 \documentclass[portrait,a0]{a0poster}
 \usepackage{times,colordvi,amsmath,epsfig,float,color,multicol,subfigure}
@@ -8,7 +8,6 @@
 \usepackage{fancybox}
 \usepackage{url}
 \usepackage{hyperref}
-%\usepackage{natbib}
 \usepackage{amssymb}
 \usepackage[scaled]{helvet}
 \usepackage[latin1]{inputenc}
@@ -141,7 +140,6 @@ par(op)
 
 \includegraphics[width=1.0\columnwidth, keepaspectratio]{graphics/protViz-digest}
 
-
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{In-silico Peptide Fragmentation}
 The fragment ions of a peptide can be computed following the rules proposed in \cite{pmid6525415}.
@@ -153,7 +151,6 @@ The are no limits for defining other forms of fragment ions for ETD (c and z ion
 <<>>=
 defaultIon
 peptides <- c('HTLNQIDSVK')
-
 fi <- fragmentIon(peptides)
 @
 
@@ -324,7 +321,6 @@ LCMS based label-free quantification is a very popular method to extract relativ
 At the FGCZ we use the software ProgenesisLCMS for this workflow \url{http://www.nonlinear.com/products/progenesis/lc-ms/overview/}.
 Progenesis is a graphical software which does the aligning and extracts signal intensities from LCMS maps.
 
-
 <<echo=FALSE>>=
 data(pgLFQfeature)
 data(pgLFQprot)
@@ -435,11 +431,9 @@ for (i in 3:10){
 b <- boxplot(asinh(iTRAQ[, c(3:10)]),
 main='boxplot iTRAQ')
 @
-{
-\centering
 
 \includegraphics[width=\columnwidth, keepaspectratio]{graphics/protViz-iTRAQboxplot}
-}
+
 
 A first check to see if all reporter ion channels are having the same distributions. Shown in the figure are Q-Q plots of the individual reporter channels against a normal distribution.
 The last is a boxplot for all individual channels.
@@ -463,7 +457,7 @@ for (i in 7:10)
 par(mfrow = c(1,4), mar = c(6,3,4,1))
 for (i in 1:nrow(group1Protein)){
     boxplot.color="#ffcccc"
-    tt.p_value<-t.test(as.numeric(group1Protein[i,]), 
+    tt.p_value <- t.test(as.numeric(group1Protein[i,]), 
         as.numeric(group2Protein[i,]))$p.value       
 
     if (tt.p_value < 0.05)
@@ -481,24 +475,20 @@ for (i in 1:nrow(group1Protein)){
     points(rep(2,b$n[2]), as.numeric(group2Protein[i,]), col='blue')
 }
 @
-{
-\centering
 
 \includegraphics[width=\columnwidth, keepaspectratio]{graphics/protViz-iTRAQboxplot2}
-}
 
-
-This figure shows five proteins which are tested if they differ across conditions using the four biological replicates with a t-Test.
-
+This figure shows five proteins which are tested using the \Rcode{t.test}
+function if they differ across conditions using the four biological replicates.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\nocite{pmid15238601,specL}
 {\small
 \bibliographystyle{plainurl}
 \bibliography{protViz}
 }
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-This poster has been produced by using \Sexpr{R.Version()$version.string} and
+This poster has been produced by using the \Rcode{R CMD Sweave poster.Rnw}
+commandline, \Sexpr{R.Version()$version.string}, and
 protViz package version \Sexpr{packageVersion('protViz')}.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \end{multicols}
@@ -518,5 +508,4 @@ EMail: \url{{cp,jg}@fgcz.ethz.ch},
 URL: \url{https://CRAN.R-project.org/package=protViz}.}
 \end{flushleft}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
 \end{document}
