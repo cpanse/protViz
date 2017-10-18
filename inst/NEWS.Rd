@@ -3,7 +3,13 @@
 \newcommand{\ghpr}{\href{https://github.com/protViz/protViz/pull/#1}{##1}}
 \newcommand{\ghit}{\href{https://github.com/protViz/protViz/issues/#1}{##1}}
 
-\section{Changes in protViz version 0.2.33 (2017-05-29)}{
+\section{Changes in protViz version 0.2.38 (2017-10-18)}{
+  \itemize{
+	  \item added orcid in DESCRIPTION file
+  }
+}
+
+\section{Changes in protViz version 0.2.37 (2017-10-11)}{
   \itemize{
     \item \code{initial as.data.frame} function.
     \item added unit test for \code{ssrc} function.
