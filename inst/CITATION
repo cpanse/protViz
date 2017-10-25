@@ -1,4 +1,4 @@
-citHeader("To cite protViz in publications use:")
+citHeader("To cite the package, please use one of the appropriate publications listed below.")
 
 citEntry(entry = "Article",
   title        = "{PTM MarkerFinder}, a software tool to detect and validate spectra from peptides carrying post-translational modifications.",

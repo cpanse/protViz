@@ -10,8 +10,8 @@ defaultIon<-function(b, y){
     Nitrogen <- 14.003074
 
     #yo <- fi$y - Oxygen - Hydrogen - Hydrogen
-    c<- b + (Nitrogen + (3 * Hydrogen))
-    z<- y - (Nitrogen + (3 * Hydrogen))
+    c <- b + (Nitrogen + (3 * Hydrogen))
+    z <- y - (Nitrogen + (3 * Hydrogen))
     
     return(cbind(b, y, c ,z))
 }

@@ -201,7 +201,7 @@ plot.mascot <- function(x, ...){
     df <- as.data.frame.mascot(x)
     
     # peptide scores versus e-value
-    plot(df$score, 1 / log(df$pep_expect,10), 
+    plot(df$pep_score, 1 / log(df$pep_expect,10), 
          log = 'x', 
          pch = 16, 
          col = rgb(0.1, 0.1, 0.1, alpha = 0.2))
@@ -272,4 +272,46 @@ plot.mascot_query <- function(x, obj = NULL, FUN=defaultIon, ...){
   }
 }
   
-  
+#' compute in-silico MS2 
+#'
+#' @param x list of peptide sequences
+#' @param filename 
+#' @param FUN 
+#'
+#' @return
+#' @export
+#'
+#' @examples
+.peptide2mgf <- function(x, filename, FUN=defaultIon){
+  fi <- fragmentIon(x, FUN=FUN)
+  mZ <- as.vector(unlist(fi[[1]]))
+  intensity <- rnorm(mean=1000, length(mZ))
+}
+
+
+#' hydrophobicity prediction ~ RTINSECONDS
+#'
+#' @param x mascot object
+#' @param scores 
+#'
+#' @return
+#' @export
+#'
+#' @examples
+#' 
+#' load(url("http://fgcz-ms.uzh.ch/~cpanse/p1875/F255744.RData"))
+#' .ssrc.mascot(F255744)
+#' 
+.ssrc.mascot <- function(x, scores=c(10,20,40,50)){
+  x<-as.data.frame.mascot(x)
+  lapply(scores, function(scorecutoff){
+    xx <- x[x$pep_score > scorecutoff  & !is.na(x$pep_score), ]
+    xx.ssrc <- sapply(as.character(xx$pep_seq), ssrc)
+    xx.lm <- lm(xx.ssrc ~ xx$RTINSECONDS)
+    plot(xx.ssrc ~ xx$RTINSECONDS, 
+         pch=16, col=rgb(0.1,0.1,0.1,alpha = 0.1),
+         sub=paste("mascot score cutoff :", scorecutoff, "r.squared: ", round(summary(xx.lm)$r.squared,2)))
+    abline(xx.lm, col='cornflowerblue')
+    summary(xx.lm)
+  })
+}
