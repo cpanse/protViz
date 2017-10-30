@@ -1,10 +1,18 @@
 #R
 # Christian Panse <cp@fgcz.ethz.ch> 20170525
 
-.get_ <- function(obj, attribute = 'query_moverz') {
-  as.vector(unlist(lapply(obj$queries, function(x){
-    x[attribute]
-  })))
+.get_ <- function(obj, attribute = 'query_moverz', FUN=as.double) {
+  as.vector(unlist(
+    lapply(obj$queries, function(x){
+      
+      if (!attribute %in% names(x)){
+        return(NA)
+      }  
+      rv <- FUN(x[[attribute]])
+              
+      rv
+    })
+  ))
 }
 
 .get_q_peptide <- function(obj, attribute = 'pep_seq'){
@@ -24,7 +32,7 @@
 #'
 #' @param a mascot object 
 #'
-#' @author Bernd Roschitzki, 2017
+#' @author Bernd Roschitzki, 2017,
 #' @return a data.frame
 #' @export
 #'
@@ -41,9 +49,9 @@ as.data.frame.mascot <- function(x, ...){
   # %in%
   # shiny cut-off score
   # reformat charge into integer
-  data.frame(RTINSECONDS = as.numeric(.get_(x, attribute = "RTINSECONDS")), 
-             moverz = as.numeric(.get_(x, attribute = "query_moverz")), 
-             query_charge = .get_(x, attribute = 'query_charge'),
+  data.frame(RTINSECONDS = .get_(x, attribute = "RTINSECONDS"), 
+             moverz = .get_(x, attribute = "query_moverz"), 
+             query_charge = .get_(x, attribute = 'query_charge', FUN=as.character),
              SCANS = .get_(x, attribute = 'SCANS'),
              TotalIonsIntensity = as.numeric(.get_(x, attribute = 'TotalIonsIntensity')),
              pep_exp_mz = .get_q_peptide(x, attribute = 'pep_exp_mz'),
