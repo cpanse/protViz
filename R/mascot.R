@@ -278,14 +278,29 @@ plot.mascot_query <- function(x, obj = NULL, FUN=defaultIon, ...){
 #' @param filename 
 #' @param FUN 
 #'
+#' @description 
+#' BEGIN IONS
+#' TITLE=20051201_01.100.100.2.dta
+#' CHARGE=2+
+#' PEPMASS=413.7629680175
+#' 
 #' @return
 #' @export
 #'
 #' @examples
-.peptide2mgf <- function(x, filename, FUN=defaultIon){
+.peptide2mgf <- function(x, file = "/dev/stdout" , FUN = defaultIon){
   fi <- fragmentIon(x, FUN=FUN)
   mZ <- as.vector(unlist(fi[[1]]))
-  intensity <- rnorm(mean=1000, length(mZ))
+  intensity <- rexp(n = length(mZ), rate = 0.001)
+  idx <- order(mZ)
+  
+  cat("BEGIN IONS",sep = "\n", file=file, append = TRUE)
+  cat(paste("TITLE", paste("in-silico MS2 spec of", x), sep='='), sep = "\n", file = file, append = TRUE)
+  cat(paste("PEPMASS", parentIonMass(x), sep='='), sep = "\n", file = file, append = TRUE)
+  cat(paste("CHARGE", "1+", sep='='), sep = "\n", file=file, append = TRUE)
+  cat(paste("RTINSECONDS", ssrc(x) * 3600, sep='='), file=file, append = TRUE)
+  cat(paste(mZ[idx], intensity[idx], sep=" "), sep = "\n", file = file, append = TRUE)
+  cat("END IONS", sep = "\n\n", file = file, append = TRUE)
 }
 
 
