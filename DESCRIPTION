@@ -1,7 +1,7 @@
 Package: protViz
 Type: Package
 Title: Visualizing and Analyzing Mass Spectrometry Related Data in Proteomics
-Version: 0.2.40
+Version: 0.2.42
 Authors@R: c(person("Christian", "Panse", email = "cp@fgcz.ethz.ch", role = c("aut", "cre"), 
         comment = c(ORCID = "0000-0003-1975-3064")),
 	person("Jonas", "Grossmann", email = "jg@fgcz.ethz.ch", role = "aut",
@@ -27,8 +27,9 @@ License: GPL-3
 URL: https://github.com/protViz/protViz/
 BugReports: https://github.com/protViz/protViz/issues
 Collate: aa2mass.R 
-  deisotoper.R 
+  deisotoper.R
   de_novo.R 
+  fasta.R      
   findNN_.R 
   findNN.R
   fragmentIon.R 
