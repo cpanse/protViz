@@ -47,18 +47,10 @@ summary.FASTA <- function(x, revpattern = "^>REV.*", conpattern = "^>.*FGCZCont.
   
 }
   
+
 fcat.FASTA <- function(x){
-    n <- sum(grepl("^>", x))
-    #out <- .C("fcat",
-    #          n = n,
-    #          m = length(x),
-    ##          fasta = x,
-    #          rv = as.character(rep("", n)),
-    #          PACKAGE = "protViz")
-  #  
-  #  return (out$rv)
-NULL
-    }
+  .Call("fcatCpp", x, PACKAGE = "protViz")
+}
 
 tryptic_digest.FASTA <- function(x){
   
