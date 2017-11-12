@@ -49,7 +49,7 @@ summary.FASTA <- function(x, revpattern = "^>REV.*", conpattern = "^>.*FGCZCont.
   
 
 fcat.FASTA <- function(x){
-  .Call("fcatCpp", x, PACKAGE = "protViz")
+ # .Call("fcatCpp", x, PACKAGE = "protViz")
 }
 
 tryptic_digest.FASTA <- function(x){

@@ -7,10 +7,10 @@
 
 using namespace Rcpp;
 
-namespace protViz{
+
 // [[Rcpp::export]]
-std::vector<std::string> fcatCpp(const std::vector<std::string>& fasta) {
-    std::vector<std::string> rv;
+StringVector fcat(const StringVector& fasta) {
+  StringVector rv;
     std::string aa_seq = "";
 
     for (auto s : fasta) {
@@ -55,4 +55,4 @@ std::vector<std::string> trypticDigestCpp(const std::vector<std::string>& fasta)
 
     return rv;
 }
-}
+

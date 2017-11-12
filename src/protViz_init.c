@@ -3,15 +3,6 @@
 #include <stdlib.h> // for NULL
 #include <R_ext/Rdynload.h>
 
-/*
-The following symbols/expressions for .NAME have been omitted
-
-_protViz_fcatCpp
-_protViz_trypticDigestCpp
-
-Most likely possible values need to be added below.
-*/
-
 /* FIXME: 
 Check these declarations against the C/Fortran source code.
 */
@@ -26,9 +17,10 @@ extern void computeParentIonMass(void *, void *, void *);
 extern void computeParentIonMass2(void *, void *, void *, void *, void *);
 
 /* .Call calls */
+extern SEXP _protViz_fcat(SEXP);
+extern SEXP _protViz_trypticDigestCpp(SEXP);
 extern SEXP aa2mass_main(SEXP, SEXP, SEXP);
 extern SEXP deisotoper_main(SEXP, SEXP, SEXP, SEXP, SEXP);
-extern SEXP fcatCpp(SEXP);
 
 static const R_CMethodDef CEntries[] = {
   {"__findNN",                        (DL_FUNC) &__findNN,                        5},
@@ -42,9 +34,10 @@ static const R_CMethodDef CEntries[] = {
 };
 
 static const R_CallMethodDef CallEntries[] = {
-  {"aa2mass_main",    (DL_FUNC) &aa2mass_main,    3},
-  {"deisotoper_main", (DL_FUNC) &deisotoper_main, 5},
-  {"fcatCpp",         (DL_FUNC) &fcatCpp,         1},
+  {"_protViz_fcat",             (DL_FUNC) &_protViz_fcat,             1},
+  {"_protViz_trypticDigestCpp", (DL_FUNC) &_protViz_trypticDigestCpp, 1},
+  {"aa2mass_main",              (DL_FUNC) &aa2mass_main,              3},
+  {"deisotoper_main",           (DL_FUNC) &deisotoper_main,           5},
   {NULL, NULL, 0}
 };
 

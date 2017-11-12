@@ -44,7 +44,7 @@
 
  */
 
-int fcat()
+int __fcat__()
 {
 
     int i;
@@ -67,5 +67,5 @@ int fcat()
 
 
 int main(int argc, char *argv[]) { 
-return (fcat());
+return (__fcat__());
 }
