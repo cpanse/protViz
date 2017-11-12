@@ -51,3 +51,4 @@ Collate: aa2mass.R
 LazyData: true
 NeedsCompilation: yes
 Repository: CRAN
+SystemRequirements: C++11

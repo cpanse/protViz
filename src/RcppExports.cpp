@@ -5,25 +5,14 @@
 
 using namespace Rcpp;
 
-// fcat
-StringVector fcat(const StringVector& fasta);
-RcppExport SEXP _protViz_fcat(SEXP fastaSEXP) {
+// fastacat
+StringVector fastacat(const StringVector& fasta);
+RcppExport SEXP _protViz_fastacat(SEXP fastaSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< const StringVector& >::type fasta(fastaSEXP);
-    rcpp_result_gen = Rcpp::wrap(fcat(fasta));
-    return rcpp_result_gen;
-END_RCPP
-}
-// trypticDigestCpp
-std::vector<std::string> trypticDigestCpp(const std::vector<std::string>& fasta);
-RcppExport SEXP _protViz_trypticDigestCpp(SEXP fastaSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< const std::vector<std::string>& >::type fasta(fastaSEXP);
-    rcpp_result_gen = Rcpp::wrap(trypticDigestCpp(fasta));
+    rcpp_result_gen = Rcpp::wrap(fastacat(fasta));
     return rcpp_result_gen;
 END_RCPP
 }
