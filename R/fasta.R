@@ -43,15 +43,5 @@ summary.FASTA <- function(x, revpattern = "^>REV.*", conpattern = "^>.*FGCZCont.
   cat("number of REVs:", nrev, sep="\t", "\n")
   cat("number of CONs:", nrev, sep="\t", "\n")
   cat("number of AAs:", nAA, sep="\t", "\n")
-  
-  
-}
-  
-
-fcat.FASTA <- function(x){
- # .Call("fcatCpp", x, PACKAGE = "protViz")
-}
-
-tryptic_digest.FASTA <- function(x){
-  
+  cat("object.size:", object.size(x), sep="\t", "\n")
 }
