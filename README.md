@@ -29,6 +29,15 @@ install_git('https://github.com/protViz/protViz', build_vignettes = TRUE, quiet 
 library(protViz)
 ```
 
+
+### R CMD build hints
+
+
+```{r}
+Rcpp::compileAttribuRtes()
+tools::package_native_routine_registration_skeleton(".", character_only = FALSE)
+```
+
 ### Docker
 
 ```

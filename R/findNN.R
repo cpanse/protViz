@@ -12,8 +12,7 @@ findNN<-function(q, vec, check=FALSE) {
     if (check){ if ( is.unsorted(vec)){
         return (list(error="vec is not sorted"))
     }}
-
-
+  
     out <- .C("__findNN",
         m=as.integer(length(q)),
         n=as.integer(length(vec)),
@@ -23,4 +22,5 @@ findNN<-function(q, vec, check=FALSE) {
         PACKAGE = "protViz")
 
     return (out$NN + 1)
+    
 }

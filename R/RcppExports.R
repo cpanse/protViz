@@ -9,3 +9,7 @@ tryptic_digest.FASTA <- function(fasta) {
     .Call(`_protViz_tryptic_digest_FASTA`, fasta)
 }
 
+findNN_ <- function(q, vec, check = FALSE) {
+    .Call(`_protViz_findNN_`, q, vec, check)
+}
+

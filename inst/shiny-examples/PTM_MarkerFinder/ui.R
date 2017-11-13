@@ -33,7 +33,10 @@ shinyUI(fluidPage(
         # Show a plot of the generated distribution
           mainPanel(
             tabsetPanel(
-              tabPanel("bfabric", {bfabricInput("bfabric8"), htmlOutput("load")}),
+              tabPanel("bfabric", {
+                list(bfabricInput("bfabric8"), 
+                htmlOutput("load"))
+                }),
               tabPanel("boxplot", plotOutput("PTM_MarkerFinder"))) 
 	  #p('please wait some seconds until the data are processed...'),
      #      plotOutput("PTM_MarkerFinder", height = "700px")

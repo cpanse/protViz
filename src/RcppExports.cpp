@@ -27,3 +27,16 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// findNN_
+IntegerVector findNN_(const NumericVector& q, const NumericVector& vec, bool check);
+RcppExport SEXP _protViz_findNN_(SEXP qSEXP, SEXP vecSEXP, SEXP checkSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< const NumericVector& >::type q(qSEXP);
+    Rcpp::traits::input_parameter< const NumericVector& >::type vec(vecSEXP);
+    Rcpp::traits::input_parameter< bool >::type check(checkSEXP);
+    rcpp_result_gen = Rcpp::wrap(findNN_(q, vec, check));
+    return rcpp_result_gen;
+END_RCPP
+}

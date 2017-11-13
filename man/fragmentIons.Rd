@@ -148,4 +148,21 @@ fi <- fragmentIon(c("ATSFYK","XGXFNAGVGK"))[[2]]
 fi$b[1] + fi$y[9]
 fi$b[2] + fi$y[8]
 
+
+ION2C <- function(b, y){
+    Hydrogen <- 1.007825
+    Oxygen <- 15.994915
+    Nitrogen <- 14.003074
+
+    #yo <- fi$y - Oxygen - Hydrogen - Hydrogen
+    c <- b + (Nitrogen + (3 * Hydrogen))
+    z <- y - (Nitrogen + (3 * Hydrogen))
+    
+    b2 <- (b + Hydrogen) / 2
+    y2 <- (y + Hydrogen) / 2
+
+    return(cbind(b, y, b2 ,y2))
+}
+
+
 }

@@ -70,7 +70,7 @@ data(iTRAQ)
 barchart(pl<-unique(iTRAQ[,1:2]),
     main="package:protViz - data(iTRAQ) / Overview" ,
     col='grey',
-    xlab='number of unique peptides',
+    xlab='number of unique peptides'
 )
 
 par(mfrow=c(4,4),mar=c(5,5,5,5));

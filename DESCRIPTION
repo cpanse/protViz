@@ -30,7 +30,6 @@ Collate: aa2mass.R
   deisotoper.R
   de_novo.R 
   fasta.R      
-  findNN_.R 
   findNN.R
   fragmentIon.R 
   genMod.R 

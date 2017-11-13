@@ -30,16 +30,10 @@ psm <- function(sequence, spec, FUN = defaultIon,
         by.label <- c(by.label, paste(fi.names[i],1:n,sep=''))
     }
 
-
-    out <- .C("__findNN_",
-        nbyion=as.integer(length(by.mZ)),
-        nmZ=as.integer(length(spec$mZ)),
-        byion=as.double(by.mZ),
-        mZ=as.double(spec$mZ),
-        NN=as.integer(rep(-1, length(by.mZ))))
+    NN <- findNN_(byion, mZ)
 
 
-    mZ.error<-spec$mZ[out$NN+1] - by.mZ
+    mZ.error<-spec$mZ[NN] - by.mZ
 
     if (plot == TRUE){
         plot(mZ.error[mZ.error.idx<-order(mZ.error)],
@@ -75,7 +69,7 @@ psm <- function(sequence, spec, FUN = defaultIon,
 
     return (list(mZ.Da.error=mZ.error, 
         mZ.ppm.error=1E+6*mZ.error/by.mZ,
-        idx=out$NN+1,
+        idx=NN,
         label=by.label, 
         score=-1, 
         sequence=sequence,

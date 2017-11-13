@@ -63,7 +63,7 @@ deisotoper <- function(data,
                     ylim=c(0, max(x$intensity[min(idx):max(idx)])),
                     xlab="mZ", 
                     main=paste("mass=", x$mZ[min(idx)],sep=''),
-                    ylab="intensity", 
+                    ylab="intensity"
                 )
 
                 text(xx,yy,xx,pos=4,cex=0.75)
