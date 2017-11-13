@@ -17,9 +17,11 @@ importFrom("stats", "aov", "cor", "dist", "dnorm", "quantile",
              "reshape", "sd", "t.test")
 
 importFrom("utils", "combn", "packageVersion", "read.table",
-             "write.table")
+             "write.table", "object.size")
 
-importFrom("utils", "packageVersion")
+
+importFrom("stats", "rexp")
+
 
 export("aa2mass")
 export("defaultIon")
@@ -75,9 +77,10 @@ S3method(findMz, mascot)
 S3method(as.psmSet, mascot)
 export("plot.mascot", "plot.mascot_query", "summary.mascot",
        "as.data.frame.mascot", "is.mascot", "is.mascot_query",
-       "findMz.mascot")
+       "findMz.mascot", "as.psm.mascot_query")
 
 
+#exportClasses(FASTA)
 S3method(is, FASTA)
 S3method(as, FASTA)
 S3method(summary, FASTA)

@@ -48,14 +48,10 @@ Christian Panse <cp@fgcz.ethz.ch> 2006-2017
 %% ~~objects to See Also as \code{\link{help}}, ~~~
 }
 \examples{
-##---- Should be DIRECTLY executable !! ----
-##-- ==>  Define data, use random,
-##--	or do  help(data=index)  for the standard data sets.
-
-## The function is currently defined as
-function (x) 
-{
-  }
+\dontrun{
+ F <- read.FASTA("~/p1875_db10_20170817.fasta")
+ summary(F)
+}
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the
 % R documentation directory.

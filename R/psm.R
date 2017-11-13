@@ -30,7 +30,7 @@ psm <- function(sequence, spec, FUN = defaultIon,
         by.label <- c(by.label, paste(fi.names[i],1:n,sep=''))
     }
 
-    NN <- findNN_(byion, mZ)
+    NN <- findNN_(q=by.mZ, vec=spec$mZ)
 
 
     mZ.error<-spec$mZ[NN] - by.mZ
