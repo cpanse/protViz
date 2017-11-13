@@ -5,8 +5,8 @@
 \alias{summary.FASTA}
 \alias{fcat.FASTA}
 \alias{tryptic_digest.FASTA}
+\alias{read.FASTA}
 
-%- Also NEED an '\alias' for EACH other topic documented here.
 \title{
 FASTA 
 }
@@ -23,30 +23,22 @@ FASTA(x)
 }
 }
 \details{
-%%  ~~ If necessary, more details than the description above ~~
+Implements FASTA object S3 methods.
 }
 \value{
-%%  ~Describe the value returned
-%%  If it is a LIST, use
-%%  \item{comp1 }{Description of 'comp1'}
-%%  \item{comp2 }{Description of 'comp2'}
-%% ...
+returns a data.frame or a S3 FASTA object.
 }
 \references{
-%% ~put references to the literature/web site here ~
+\url{https://en.wikipedia.org/wiki/FASTA}
 }
 \author{
 Christian Panse <cp@fgcz.ethz.ch> 2006-2017
 }
-\note{
-%%  ~~further notes~~
-}
+
 
 %% ~Make other sections like Warning with \section{Warning }{....} ~
 
-\seealso{
-%% ~~objects to See Also as \code{\link{help}}, ~~~
-}
+
 \examples{
 \dontrun{
  F <- read.FASTA("~/p1875_db10_20170817.fasta")
@@ -55,5 +47,5 @@ Christian Panse <cp@fgcz.ethz.ch> 2006-2017
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the
 % R documentation directory.
-\keyword{ ~kwd1 }% use one of  RShowDoc("KEYWORDS")
-\keyword{ ~kwd2 }% __ONLY ONE__ keyword per line
+\keyword{FASTA}% use one of  RShowDoc("KEYWORDS")
+\keyword{AA}% __ONLY ONE__ keyword per line

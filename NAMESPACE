@@ -80,12 +80,11 @@ export("plot.mascot", "plot.mascot_query", "summary.mascot",
        "findMz.mascot", "as.psm.mascot_query")
 
 
-#exportClasses(FASTA)
 S3method(is, FASTA)
 S3method(as, FASTA)
 S3method(summary, FASTA)
-#S3method(fcat, FASTA)
-#S3method(tryptic_digest, FASTA)
+S3method(fcat, FASTA)
+S3method(tryptic_digest, FASTA)
 
 export("is.FASTA", "as.FASTA", "summary.FASTA", "read.FASTA",
        "fcat.FASTA", "tryptic_digest.FASTA")

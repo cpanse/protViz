@@ -9,7 +9,7 @@
 \alias{as.data.frame.mascot}
 \alias{summary.mascot}
 
-
+\alias{as.psm.mascot_query}
 
 \title{
   Generic methods for mascot results

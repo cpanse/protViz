@@ -33,7 +33,8 @@ read.FASTA <- function(filename){
 }
 
 
-summary.FASTA <- function(x, revpattern = "^>REV.*", conpattern = "^>.*FGCZCont.*"){
+summary.FASTA <- function(object, revpattern = "^>REV.*", conpattern = "^>.*FGCZCont.*", ...){
+  x<-object
   n <- sum(grepl("^>", x))
   nrev <- sum(grepl(revpattern, x))
   nAA <- sum(nchar(x[grepl("^[WFLIMVYATPEDCSQGNRHK]+$", x)]))
@@ -44,4 +45,21 @@ summary.FASTA <- function(x, revpattern = "^>REV.*", conpattern = "^>.*FGCZCont.
   cat("number of CONs:", nrev, sep="\t", "\n")
   cat("number of AAs:", nAA, sep="\t", "\n")
   cat("object.size:", object.size(x), sep="\t", "\n")
+}
+
+# just define a generic S3 method
+tryptic_digest <- function(object, ...){
+  UseMethod("tryptic_digest")
+}
+
+fcat <- function(object, ...){
+  UseMethod("fcat")
+}
+
+fcat.FASTA <- function(fasta) {
+  fcat_FASTA(fasta)
+}
+
+tryptic_digest.FASTA <- function(fasta) {
+  tryptic_digest_FASTA(fcat_FASTA(fasta))
 }
