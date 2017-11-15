@@ -1,4 +1,7 @@
-useDynLib(protViz, .registration = TRUE)
+export(Fasta)
+
+# useDynLib(protViz, .registration = TRUE)
+useDynLib(protViz)
 
 import("methods")
 import("Rcpp")

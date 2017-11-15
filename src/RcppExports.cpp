@@ -27,6 +27,17 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// number_of_tryptic_peptides_FASTA
+int number_of_tryptic_peptides_FASTA(const StringVector& fasta0);
+RcppExport SEXP _protViz_number_of_tryptic_peptides_FASTA(SEXP fasta0SEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< const StringVector& >::type fasta0(fasta0SEXP);
+    rcpp_result_gen = Rcpp::wrap(number_of_tryptic_peptides_FASTA(fasta0));
+    return rcpp_result_gen;
+END_RCPP
+}
 // findNN_
 IntegerVector findNN_(const NumericVector& q, const NumericVector& vec, bool check);
 RcppExport SEXP _protViz_findNN_(SEXP qSEXP, SEXP vecSEXP, SEXP checkSEXP) {

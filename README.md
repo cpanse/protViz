@@ -34,7 +34,8 @@ library(protViz)
 
 
 ```{r}
-Rcpp::compileAttribuRtes()
+Rcpp::compileAttributes()
+
 tools::package_native_routine_registration_skeleton(".", character_only = FALSE)
 ```
 

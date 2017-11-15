@@ -34,17 +34,21 @@ read.FASTA <- function(filename){
 
 
 summary.FASTA <- function(object, revpattern = "^>REV.*", conpattern = "^>.*FGCZCont.*", ...){
-  x<-object
-  n <- sum(grepl("^>", x))
-  nrev <- sum(grepl(revpattern, x))
-  nAA <- sum(nchar(x[grepl("^[WFLIMVYATPEDCSQGNRHK]+$", x)]))
   
-  cat("filename:", attr(x, "filename"), sep="\t", "\n")
-  cat("number of IDs:", n, sep="\t", "\n")
-  cat("number of REVs:", nrev, sep="\t", "\n")
-  cat("number of CONs:", nrev, sep="\t", "\n")
-  cat("number of AAs:", nAA, sep="\t", "\n")
-  cat("object.size:", object.size(x), sep="\t", "\n")
+  n <- sum(grepl("^>", object))
+  nrev <- sum(grepl(revpattern, object))
+  ncon <- sum(grepl(conpattern, object))
+  nAA <- sum(nchar(object[grepl("^[WFLIMVYATPEDCSQGNRHK]+$", object)]))
+  
+  
+  list("filename" = attr(object, "filename"),
+       "number_of_IDs" = n,
+       "number_of_REVs" = nrev,
+       "number_of_Contaminats" = ncon,
+       "number_of_AAs" = nAA,
+       "number_of_tryptics_peptides" = number_of_tryptic_peptides_FASTA(object),
+       "object_size" = object.size(object)
+       )
 }
 
 # just define a generic S3 method
