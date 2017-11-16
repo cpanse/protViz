@@ -12,7 +12,6 @@ Author: Christian Panse [aut, cre] (0000-0003-1975-3064),
 	Simon Barkow-Oesterreicher [ctb]
 Maintainer: Christian Panse <cp@fgcz.ethz.ch>
 Depends: R (>= 3.3),
-  Rcpp (>= 0.12.8), 
 	methods
 Imports: Rcpp (>= 0.12.8)
 LinkingTo: Rcpp
