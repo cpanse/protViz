@@ -1,5 +1,6 @@
 \name{FASTA}
 \alias{FASTA}
+\alias{Fasta}
 \alias{is.FASTA}
 \alias{as.FASTA}
 \alias{summary.FASTA}

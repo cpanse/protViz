@@ -1,5 +1,5 @@
 // Christian Panse <cp@fgcz.ethz.ch>
-// 20171114 CNL470 ZH -> HAL 
+// 20171114 CNL470 ZH -> HAL ; 20171115 ICE77 F -> ZH
 
 
 #include <numeric>

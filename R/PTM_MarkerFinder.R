@@ -55,7 +55,7 @@
     minMarkerIntensityRatio=5){
 
     lapply(data, function(x){
-            idx<-findNN(mZmarkerIons, x$mZ)
+            idx <- findNN_(mZmarkerIons, x$mZ)
              ppm.error <- 1e-06 * itol_ppm * x$mZ[idx]
              b<-(abs(mZmarkerIons-x$mZ[idx]) < ppm.error)
 
@@ -159,7 +159,7 @@ PTM_MarkerFinder <- function(data,
 
     for (i in 2:length(data)){
 
-        idx <- findNN(mZmarkerIons, data[[i]]$mZ)
+        idx <- findNN_(mZmarkerIons, data[[i]]$mZ)
 
 # ppm.itol.cutoff
         ppm.error <- 1e-06 * itol_ppm * data[[i]]$mZ[idx]

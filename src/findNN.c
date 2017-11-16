@@ -89,6 +89,8 @@ double distd (const void *arg_a, const void *arg_b) {
     return (double) (*b - *a);
 }
 
+
+
 void __findNN (int *m_, int *n_, double *q_,  double *vec_, int *NN_)
 {
     int i;
