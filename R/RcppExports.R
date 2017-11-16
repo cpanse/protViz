@@ -2,6 +2,6 @@
 # Generator token: 10BE3573-1514-4C36-9D1C-5A225CD40393
 
 findNN_ <- function(q, vec, check = FALSE) {
-    .Call('_protViz_findNN_', PACKAGE = 'protViz', q, vec, check)
+    .Call(`_protViz_findNN_`, q, vec, check)
 }
 
