@@ -24,8 +24,32 @@ public:
   }
   
   int getNumberOfTrypticPeptides(){
-    computeTrypticPeptides();
-    return(Tryptic_.size());
+    
+    if (Tryptic_.size() > 0) {
+      return (Tryptic_.size());}
+   
+    int n = 0;
+    char aa0 = '\0';
+    std::string digest = "";
+    
+    for (auto sequence : Seq_) {
+      for (auto aa1 : sequence) {
+        
+        if (aa0 != '\0') {
+          digest += aa0;
+        }
+        
+        if ((aa1 != 'P' && aa0 == 'R') || aa0 == 'K') {
+          if (digest != ""){
+            //Tryptic_.push_back(digest);
+            n++;
+            digest = "";
+          }
+        }
+        aa0 = aa1;
+      }
+    }
+    return(n);
   }
   
   int getNumberOfAminoAcids() {
@@ -50,7 +74,8 @@ public:
     return List::create(Named("filename") = filename_,
                         Named("number of amino acids") = getNumberOfAminoAcids(),
                         Named("number of proteins") = getNumberOfDescriptions(),
-                        Named("number of tryptic peptides") = getNumberOfTrypticPeptides());
+                        Named("number of tryptic peptides") = getNumberOfTrypticPeptides()
+                        );
   }
   
 private:
