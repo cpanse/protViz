@@ -51,19 +51,3 @@ summary.FASTA <- function(object, revpattern = "^>REV.*", conpattern = "^>.*FGCZ
        )
 }
 
-# just define a generic S3 method
-tryptic_digest <- function(object, ...){
-  UseMethod("tryptic_digest")
-}
-
-fcat <- function(object, ...){
-  UseMethod("fcat")
-}
-
-fcat.FASTA <- function(fasta) {
-  fcat_FASTA(fasta)
-}
-
-tryptic_digest.FASTA <- function(fasta) {
-  tryptic_digest_FASTA(fcat_FASTA(fasta))
-}

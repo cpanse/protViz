@@ -9,4 +9,4 @@
   }
 }
 
-loadModule("mod_fasta", TRUE)
+loadModule("FastaMod", TRUE)

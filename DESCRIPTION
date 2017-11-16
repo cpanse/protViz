@@ -16,7 +16,7 @@ Depends: R (>= 3.3),
 	methods
 Imports: Rcpp (>= 0.12.8)
 LinkingTo: Rcpp
-RcppModules: mod_fasta
+RcppModules: FastaMod 
 Suggests: lattice,
 	RUnit,
 	xtable
