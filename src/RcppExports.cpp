@@ -18,3 +18,32 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+
+RcppExport void __findNN(void *, void *, void *, void *, void *);
+RcppExport void _computeFragmentIons(void *, void *, void *, void *);
+RcppExport void computeFragmentIons(void *, void *, void *, void *, void *);
+RcppExport void computeFragmentIonsModification(void *, void *, void *, void *, void *, void *, void *);
+RcppExport void computeParentIonMass(void *, void *, void *);
+RcppExport void computeParentIonMass2(void *, void *, void *, void *, void *);
+RcppExport SEXP aa2mass_main(SEXP, SEXP, SEXP);
+RcppExport SEXP deisotoper_main(SEXP, SEXP, SEXP, SEXP, SEXP);
+RcppExport SEXP _rcpp_module_boot_FastaMod();
+
+static const R_CallMethodDef CallEntries[] = {
+    {"_protViz_findNN_", (DL_FUNC) &_protViz_findNN_, 3},
+    {"_rcpp_module_boot_FastaMod", (DL_FUNC) &_rcpp_module_boot_FastaMod, 0},
+    {"__findNN",                        (DL_FUNC) &__findNN,                        5},
+    {"_computeFragmentIons",            (DL_FUNC) &_computeFragmentIons,            4},
+    {"computeFragmentIons",             (DL_FUNC) &computeFragmentIons,             5},
+    {"computeFragmentIonsModification", (DL_FUNC) &computeFragmentIonsModification, 7},
+    {"computeParentIonMass",            (DL_FUNC) &computeParentIonMass,            3},
+    {"computeParentIonMass2",           (DL_FUNC) &computeParentIonMass2,           5},
+    {"aa2mass_main",     (DL_FUNC) &aa2mass_main,     3},
+    {"deisotoper_main",  (DL_FUNC) &deisotoper_main,  5},
+    {NULL, NULL, 0}
+};
+
+RcppExport void R_init_protViz(DllInfo *dll) {
+    R_registerRoutines(dll, NULL, CallEntries, NULL, NULL);
+    R_useDynamicSymbols(dll, FALSE);
+}
