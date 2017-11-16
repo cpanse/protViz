@@ -18,30 +18,48 @@ public:
     read();
   }
   
-  /*
   StringVector getTrypticPeptides(){
     computeTrypticPeptides();
     return(Tryptic_);
   }
-  */
+  
   int getNumberOfTrypticPeptides(){
     computeTrypticPeptides();
     return(Tryptic_.size());
   }
   
-  int getDesc() {
+  int getNumberOfAminoAcids() {
+    int sumAA = 0;
+    
+    for (auto a : Seq_)
+      sumAA += a.size();
+      
+      return sumAA;
+  }
+  int getNumberOfDescriptions() {
     return Desc_.size(); }
-  int getSeq() {
+  
+  int getNumberOfSequences() {
     return Seq_.size(); }
+  
   void addValue(int y) { x_ += y; }
+  
   void merge(const Fasta& rhs) { x_ += rhs.x_; }
+  
+  List summary(){
+    return List::create(Named("filename") = filename_,
+                        Named("number of amino acids") = getNumberOfAminoAcids(),
+                        Named("number of proteins") = getNumberOfDescriptions(),
+                        Named("number of tryptic peptides") = getNumberOfTrypticPeptides());
+  }
   
 private:
   int x_;
   std::string filename_;
   std::vector<std::string> Desc_;
   std::vector<std::string> Seq_;
-  std::vector<std::string> Tryptic_;
+  //std::vector<std::string> Tryptic_;
+  StringVector Tryptic_;
   
   void computeTrypticPeptides() {
     if (Tryptic_.size() > 0) return;
@@ -106,13 +124,16 @@ RCPP_MODULE(FastaMod) {
   
   class_<Fasta>("Fasta")
   .default_constructor("Default constructor") // This exposes the default constructor
-  .constructor<std::string>("sets initial value")
-  .method("getDesc", &Fasta::getDesc, "Returns the value")
-  .method("getSeq", &Fasta::getSeq, "Returns the value")
+  .constructor<std::string>("FASTA filename")
+  .method("getNumberOfDescriptions", &Fasta::getNumberOfDescriptions, "Returns the value")
+  .method("getNumberOfSequences", &Fasta::getNumberOfSequences, "Returns the value")
   .method("getNumberOfTrypticPeptides", &Fasta::getNumberOfTrypticPeptides, "Returns the value")
-  .method("addValue", &Fasta::addValue, "Adds a value")
-  .method("merge", &Fasta::merge, "Merges another Test into this object")
+  .method("getNumberOfAminoAcids", &Fasta::getNumberOfAminoAcids, "Returns the value")
+ // .method("addValue", &Fasta::addValue, "Adds a value")
+  //.method("merge", &Fasta::merge, "Merges another Test into this object")
+  .method("getTrypticPeptides", &Fasta::getTrypticPeptides, "Returns tryptic peptides.")
+  .method("summary", &Fasta::summary, "computes a summary of the FASTA object.")
   ;
 }
 
-// .method("getTrypticPeptides", &Fasta::getTrypticPeptides, "Returns the value")
+

@@ -1,4 +1,4 @@
-\name{FASTA}
+\name{Fasta}
 \alias{FASTA}
 \alias{Fasta}
 \alias{is.FASTA}
