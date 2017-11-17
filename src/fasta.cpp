@@ -22,7 +22,9 @@ public:
     computeTrypticPeptides();
     return(Tryptic_);
   }
-  
+  StringVector getSequences() {
+    return(Seq_);
+  }
   int getNumberOfTrypticPeptides(){
     
     if (Tryptic_.size() > 0) {
@@ -81,8 +83,8 @@ public:
 private:
   int x_;
   std::string filename_;
-  std::vector<std::string> Desc_;
-  std::vector<std::string> Seq_;
+  StringVector Desc_;
+  StringVector Seq_;
   //std::vector<std::string> Tryptic_;
   StringVector Tryptic_;
   
@@ -90,9 +92,10 @@ private:
     if (Tryptic_.size() > 0) return;
     // int n = 0;
     char aa0 = '\0';
-    std::string digest = "";
+    std::string digest;
     
     for (auto sequence : Seq_) {
+      digest = "";
       for (auto aa1 : sequence) {
         
         if (aa0 != '\0') {
@@ -107,13 +110,17 @@ private:
         }
         aa0 = aa1;
       }
+      // this is the end of the seq
+      if (aa0 != '\0'){
+        digest += aa0;
+      }
+      Tryptic_.push_back(digest);
     }
+   
   }
   
   
   void read(){
-    //filename_ = "/Users/cp/p1875_db10_20170817.fasta";
-    
     std::string line;
     std::ifstream myfile (filename_);
     std::string s = "";
@@ -145,15 +152,14 @@ private:
 
 // Expose the classes
 RCPP_MODULE(FastaMod) {
-  //using namespace Rcpp;
-  
   class_<Fasta>("Fasta")
   .default_constructor("Default constructor") // This exposes the default constructor
   .constructor<std::string>("FASTA filename")
-  .method("getNumberOfDescriptions", &Fasta::getNumberOfDescriptions, "Returns the value")
-  .method("getNumberOfSequences", &Fasta::getNumberOfSequences, "Returns the value")
-  .method("getNumberOfTrypticPeptides", &Fasta::getNumberOfTrypticPeptides, "Returns the value")
-  .method("getNumberOfAminoAcids", &Fasta::getNumberOfAminoAcids, "Returns the value")
+  .method("getNumberOfDescriptions", &Fasta::getNumberOfDescriptions, "Returns the value.")
+  .method("getNumberOfSequences", &Fasta::getNumberOfSequences, "Returns the value.")
+  .method("getNumberOfTrypticPeptides", &Fasta::getNumberOfTrypticPeptides, "Returns the number of tryptic peptides.")
+  .method("getNumberOfAminoAcids", &Fasta::getNumberOfAminoAcids, "Returns the number of AAs")
+  .method("getSequences", &Fasta::getSequences, "Returns a vector of amino acid sequences.")
  // .method("addValue", &Fasta::addValue, "Adds a value")
   //.method("merge", &Fasta::merge, "Merges another Test into this object")
   .method("getTrypticPeptides", &Fasta::getTrypticPeptides, "Returns tryptic peptides.")

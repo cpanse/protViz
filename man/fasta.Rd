@@ -26,7 +26,8 @@ Fasta
 }
 
 \examples{
-  fname <- system.file("extdata", name='sample.fasta', package = "protViz")
+# >sp|P12763|FETUA_BOVIN Alpha-2-HS-glycoprotein OS=Bos taurus
+  fname <- system.file("extdata", name='P12763.fasta', package = "protViz")
   F <- Fasta$new(fname)
   F
   F$summary()

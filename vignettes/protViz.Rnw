@@ -69,55 +69,33 @@ Some of them are listed here:
 \end{itemize}
 
 \section{Get Data In -- Preprocessing}
-The most time consuming and challenging part for data analysis and visualization is shaping the data the way that they can easily further processed. In this package, we intentionally left this part away because it is very infrastructure dependent. Moreover, we use also commercial tools to analyze data and export the data into R accessible formats. We provide a different kind of importers if these formats are available, but with little effort, one can bring other exports in a similar format which will make it easy to use our package for a variety of tools.
+The most time consuming and challenging part of data analysis and visualization is shaping the data the way that they can easily further process. In this package, we intentionally left this part away because it is very infrastructure dependent. Moreover, we use also commercial tools to analyze data and export the data into R accessible formats. We provide a different kind of importers if these formats are available, but with little effort, one can bring other exports in a similar format which will make it easy to use our package for a variety of tools.
 
 \subsection{Identification - In-silico from Proteins to Peptides}
-For demonstration we use a sequence of peptides derived from a tryptics digest using the Swissprot \code{FETUA\_BOVIN Alpha-2-HS-glycoprotein precursor (Fetuin-A) (Asialofetuin)} protein.
+For demonstration, we use a sequence of peptides derived from a tryptic digest
+using the Swiss-Prot \code{FETUA\_BOVIN Alpha-2-HS-glycoprotein} protein (P12763).
 
-\code{fcat} and \code{tryptic-digest} are commandline programs which are included in the package.
-\code{fcat} removes the lines starting with \code{>} and all 'new line' character within the protein sequence while \code{tryptic-digest} is doing the triptic digest of a protein sequence applying the rule: cleave after arginine (R) and lysine (K) except followed by proline(P).
+\code{fcat} and \code{tryptic-digest} are commandline programs which are
+included in the package. \code{fcat} removes the lines starting with \code{>}
+and all 'new line' character within the protein sequence while
+\code{tryptic-digest} is doing the triptic digest of a protein sequence applying
+the rule: cleave after arginine (R) and lysine (K) except followed by proline(P).
 
-\begin{verbatim}
-$ cat Fetuin.fasta
-MKSFVLLFCLAQLWGCHSIPLDPVAGYKEPACDDPDTEQAALAAVDYINKHLPRGYKHTL
-NQIDSVKVWPRRPTGEVYDIEIDTLETTCHVLDPTPLANCSVRQQTQHAVEGDCDIHVLK
-QDGQFSVLFTKCDSSPDSAEDVRKLCPDCPLLAPLNDSRVVHAVEVALATFNAESNGSYL
-QLVEISRAQFVPLPVSVSVEFAVAATDCIAKEVVDPTKCNLLAEKQYGFCKGSVIQKALG
-GEDVRVTCTLFQTQPVIPQPQPDGAEAEAPSAVPDAAGPTPSAAGPPVASVVVGPSVVAV
-PLPLHRAHYDLRHTFSGVASVESSSGEAFHVGKTPIVGQPSIPGGPVRLCPGRIRYFKI
-\end{verbatim}
-%\code{cat Fetuin.fasta | fcat | tryptic-digest}
-\begin{verbatim}
-$ cat Fetuin.fasta | fcat | tryptic-digest
-MK
-SFVLLFCLAQLWGCHSIPLDPVAGYK
-EPACDDPDTEQAALAAVDYINK
-HLPR
-GYK
-HTLNQIDSVK
-VWPR
-RPTGEVYDIEIDTLETTCHVLDPTPLANCSVR
-QQTQHAVEGDCDIHVLK
-QDGQFSVLFTK
-CDSSPDSAEDVR
-K
-LCPDCPLLAPLNDSR
-VVHAVEVALATFNAESNGSYLQLVEISR
-AQFVPLPVSVSVEFAVAATDCIAK
-EVVDPTK
-CNLLAEK
-QYGFCK
-GSVIQK
-ALGGEDVR
-VTCTLFQTQPVIPQPQPDGAEAEAPSAVPDAAGPTPSAAGPPVASVVVGPSVVAVPLPLHR
-AHYDLR
-HTFSGVASVESSSGEAFHVGK
-TPIVGQPSIPGGPVR
-LCPGR
-IR
-YFK
-I
-\end{verbatim}
+Both programs can be used through the \code{Fasta} Rcpp module.
+<<>>=
+library(protViz)
+fname <- system.file("extdata", name='P12763.fasta', package = "protViz")
+F <- Fasta$new(fname)
+@
+
+print the first 60 characters of P12763.
+<<>>=
+substr(F$getSequences(), 1, 60)
+@
+
+<<>>=
+F$getTrypticPeptides()
+@
 
 
 \section{Peptide Identification}
@@ -126,7 +104,7 @@ In proteomics, proteins are digested to so-called peptides since peptides are mu
 
 \subsection{Computing the Parent Ion Mass}
 <<keep.source = TRUE, eval = TRUE, fig = TRUE>>=
-library(protViz)
+
 op<-par(mfrow=c(1,1))
 fetuin<-c('MK', 'SFVLLFCLAQLWGCHSIPLDPVAGYK',
 'EPACDDPDTEQAALAAVDYINK',

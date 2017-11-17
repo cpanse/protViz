@@ -2,9 +2,10 @@
 # Generator token: 10BE3573-1514-4C36-9D1C-5A225CD40393
 
 findNN_ <- function(q, vec, check = FALSE) {
-  .Call(`_protViz_findNN_`, q, vec, check)
+    .Call(`_protViz_findNN_`, q, vec, check)
 }
 
 lower_bound_ <- function(xq, xvec) {
-  .Call('_protViz_lower_bound__', xq, xvec)
+    .Call(`_protViz_lower_bound__`, xq, xvec)
 }
+
