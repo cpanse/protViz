@@ -31,7 +31,6 @@ BugReports: https://github.com/protViz/protViz/issues
 Collate: aa2mass.R 
   deisotoper.R
   de_novo.R 
-  fasta.R      
   findNN.R
   fragmentIon.R 
   genMod.R 
