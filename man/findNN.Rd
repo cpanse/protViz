@@ -3,6 +3,7 @@
 \alias{NN}
 \alias{findNN}
 \alias{findNN_}
+\alias{lower_bound_}
 
 \title{find index of nearest neighbor}
 

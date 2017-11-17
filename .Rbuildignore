@@ -1,0 +1,9 @@
+^.*\.Rproj$
+^\.Rproj\.user$
+.*jss.bst$
+.*jss.cls$
+.*Sweave.sty$
+.*.bbl$
+.*.blg$
+.*texput.log$
+.*graphics.protViz-.+pdf$

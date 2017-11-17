@@ -19,6 +19,20 @@ BEGIN_RCPP
 END_RCPP
 }
 
+// lower_bound__
+IntegerVector lower_bound__(const NumericVector xq, const NumericVector xvec);
+RcppExport SEXP _protViz_lower_bound__(SEXP xqSEXP, SEXP xvecSEXP) {
+  BEGIN_RCPP
+  Rcpp::RObject rcpp_result_gen;
+  Rcpp::RNGScope rcpp_rngScope_gen;
+  Rcpp::traits::input_parameter< const NumericVector >::type xq(xqSEXP);
+  Rcpp::traits::input_parameter< const NumericVector >::type xvec(xvecSEXP);
+  rcpp_result_gen = Rcpp::wrap(lower_bound__(xq, xvec));
+  return rcpp_result_gen;
+  END_RCPP
+}
+
+
 RcppExport void __findNN(void *, void *, void *, void *, void *);
 RcppExport void _computeFragmentIons(void *, void *, void *, void *);
 RcppExport void computeFragmentIons(void *, void *, void *, void *, void *);
@@ -42,6 +56,8 @@ static const R_CMethodDef CEntries[] = {
 static const R_CallMethodDef CallEntries[] = {
     {"_protViz_findNN_", (DL_FUNC) &_protViz_findNN_, 3},
     {"_rcpp_module_boot_FastaMod", (DL_FUNC) &_rcpp_module_boot_FastaMod, 0},
+    {"_protViz_lower_bound__", (DL_FUNC) &_protViz_lower_bound__, 2},
+    {"lower_bound__",         (DL_FUNC) &lower_bound__,         2},
 //    {"__findNN",                        (DL_FUNC) &__findNN,                        5},
 //    {"_computeFragmentIons",            (DL_FUNC) &_computeFragmentIons,            4},
 //    {"computeFragmentIons",             (DL_FUNC) &computeFragmentIons,             5},

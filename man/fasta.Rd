@@ -14,9 +14,6 @@ The support is limited for protein sequences.
 Fasta
 }
 
-\details{
-  
-}
 \value{
   returns a \code{list} or \code{vector}  objects.
 }

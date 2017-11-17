@@ -4,8 +4,6 @@
 \alias{is.psm}
 \alias{summary.psmSet}
 \alias{as.data.frame.psmSet}
-\alias{is.psmSet}
-\alias{as.psmSet}
 
 \title{Compute a matching between a peptide sequence and a MS2 spectrum}
 

@@ -46,3 +46,32 @@ IntegerVector findNN_(const NumericVector &q, const NumericVector & vec, bool ch
   
   return(NN);
 }
+
+
+class MyComparator : public std::binary_function<double, double, bool> {
+public : 
+  bool operator()(double a, double b){
+    return (a <= b);
+  }
+};
+
+// [[Rcpp::export]]
+IntegerVector lower_bound__(const NumericVector xq, const NumericVector xvec)
+{
+  IntegerVector idxvec;
+  MyComparator comparator;
+  try {
+    
+    for (int x:xq){
+      
+      idxvec.push_back(std::distance(xvec.begin(),
+                                     std::lower_bound(xvec.begin(), xvec.end(), x, comparator)));
+    }
+    return (idxvec);
+  }
+  catch( ...) {
+    ::Rf_error("c++ exception (unknown reason)");
+  }
+  
+  // TODO(cp): handle possible exceptions
+}

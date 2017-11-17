@@ -1,4 +1,4 @@
-%\VignetteIndexEntry{Howto find putative PTM (pPTM) Marker Ion?}
+%\VignetteIndexEntry{Howto find putative ptm marker ion?}
 \documentclass[nojss]{jss}
 \usepackage[utf8]{inputenc}
 \usepackage{rotating}
