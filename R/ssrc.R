@@ -10,8 +10,8 @@
 # http://www.ncbi.nlm.nih.gov/pubmed/15238601
 # http://hs2.proteome.ca/SSRCalc/SSRCalcX.html
 
-ssrc <- function(x, H=list()){
-  if (is.na(x)){
+.ssrc <- function(x, H){
+  if (is.na(x) || nchar(x) < 3){
     return (NA)
   }
   
@@ -64,3 +64,13 @@ ssrc <- function(x, H=list()){
 
 # lapply(c("SCHTAVGR", "SCHTGLGR", "EDLIAYLK"), ssrc)
 
+ssrc <- function(x, H=list()){
+ if (is.vector(x)){
+   rv <- sapply(x, function(xx){.ssrc(xx, H)})
+  
+ } else{
+  rv <- .ssrc(x, H)
+ }
+ names(rv) <- x
+ rv
+}

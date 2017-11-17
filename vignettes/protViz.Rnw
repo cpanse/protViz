@@ -94,7 +94,7 @@ substr(F$getSequences(), 1, 60)
 @
 
 <<>>=
-F$getTrypticPeptides()
+(fetuin <- F$getTrypticPeptides())
 @
 
 
@@ -103,16 +103,27 @@ F$getTrypticPeptides()
 In proteomics, proteins are digested to so-called peptides since peptides are much easier to handle biochemically than proteins. Proteins are very different in nature some are very sticky while others are soluble in aqueous solutions while again are only sitting in membranes. Therefore, proteins are chopped up into peptides because it is fair to assume, that for each protein, there will be many peptides behaving well so that they can be measured with the mass spectrometer. This step introduces another problem, the so-called protein inference problem. In this package here, we do not touch at all upon the protein inference.
 
 \subsection{Computing the Parent Ion Mass}
+
+\code{parentIonMass} computes the mass of an amino acid sequence.
+<<>>=
+(mass <- parentIonMass(fetuin))
+@
+
+The \code{ssrc} function derives a measure for the hydrophobicity based on the method described in \citep{pmid15238601}.
+<<>>=
+(hydrophobicity <- ssrc(fetuin))
+@
+
+A figure below shows a scatter plot graphing the parent ion mass versus the 
+hydrophobicity value of each in-silico tryptic digested peptide of the 
+\texttt{FETUA BOVIN} (P12763) protein.
 <<keep.source = TRUE, eval = TRUE, fig = TRUE>>=
-op <- par(mfrow = c(1,1))
-fetuin <- F$getTrypticPeptides()
-(pm <- parentIonMass(fetuin))
-op <- par(mfrow = c(2, 1))
-plot(pm, 
-    ylab = "peptide mass [in Da]", 
-    main = "Fetuin Peptide tryptic digested.")
-hist(pm, 
-     xlab = "peptide mass [in Da]")
+op <- par(mfrow = c(1, 1))
+plot(hydrophobicity ~ mass, 
+  log = 'xy', 
+  main = "sp|P12763|FETUA_BOVIN Alpha-2-HS-glycoprotein",
+  sub = 'tryptic peptides')
+text(mass, hydrophobicity, fetuin, pos=3, cex=0.5)
 @
 
 \subsection{In-silico Peptide Fragmentation}

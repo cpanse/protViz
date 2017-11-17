@@ -3,6 +3,12 @@
 \newcommand{\ghpr}{\href{https://github.com/protViz/protViz/pull/#1}{##1}}
 \newcommand{\ghit}{\href{https://github.com/protViz/protViz/issues/#1}{##1}}
 
+\section{Changes in protViz version 0.2.46 (2017-11-17)}{
+  \itemize{
+    \item \code{ssrc} accepts also a \code{vector} as argument.
+  }
+}
+
 \section{Changes in protViz version 0.2.45 (2017-11-17)}{
   \itemize{
     \item implement Rcpp module \code{Fasta} \ghit{3}.

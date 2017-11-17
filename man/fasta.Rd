@@ -32,6 +32,12 @@ Fasta
   F
   F$summary()
   F$getTrypticPeptides()
+  
+  plot(parentIonMass(F$getTrypticPeptides()), ssrc(F$getTrypticPeptides()),
+    log='xy')
+  text(parentIonMass(F$getTrypticPeptides()), ssrc(F$getTrypticPeptides()), 
+    F$getTrypticPeptides(), pos=3, cex=0.5)
+
 }
 
 \keyword{FASTA}% use one of  RShowDoc("KEYWORDS")

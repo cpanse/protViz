@@ -5,6 +5,8 @@
 The package ships with two pdf vignettes.
 
 ```
+browseVignettes('protViz')
+
 vignette('protViz')
 vignette('PTM_MarkerFinder')
 ```
