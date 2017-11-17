@@ -7,7 +7,7 @@
   \itemize{
     \item implement Rcpp module \code{Fasta} \ghit{3}.
     \item added the Swiss-Prot P12763 protein for testing.
-    \item added C++ STL lower_bound method.
+    \item added \code{C++} STL \code{lower_bound} method.
 	  \item added orcid in DESCRIPTION file 
   }
 }
