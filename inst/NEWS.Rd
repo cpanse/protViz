@@ -6,6 +6,7 @@
 \section{Changes in protViz version 0.2.46 (2017-11-17)}{
   \itemize{
     \item \code{ssrc} accepts also a \code{vector} as argument.
+    \item \code{as.data.frame.pepxml} for \url{http://tools.proteomecenter.org/wiki/index.php?title=Formats:pepXML}.
   }
 }
 
