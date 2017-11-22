@@ -28,6 +28,19 @@
   as.vector(rv)
 }
 
+# CP/JG 2017-11-21, 2017-11-22
+.get_mascot_protein_hits <- function(object){
+  lapply(object$hits, function(X){
+    hit <- X$protein
+    rv <- do.call('rbind', lapply(hit[which(attributes(hit)$names == "peptide")], 
+                                  function(x){ 
+                                    as.data.frame(t(x$.attrs))
+                                  }))
+    rv$accession <- hit$.attrs[1]
+    rv
+  })
+}
+
 #' Convert a mascot nested list into a data.frame object
 #'
 #' @param a mascot object 
@@ -43,13 +56,14 @@
 #'        plot(S$RTINSECONDS , S$moverz, pch=16, col=rgb(0.4,0.4,0.4,alpha=0.1))
 #'     })
 #'     
-as.data.frame.mascot <- function(x, ...){
+as.data.frame.mascot <- function(x, protein = TRUE, ...){
   # TODO
   # score 
   # %in%
   # shiny cut-off score
   # reformat charge into integer
-  data.frame(RTINSECONDS = .get_(x, attribute = "RTINSECONDS"), 
+  query <- data.frame(query = sapply(x$queries, function(y){y$.attrs}),
+  	     RTINSECONDS = .get_(x, attribute = "RTINSECONDS"), 
              moverz = .get_(x, attribute = "query_moverz"), 
              query_charge = .get_(x, attribute = 'query_charge', FUN=as.character),
              SCANS = .get_(x, attribute = 'SCANS'),
@@ -71,6 +85,22 @@ as.data.frame.mascot <- function(x, ...){
              pep_summed_mod_pos = .get_q_peptide(x, attribute = 'pep_summed_mod_pos'),
              pep_var_mod_conf = .get_q_peptide(x, attribute = 'pep_var_mod_conf')
   )
+  
+  if (protein){
+    protein_hits <- .get_mascot_protein_hits(x)
+    query$proteinID <- ""
+    for (p in protein_hits){
+      proteinID <- p$accession[1]
+      for (q in as.integer(as.character(p$query))){
+        if (query$proteinID[q] == ""){
+          query$proteinID[q] <- proteinID
+        }else{
+          query$proteinID[q] <- paste(query$proteinID[q] , proteinID, sep=",")
+        }
+      }
+    }
+  }
+  query
 }
 
 
