@@ -56,12 +56,13 @@
 #'        plot(S$RTINSECONDS , S$moverz, pch=16, col=rgb(0.4,0.4,0.4,alpha=0.1))
 #'     })
 #'     
-as.data.frame.mascot <- function(x, protein = TRUE, ...){
+as.data.frame.mascot <- function(x, ...){
   # TODO
   # score 
   # %in%
   # shiny cut-off score
   # reformat charge into integer
+  protein <- TRUE
   query <- data.frame(query = sapply(x$queries, function(y){y$.attrs}),
   	     RTINSECONDS = .get_(x, attribute = "RTINSECONDS"), 
              moverz = .get_(x, attribute = "query_moverz"), 

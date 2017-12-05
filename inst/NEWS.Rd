@@ -3,8 +3,9 @@
 \newcommand{\ghpr}{\href{https://github.com/protViz/protViz/pull/#1}{##1}}
 \newcommand{\ghit}{\href{https://github.com/protViz/protViz/issues/#1}{##1}}
 
-\section{Changes in protViz version 0.2.46 (2017-11-17)}{
+\section{Changes in protViz version 0.2.49 (2017-12-05)}{
   \itemize{
+    \item refactored \code{?findNN} and \code{?AA} man pages.
     \item \code{ssrc} accepts also a \code{vector} as argument.
     \item \code{as.data.frame.pepxml} for \url{http://tools.proteomecenter.org/wiki/index.php?title=Formats:pepXML}.
   }

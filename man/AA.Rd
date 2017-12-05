@@ -7,6 +7,7 @@
 
 \format{contains a table}
 
+\value{returns a \code{data.frame}}
 
 \description{
 
@@ -35,14 +36,27 @@
     axis(3,1:20,AA$letter1); 
     abline(v=1:20,col='grey')
 
+    \dontrun{
+	    if (require(XML)){
+	unimodurl <- url("http://www.unimod.org/xml/unimod_tables.xml")
+	unimod.list <- XML::xmlToList(
+	  XML::xmlParse(
+	    scan(unimodurl, what = character())))
+	unimod.AA <- data.frame(
+	  do.call('rbind', unimod.list$amino_acids))
+	rownames(unimod.AA) <- unimod.AA$one_letter
+	    }
+    }
 }
 
-\references{
+\seealso{
 
-          \url{http://www.matrixscience.com/help/aa_help.html}
+  \itemize{
+        \item{\url{http://www.matrixscience.com/help/aa_help.html}}
 
-          \url{http://education.expasy.org/student_projects/isotopident/htdocs/aa-list.html}
+        \item{\url{http://education.expasy.org/student_projects/isotopident/htdocs/aa-list.html}}
 
-          \url{http://www.unimod.org}
+        \item{\url{http://www.unimod.org}}
+        }
 
 }
