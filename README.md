@@ -80,3 +80,5 @@ Both documents are also available on the [package's CRAN](https://CRAN.R-project
 * [RforProteomics](http://bioconductor.org/packages/RforProteomics/)
 
 [![Research software impact](http://depsy.org/api/package/cran/protViz/badge.svg)](http://depsy.org/package/r/protViz)
+[![Build Status](https://travis-ci.org/protViz/protViz.svg)](https://travis-ci.org/protViz/protViz) 
+
