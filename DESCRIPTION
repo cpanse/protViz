@@ -1,7 +1,7 @@
 Package: protViz
 Type: Package
 Title: Visualizing and Analyzing Mass Spectrometry Related Data in Proteomics
-Version: 0.2.49
+Version: 0.3.0
 Authors@R: c(person("Christian", "Panse", email = "cp@fgcz.ethz.ch", role = c("aut", "cre"), 
         comment = c(ORCID = "0000-0003-1975-3064")),
 	person("Jonas", "Grossmann", email = "jg@fgcz.ethz.ch", role = "aut",
@@ -16,7 +16,9 @@ Depends: R (>= 3.3),
 Imports: Rcpp (>= 0.12.8)
 LinkingTo: Rcpp
 RcppModules: FastaMod 
-Suggests: lattice,
+Suggests: dplyr,
+	lattice,
+	ggplot2,
 	RUnit,
 	xtable
 Description: Helps with quality checks, visualizations 
@@ -46,6 +48,7 @@ Collate: aa2mass.R
   pp.R
   psm.R
   PTM_MarkerFinder.R
+  rawFileQC.R
   ssrc.R
   zzz.R
   RcppExports.R
