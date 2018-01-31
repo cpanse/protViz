@@ -36,6 +36,17 @@
     axis(3,1:20,AA$letter1); 
     abline(v=1:20,col='grey')
 
+	
+	
+    # computes monoisotopic mass out of formula using the CDK package
+    \dontrun{
+    	if (require(rcdk)){
+	plot(AA$Monoisotopic, 
+	     sapply(AA$formula, function(x){
+		     get.formula(as.character(x), charge = 1)@mass
+	     }))
+	}
+    }
     \dontrun{
 	    if (require(XML)){
 	unimodurl <- url("http://www.unimod.org/xml/unimod_tables.xml")
