@@ -124,7 +124,7 @@ sub main(){
 
         }elsif (/^TITLE=(.+)/){
             $_title = $1;
-        }elsif (/^PEPMASS=(\d+\.\d+)\s(\d+\.\d+)$/){
+        }elsif (/^PEPMASS=(\d+\.\d+)\s([-\+eE0-9\.]+)$/){
             $_pepmass = $1;
         }elsif (/^CHARGE=(\d+)./){
             $_charge = $1;
@@ -132,7 +132,7 @@ sub main(){
             $_scan = $1;
         }elsif (/^RTINSECONDS=(.+)/){
             $_rtinseconds = $1;
-        }elsif (/^(\d+\.\d+)\s(\d[-\+eE0-9\.]*)$/){
+        }elsif (/^(\d+\.\d+)\s(\d[-\+eE0-9\.]*)(\s.+){0,1}$/){
             push @mZ, $1;
             push @intensity, $2;
         }
