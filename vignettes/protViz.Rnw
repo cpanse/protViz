@@ -8,8 +8,11 @@
 %\newcommand{\Robject}[1]{{\texttt{#1}}}
 %\newcommand{\Rpackage}[1]{{\pkg{#1}}}
 
-\author{Christian Panse\\Functional Genomics Center Zurich
-  \And Jonas Grossmann\\Functional Genomics Center Zurich}
+\author{Christian Panse\\
+Functional Genomics Center Zurich
+  \And 
+  Jonas Grossmann\\
+  Functional Genomics Center Zurich}
 \title{protViz: Visualizing and Analyzing Mass Spectrometry Related Data in Proteomics}
 \Plainauthor{Christian Panse, Jonas Grossmann}
 
