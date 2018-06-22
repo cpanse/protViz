@@ -1,12 +1,5 @@
-%\VignetteIndexEntry{Hands-on: Using protViz}
+%\VignetteIndexEntry{Hands-on analyzing proteins using the protViz package.}
 \documentclass[nojss]{jss}
-
-
-%\newcommand{\scscst}{\scriptscriptstyle}
-%\newcommand{\scst}{\scriptstyle}
-%\newcommand{\Rfunction}[1]{{\texttt{#1}}}
-%\newcommand{\Robject}[1]{{\texttt{#1}}}
-%\newcommand{\Rpackage}[1]{{\pkg{#1}}}
 
 \author{Christian Panse\\
 Functional Genomics Center Zurich
@@ -19,15 +12,16 @@ Functional Genomics Center Zurich
 \Plaintitle{protViz: Visualizing and Analyzing Mass Spectrometry Related Data in Proteomics}
 \Shorttitle{protViz}
 
-\Keywords{proteomics, mass spectrometry}
-\Plainkeywords{proteomics, mass spectrometry}
+\Keywords{proteomics, mass spectrometry, fragment-ion}
+\Plainkeywords{proteomics, mass spectrometry, fragment-ion}
 
 \Abstract{
-
-\pkg{protViz} is an R package to do quality checks, visualizations and analysis of mass spectrometry data, coming from proteomics experiments.
+\pkg{protViz} is an R package to do quality checks, visualizations and analysis
+of mass spectrometry data, coming from proteomics experiments.
 The package is developed, tested and used at the Functional Genomics Center Zurich. 
 We use this package mainly for prototyping, teaching, and having {\em fun} with proteomics data.
-But it can also be used to do data analysis for small scale data sets. Nevertheless, if one is patient, it also handles large data sets.}
+But it can also be used to do data analysis for small scale data sets. Nevertheless,
+if one is patient, it also handles large data sets.}
 
 \Address{
   Jonas Grossmann and Christian Panse\\
@@ -44,12 +38,6 @@ But it can also be used to do data analysis for small scale data sets. Neverthel
 options(prompt = "R> ", continue = "+  ", width = 70, useFancyQuotes = FALSE)
 @
 \SweaveOpts{concordance=TRUE}
-%\author{Christian Panse \and Jonas Grossmann}
-%\SweaveOpts{concordance=TRUE}
-%\maketitle
-%\tableofcontents
-%\newpage
-
 
 \section{Related Work}
 {\em The method of choice in proteomics is mass spectrometry.}
@@ -70,6 +58,8 @@ Some of them are listed here:
 \url{https://CRAN.R-project.org/package=readMzXmlData}
 %\item \pkg{msQC}\\
 %\url{http://bioconductor.org/packages/3.0/bioc/html/msQC.html}
+\item \pkg{rawDiag} - an R package supporting rational LC-MS method optimization for bottom-up proteomics on multiple OS platforms
+\citep{rawDiag}
 \end{itemize}
 
 \section{Get Data In -- Preprocessing}
