@@ -1,6 +1,7 @@
 %\VignetteIndexEntry{Hands-on: Using protViz}
 \documentclass[nojss]{jss}
 
+\usepackage{thumbpdf,lmodern}
 
 %\newcommand{\scscst}{\scriptscriptstyle}
 %\newcommand{\scst}{\scriptstyle}
@@ -10,7 +11,7 @@
 
 \author{Christian Panse\\Functional Genomics Center Zurich
   \And Jonas Grossmann\\Functional Genomics Center Zurich}
-\title{protViz: Visualizing and Analyzing Mass Spectrometry Related Data in Proteomics}
+\title{\pkg{protViz}: Visualizing and Analyzing Mass Spectrometry Related Data in Proteomics}
 \Plainauthor{Christian Panse, Jonas Grossmann}
 
 \Plaintitle{protViz: Visualizing and Analyzing Mass Spectrometry Related Data in Proteomics}
