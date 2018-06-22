@@ -104,13 +104,23 @@ In proteomics, proteins are digested to so-called peptides since peptides are mu
 
 \code{parentIonMass} computes the mass of an amino acid sequence.
 <<>>=
-(mass <- parentIonMass(fetuin))
+mass <- parentIonMass(fetuin)
 @
 
 The \code{ssrc} function derives a measure for the hydrophobicity based on the method described in \citep{pmid15238601}.
 <<>>=
-(hydrophobicity <- ssrc(fetuin))
+hydrophobicity <- ssrc(fetuin)
 @
+
+The content of \code{mass} and \code{hydrophobicity} can be seen in the Table \ref{Table:hydrophobicity}.
+
+<<xtable1, results=tex, echo=FALSE>>=
+library(xtable)
+print(xtable(data.frame(peptide = names(hydrophobicity), 
+  mass = parentIonMass(names(hydrophobicity)), hydrophobicity=hydrophobicity),
+  caption="parent ion mass and hydrophobicity values of the tryptic digested protein \texttt{P12763}.",  label="Table:hydrophobicity"), include.rownames=FALSE, scalebox="0.75")
+@
+
 
 A figure below shows a scatter plot graphing the parent ion mass versus the 
 hydrophobicity value of each in-silico tryptic digested peptide of the 
@@ -118,10 +128,10 @@ hydrophobicity value of each in-silico tryptic digested peptide of the
 <<keep.source = TRUE, eval = TRUE, fig = TRUE>>=
 op <- par(mfrow = c(1, 1))
 plot(hydrophobicity ~ mass, 
-  log = 'xy', 
+  log = 'xy', pch = 16, col = '#88888888', cex = 2,
   main = "sp|P12763|FETUA_BOVIN Alpha-2-HS-glycoprotein",
   sub = 'tryptic peptides')
-text(mass, hydrophobicity, fetuin, pos=3, cex=0.5)
+text(mass, hydrophobicity, fetuin, pos=2, cex=0.5, col = '#CCCCCC88')
 @
 
 \subsection{In-silico Peptide Fragmentation}
