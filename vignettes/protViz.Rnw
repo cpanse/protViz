@@ -100,7 +100,7 @@ substr(F$getSequences(), 1, 60)
 {\em The currency in proteomics are the peptides.}
 In proteomics, proteins are digested to so-called peptides since peptides are much easier to handle biochemically than proteins. Proteins are very different in nature some are very sticky while others are soluble in aqueous solutions while again are only sitting in membranes. Therefore, proteins are chopped up into peptides because it is fair to assume, that for each protein, there will be many peptides behaving well so that they can be measured with the mass spectrometer. This step introduces another problem, the so-called protein inference problem. In this package here, we do not touch at all upon the protein inference.
 
-\subsection{Computing the Parent Ion Mass and Hydrophobicity of a Peptide Sequence}
+\subsection{Computing Mass and Hydrophobicity of a Peptide Sequence}
 
 \code{parentIonMass} computes the mass of an amino acid sequence.
 <<>>=
