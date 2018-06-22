@@ -3,7 +3,7 @@
 \newcommand{\ghpr}{\href{https://github.com/protViz/protViz/pull/#1}{##1}}
 \newcommand{\ghit}{\href{https://github.com/protViz/protViz/issues/#1}{##1}}
 
-\section{Changes in protViz version 0.2.49 (2017-12-05)}{
+\section{Changes in protViz version 0.3.0 (2017-06-22)}{
   \itemize{
     \item refactored \code{?findNN} and \code{?AA} man pages.
     \item \code{ssrc} accepts also a \code{vector} as argument.

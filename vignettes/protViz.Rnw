@@ -100,7 +100,7 @@ substr(F$getSequences(), 1, 60)
 {\em The currency in proteomics are the peptides.}
 In proteomics, proteins are digested to so-called peptides since peptides are much easier to handle biochemically than proteins. Proteins are very different in nature some are very sticky while others are soluble in aqueous solutions while again are only sitting in membranes. Therefore, proteins are chopped up into peptides because it is fair to assume, that for each protein, there will be many peptides behaving well so that they can be measured with the mass spectrometer. This step introduces another problem, the so-called protein inference problem. In this package here, we do not touch at all upon the protein inference.
 
-\subsection{Computing the Parent Ion Mass}
+\subsection{Computing the Parent Ion Mass and Hydrophobicity of a Peptide Sequence}
 
 \code{parentIonMass} computes the mass of an amino acid sequence.
 <<>>=
@@ -125,9 +125,8 @@ text(mass, hydrophobicity, fetuin, pos=3, cex=0.5)
 @
 
 \subsection{In-silico Peptide Fragmentation}
-The fragment ions of a peptide can be computed following the rules proposed in \cite{pmid6525415}.
-Beside the \code{b} and \code{y} ions the \code{FUN} argument of \code{fragmentIon} defines 
-which ions are computed.
+The fragment ions computation of a peptide follows the rules proposed in \citep{pmid6525415}.
+Beside the \code{b} and \code{y} ions the \code{FUN} argument of \code{fragmentIon} defines which ions are computed.
 the default ions beeing computed are defined in the function \code{defaultIon}.
 The are no limits for defining other forms of fragment ions for ETD (c and z ions) CID (b and y ions).
 <<keep.source = TRUE, eval = TRUE, fig = FALSE>>=
@@ -172,13 +171,13 @@ Hydrogen<-1.007825
 
 \subsection{Peptide Sequence -- Fragment Ion Matching}
 Given a peptide sequence and a tandem mass spectrum.
-For the assignment of a canditate peptide an in-silico fragment ion
+For the assignment of a candidate peptide an in-silico fragment ion
 spectra \code{fi}  is computed.
-The function \code{findNN} determines for each fragment ion the closesed 
+The function \code{findNN} determines for each fragment ion the closed
 peak in the MS2.
-If the difference between the in-silico mass and the measured mass  
-is inside the 'accuracy' mass window of the mass spec device the 
-in-silico fragment ion is considered as potential hit.
+If the difference between the in-silico mass and the measured mass
+is inside the 'accuracy' mass window of the mass spec device the
+in-silico fragment ion is considered as a potential hit.
 
 <<keep.source = TRUE, eval = TRUE, fig = TRUE>>=
     peptideSequence<-'HTLNQIDSVK'
@@ -222,8 +221,9 @@ in-silico fragment ion is considered as potential hit.
         cex=0.75,pos=3) 
 @
 
-The graphic above is showing the mass error of the assingment between the MS2 \code{spec} and the singly charged fragment ions of \code{HTLNQIDSVK}.
-The function \code{psm} is doing the peptide sequence matching. Of course, the more theoretical ions match (up to a small error tolerance, given by the system) the actually measured ion series, the more likely it is, that the measured spectrum indeed is from the inferred peptide (and therefore the protein is identified)
+The graphic above is showing the mass error of the assignment between the MS2 \code{spec} and the singly charged fragment ions of \code{HTLNQIDSVK}.
+The function \code{psm} is doing the peptide sequence matching. Of course, the more theoretical ions match (up to a small error tolerance, given by the system) the measured ion chain, the more likely it is, that the measured spectrum indeed is from the inferred peptide (and therefore the protein is identified)
+
 \subsection{Modifications}
 <<keep.source = TRUE, eval = TRUE, fig = FALSE>>=
 library(protViz)
@@ -260,7 +260,7 @@ fi <- fragmentIon(c('TAFDEAIAELDTLSEESYK',
 
 
 \subsection{Labeling Peaklists}
-The labeling of the spectra can be done with the \code{peakplot} function.
+The \code{peakplot} \citet{peakplot} function performs the labeling of the spectra.
 %\SweaveOpts{width=9.5, height=6}
 %\setkeys{Gin}{width=0.95\columnwidth}
 <<keep.source = TRUE, eval = TRUE, fig = TRUE, height=10, width=10>>=
@@ -310,19 +310,20 @@ peptideSearch <- function (x,
 @
 
 \section{Quantification}
-For an overview on Quantitative Proteomics read \cite{pmid22772140, 
+For an overview on Quantitative Proteomics read \citet{pmid22772140,
 pmid22821268}.
-The authors are aware that meaningful statistics usually require much higher number
-of biological replicates. 
-In almost all cases there are not more than three to six repitions.
-For the moment there are limited options due to the availabilty of machine time
+The authors are aware that meaningful statistics usually require a much higher number
+of biological replicates.
+In almost all cases there are not more than three to six repetitions.
+For the moment there are limited options due to the availability of machine time
 and the limits of the technologies.
 
 \subsection{Label-free methods on protein level}
 The data set \code{fetuinLFQ} contains a subset of our results descriped in \cite{pmid20576481}.
-The example below shows a visualization using trellis plots. It graphs 
-the abundance of four protein in dependency from the 
+The example below shows a visualization using trellis plots. It graphs
+the abundance of four protein independency from the
 fetuin concentration spiked into the sample.
+
 
 <<keep.source = TRUE, eval = TRUE, fig = TRUE>>=
 library(lattice)
@@ -366,7 +367,7 @@ The plot shows the estimated concentration of the four proteins using the top th
 
 LCMS based label-free quantification is a very popular method to extract relative quantitative information from mass spectrometry experiments.
 At the FGCZ we use the software ProgenesisLCMS for this workflow \url{http://www.nonlinear.com/products/progenesis/lc-ms/overview/}.
-Progenesis is a graphical software which does the aligning between several LCMS experiments, extracts signal intensities from LCMS maps and annotates the mastermap with peptide and protein labels.
+Progenesis is a graphical software which does the aligning between several LCMS experiments, extracts signal intensities from LCMS maps and annotates the master map with peptide and protein labels.
 
 <<keep.source = TRUE, eval = TRUE, fig = TRUE>>=
 data(pgLFQfeature)
@@ -416,7 +417,8 @@ axis(2,at=seq(from=0, to=1,
 par(op)
 @
 
-This image plot shows the correlation between runs on feature level (values are asinh transformed). White is perfect correlation while black indicates a poor correlation.
+This image plot shows the correlation between runs on feature level 
+(values are \code{asinh} transformed). White is perfect correlation while black indicates a poor correlation.
 
 <<keep.source = TRUE, eval = TRUE, fig = TRUE>>=
 op<-par(mfrow=c(1,1),mar=c(18,18,4,1),cex=0.5)
@@ -431,9 +433,10 @@ axis(2,at=seq(from=0, to=1,
 par(op)
 @
 
-This figure shows the correlation between runs on protein level (values are asinh transformed). 
+This figure shows the correlation between runs on protein level
+(values are \code{asinh} transformed). 
 White is perfect correlation while black indicates a poor correlation.
-Stricking is the fact that the six biological replicates for each condition cluster very well.
+Striking is the fact that the six biological replicates for each condition cluster very well.
 
 <<keep.source = TRUE, eval = TRUE, fig = TRUE>>=
 par(mfrow=c(2,2),mar=c(6,3,4,1))
@@ -444,12 +447,15 @@ ANOVA<-pgLFQaov(pgLFQprot$"Normalized abundance",
     plot=TRUE)
 @
 
-This figure shows the result for four proteins which either differ significantly in expression accross conditions (green boxplots) using an analysis of variance test, or non differing protein expression (red boxplot).
+This figure shows the result for four proteins which either differ significantly
+in expression across conditions (green boxplots) using an analysis of variance
+test, or non-differing protein expression (red boxplot).
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{iTRAQ -- Two Group Analysis} 
 
-The data for the next section is an iTRAQ-8-plex experiment where two conditions are compared (each condition has 4 biological replicates)
+The data for the next section is an iTRAQ-8-plex experiment where two conditions are compared (each condition has four biological replicates)
 
 \subsubsection{Sanity Check}
 <<keep.source = TRUE, eval = TRUE, fig = TRUE>>=
@@ -504,7 +510,8 @@ for (i in 1:nrow(group1Protein)){
 }
 @
 
-This figure shows five proteins which are tested if they differ accross conditions using the four biological replicates with a t-test.
+This figure shows five proteins which are tested if they differ across conditions using the four biological replicates with a t-test.
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsubsection{On Peptide Level}
@@ -512,7 +519,7 @@ This figure shows five proteins which are tested if they differ accross conditio
 The same can be done on peptide level using the \code{protViz} function \code{iTRAQ2GroupAnalysis}. 
 <<keep.source = TRUE, eval = TRUE, fig = FALSE>>=
 data(iTRAQ)
-q<-iTRAQ2GroupAnalysis(data=iTRAQ, 
+q <- iTRAQ2GroupAnalysis(data=iTRAQ, 
     group1=c(3,4,5,6), 
     group2=7:10, 
     INDEX=paste(iTRAQ$prot,iTRAQ$peptide), 
@@ -524,20 +531,21 @@ q[1:10,]
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Pressure Profiles QC}
 
-A common problem with mass spec setup is the pure reliability of the high pressure pump.
+A common problem with mass spec setup is the pure reliability of the high-pressure pump.
 The following graphics provide visualizations for quality control.
 
-On overview of the pressure profile data can be seen by using the \code{ppp} function.
+An overview of the pressure profile data can be seen by using the \code{ppp} function.
 <<keep.source = TRUE, eval = TRUE, fig = FALSE>>=
 data(pressureProfile)
 ppp(pressureProfile)
 @
 
-The lines plots the pressure profiles data on a scatter plot 'Pc' versus
-'time' grouped by time range (no figure because of too many data items).
+The lines plots the pressure profiles data on a scatter plot ``Pc'' versus
+``time'' grouped by time range (no figure because of too many data items).
 
-The Trellis \code{xyplot} shows the Pc development over each instrument 
-run to a specified relative run time (25,30,...).
+The Trellis \code{xyplot} shows the Pc development over each instrument
+run to a specified relative runtime $(25, 30, \ldots)$.
+
 
 <<keep.source = TRUE, eval = TRUE, fig = TRUE>>=
 pp.data<-pps(pressureProfile, time=seq(25,40,by=5))
@@ -570,18 +578,15 @@ print(levelplot(Pc ~ time * as.factor(file),
 
 \label{lab:datapreparation}
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-\section{Session information}\label{sec:sessionInfo}
-
-<<keep.source = TRUE, eval = TRUE, fig = FALSE>>=
-sessionInfo()
-packageDescription('protViz')
-@
-
-The \pkg{protViz} package has also been used in \cite{pPTM,specL,msqc1}.
-
+The \pkg{protViz} package has also been used in \citep{pmid20576481,pPTM,specL,msqc1,pmid28035797,Egloff2018}.
 \bibliography{protViz}
-%\bibliographystyle{plain}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\appendix
+\section{Session information}\label{sec:sessionInfo}
+An overview of the package versions used to produce this document are
+shown below.
 
+<<sessioninfo, results=tex, echo=FALSE>>=
+toLatex(sessionInfo())
+@
 \end{document}
