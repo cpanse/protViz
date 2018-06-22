@@ -9,8 +9,9 @@ Functional Genomics Center Zurich,
 Winterthurerstr. 190,
 CH-8057, Z{\"u}rich, Switzerland,
 Telephone: +41-44-63-53910,
-E-mail: \texttt{cp@fgcz.ethz.ch}} 
-\and
+E-mail: \texttt{cp@fgcz.ethz.ch}}\\
+Functional Genomics Center Zurich
+\And
 Paolo~Nanni\thanks{
 Paolo~Nanni,
 Functional Genomics Center Zurich,
