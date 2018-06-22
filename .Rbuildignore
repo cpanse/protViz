@@ -6,3 +6,5 @@
 .*.blg$
 .*texput.log$
 .*protViz-.+pdf$
+.*LICENSE$
+.*rawFileQC.R$

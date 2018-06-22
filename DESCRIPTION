@@ -16,9 +16,7 @@ Depends: R (>= 3.3),
 Imports: Rcpp (>= 0.12.8)
 LinkingTo: Rcpp
 RcppModules: FastaMod 
-Suggests: dplyr,
-	lattice,
-	ggplot2,
+Suggests:lattice,
 	RUnit,
 	xtable
 Description: Helps with quality checks, visualizations 
@@ -48,7 +46,6 @@ Collate: aa2mass.R
   pp.R
   psm.R
   PTM_MarkerFinder.R
-  rawFileQC.R
   ssrc.R
   zzz.R
   RcppExports.R

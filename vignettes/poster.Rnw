@@ -11,7 +11,7 @@
 \usepackage{amssymb}
 \usepackage[scaled]{helvet}
 \usepackage[latin1]{inputenc}
-\graphicspath{{./graphics/}}
+\graphicspath{{.}{./graphics/}}
 
 \addtolength{\textwidth}{1cm}
 \addtolength{\oddsidemargin}{-1cm}
@@ -77,13 +77,12 @@
 \vfill
 }}}
 
-\SweaveOpts{prefix.string=plot, eps = FALSE, pdf = TRUE, prefix.string = graphics/protViz}
+\begin{document}
+\SweaveOpts{concordance=TRUE}
 <<style-Sweave, eval=TRUE, echo=FALSE, results=tex>>=
 options(prompt = "R> ", continue = "+  ", width = 60, useFancyQuotes = FALSE)
 @
 
-\begin{document}
-\SweaveOpts{concordance=TRUE}
 \AddToShipoutPicture{\BackgroundPic}
 \begin{center}
 %\noindent\centerline{\includegraphics[width=84cm]{FGCZ-multiple}}\\[2ex]
@@ -138,7 +137,7 @@ main = 'In-silico LC-MS map')
 par(op)
 @
 
-\includegraphics[width=1.0\columnwidth, keepaspectratio]{graphics/protViz-digest}
+\includegraphics[width=1.0\columnwidth, keepaspectratio]{poster-digest}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{In-silico Peptide Fragmentation}
@@ -180,7 +179,7 @@ par(op)
 @
 
 {\centering
-\includegraphics[width=1.0\columnwidth, keepaspectratio]{graphics/protViz-insilico}}
+\includegraphics[width=1.0\columnwidth, keepaspectratio]{poster-insilico}}
 
 The next lines compute the singly and doubly charged fragment ions of the \Rcode{HTLNQIDSVK} peptide. 
 Which are usually the ones that can be used to make an identification.
@@ -256,7 +255,7 @@ p <- peakplot('HTLNQIDSVK', spec)
 
 The plot below graphs a peptide-spectrum match of the \Rcode{'HTLNQIDSVK'} peptide.
 
-\includegraphics[width=\columnwidth, keepaspectratio]{graphics/protViz-peakplot}
+\includegraphics[width=\columnwidth, keepaspectratio]{poster-peakplot}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Quantification}
@@ -309,7 +308,7 @@ print(xyplot(abundance ~ conc | prot * method,
 ))
 @
 
-\includegraphics[width=\columnwidth, keepaspectratio]{graphics/protViz-LFQtrellis}
+\includegraphics[width=\columnwidth, keepaspectratio]{poster-LFQtrellis}
 
 The plot shows the estimated concentration of the four proteins using the top 3 most intense peptides. The Fetuin peptides are spiked in with increasing concentration while the three other yeast proteins are kept stable in the background.
 
@@ -336,7 +335,7 @@ pgLFQfeature$"Normalized abundance"),
 nbins=25)
 @
 
-\includegraphics[width=\columnwidth, keepaspectratio]{graphics/protViz-featureDensityPlot}
+\includegraphics[width=\columnwidth, keepaspectratio]{poster-featureDensityPlot}
 
 The plots shows the normalized signal intensity distribution (asinh transformed) over the 24 LCMS runs aligned in this experiment.
 
@@ -386,8 +385,8 @@ par(op)
 @
 {
 \centering
-\includegraphics[width=0.5\columnwidth, keepaspectratio]{graphics/protViz-image1}
-\includegraphics[width=0.5\columnwidth, keepaspectratio]{graphics/protViz-image2}
+\includegraphics[width=0.5\columnwidth, keepaspectratio]{poster-image1}
+\includegraphics[width=0.5\columnwidth, keepaspectratio]{poster-image2}
 }
 
 This right figure above shows the correlation between runs on protein level (values are \Rcode{asinh} transformed). White is perfect correlation while black indicates a poor correlation.
@@ -404,7 +403,7 @@ ANOVA <- pgLFQaov(
     plot=TRUE)
 @
 
-\includegraphics[width=\columnwidth, keepaspectratio]{graphics/protViz-ANOVA}
+\includegraphics[width=\columnwidth, keepaspectratio]{poster-ANOVA}
 
 This figure shows the result of four proteins which either differ significantly in expression across conditions (green boxplots) using an analysis of variance test, or nondiffering protein expression (red boxplot).
 
@@ -425,14 +424,14 @@ for (i in 3:10){
 }
 @
 
-\includegraphics[width=\columnwidth, keepaspectratio]{graphics/protViz-iTRAQqqnorm}
+\includegraphics[width=\columnwidth, keepaspectratio]{poster-iTRAQqqnorm}
 
 <<label=iTRAQboxplot, keep.source = TRUE, eval = TRUE, fig = TRUE, include=FALSE, width=8, height=3>>=
 b <- boxplot(asinh(iTRAQ[, c(3:10)]),
 main='boxplot iTRAQ')
 @
 
-\includegraphics[width=\columnwidth, keepaspectratio]{graphics/protViz-iTRAQboxplot}
+\includegraphics[width=\columnwidth, keepaspectratio]{poster-iTRAQboxplot}
 
 
 A first check to see if all reporter ion channels are having the same distributions. Shown in the figure are Q-Q plots of the individual reporter channels against a normal distribution.
@@ -476,7 +475,7 @@ for (i in 1:nrow(group1Protein)){
 }
 @
 
-\includegraphics[width=\columnwidth, keepaspectratio]{graphics/protViz-iTRAQboxplot2}
+\includegraphics[width=\columnwidth, keepaspectratio]{poster-iTRAQboxplot2}
 
 This figure shows five proteins which are tested using the \Rcode{t.test}
 function if they differ across conditions using the four biological replicates.
