@@ -1,4 +1,4 @@
-%\VignetteIndexEntry{Hands-on analyzing mass spectrometry related data in proteomics using the protViz package.}
+%\VignetteIndexEntry{primer - protViz: Visualizing and Analyzing Mass Spectrometry Related Data in Proteomics}
 \documentclass[nojss]{jss}
 
 \usepackage{thumbpdf,lmodern}
