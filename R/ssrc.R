@@ -66,8 +66,7 @@
 
 ssrc <- function(x, H=list()){
  if (is.vector(x)){
-   rv <- sapply(x, function(xx){.ssrc(xx, H)})
-  
+   rv <- vapply(x, FUN = function(xx){.ssrc(xx, H)}, FUN.VALUE = .ssrc("ELVISR", H))
  } else{
   rv <- .ssrc(x, H)
  }
