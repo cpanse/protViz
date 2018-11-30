@@ -31,7 +31,7 @@
         itol=0.6,
         pattern.abc="[abc].*",
         pattern.xyz="[xyz].*",
-        ion.axes=TRUE) 
+        ion.axes=TRUE, ...) 
 
 }
 
@@ -63,6 +63,8 @@ function is assigned \code{fragmentIon} will
   \item{pattern.xyz}{\code{regexpr pattern} for x, y, z like ions.}
 
   \item{ion.axes}{boolean default is \code{TRUE}. determines whether the fragment ion labels should be plotted instead of m/z values.}
+
+  \item{...}{passed to plot function.}
 
 }
 

@@ -122,7 +122,7 @@ peakplot <- function(peptideSequence,
     itol=0.6,
     pattern.abc="[abc].*",
     pattern.xyz="[xyz].*",
-    ion.axes=TRUE){ 
+    ion.axes=TRUE, ...){ 
 
     n<-nchar(peptideSequence)
 
@@ -139,7 +139,7 @@ peakplot <- function(peptideSequence,
         xlim=xlim,
         ylim=c(0, 1.2 * yMax),
         sub=sub,
-        axes='F'
+        axes='F', ...
     ) 
 
     LABEL.abc<-(abs(m$mZ.Da.error) < itol) & (regexpr(pattern.abc, m$label) > 0)
