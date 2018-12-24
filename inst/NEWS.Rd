@@ -3,6 +3,12 @@
 \newcommand{\ghpr}{\href{https://github.com/protViz/protViz/pull/#1}{##1}}
 \newcommand{\ghit}{\href{https://github.com/protViz/protViz/issues/#1}{##1}}
 
+\section{Changes in protViz version 0.3.4 (2018-12-24)}{
+  \itemize{
+    \item resolve \ghit{6}.
+  }
+}
+
 \section{Changes in protViz version 0.3.0 (2017-06-22)}{
   \itemize{
     \item refactored \code{?findNN} and \code{?AA} man pages.
