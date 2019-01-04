@@ -1,6 +1,7 @@
 \name{fragmentIon}
 
 \alias{fragmentIon}
+\alias{as.data.frame.fragmentIonSet}
 \alias{bymatrix}
 \alias{ionseries}
 \alias{defaultIon}
@@ -9,8 +10,11 @@
 
 \description{
 
-    The function computes the fragment ions of a peptide sequence, according to the rules of fragmentation in a collision cell.
-    It can be either CID fragmentation (collision induced dissociation) or ETD (electron transfer dissociation) which are common in proteomics experiments. All are in positive mode.
+    The function computes the fragment ions of a peptide sequence,
+    according to the rules of fragmentation in a collision cell.
+    It can be either CID fragmentation (collision-induced dissociation)
+    or ETD (electron transfer dissociation) which are common in proteomics
+    experiments. All are in a positive mode.
 
     If multiple peptide sequences are given it returns a list of fragment ion table.
     
@@ -48,7 +52,7 @@
     The are no limits for defining other forms of fragment ions for ETD (c and z ions) CID (b and y ions).
 
     NOTE:
-    for simplicity we have set a Carbamidomethyl (C) fixed modification with 
+    for simplicity, we have set a Carbamidomethyl (C) fixed modification with 
     160.030649 (Cysteine mono mass is 103.00919).
     The fixed modifications setting are not enabled in the package yet.
 
@@ -63,7 +67,7 @@
 
       Protein Sequencing and Identification Using Tandem Mass Spectrometry, 
       Michael Kinter and Nicholas E. Sherman, 
-      Wiley-Interscience; 1 edition (September 18, 2000)
+      Wiley-Interscience; 1st edition (September 18, 2000)
 
 
 }
@@ -84,14 +88,12 @@
 # Example 1
 peptide.AA<-"KINHSFLR";
 
-peptide.AA.weights<-c(128.09496,113.08406,114.04293,
+peptide.AA.weights <- c(128.09496,113.08406,114.04293,
     137.05891,87.03203,147.06841,113.08406,156.10111);
 
 fragmentIon(peptide.AA);
 
 fragmentIon(peptide.AA.weights);
-
-
 
 HCD_Ion <- function(b, y){
     return(cbind(b = b, y = y))
@@ -104,8 +106,8 @@ ETD_Ion <- function(b, y){
     Nitrogen <- 14.003074
 
     y_0 <- y - Oxygen - Hydrogen - Hydrogen
-    c<- b + (Nitrogen + (3 * Hydrogen))
-    z<- y - (Nitrogen + (3 * Hydrogen))
+    c <- b + (Nitrogen + (3 * Hydrogen))
+    z <- y - (Nitrogen + (3 * Hydrogen))
 
     return(cbind(y_0, c, z))
 }
@@ -116,10 +118,11 @@ peptides<-c('HTLNQIDSVK', 'ALGGEDVR', 'TPIVGQPSIPGGPVR')
 
 pim <- parentIonMass(peptides)
 fi <- fragmentIon(peptides)
+(df <- as.data.frame(fi))
 
-op<-par(mfrow=c(3,1)); 
+op <- par(mfrow=c(3,1)); 
 for (i in 1:length(peptides)){
-    plot(0,0,
+    plot(0, 0,
     xlab='m/Z',
     ylab='',
     xlim=range(c(fi[[i]]$b,fi[[i]]$y)),
@@ -128,10 +131,10 @@ for (i in 1:length(peptides)){
     axes=FALSE,
     sub=paste(peptides[i], "/", pim[i], "Da"));
     box()
-    axis(1, fi[[i]]$b, round(fi[[i]]$b,1),las=2)
-    axis(1, fi[[i]]$y, round(fi[[i]]$y,1),las=2)
+    axis(1, fi[[i]]$b, round(fi[[i]]$b,1), las=2)
+    axis(1, fi[[i]]$y, round(fi[[i]]$y,1), las=2)
 
-    pepSeq<-strsplit(peptides[i],"")
+    pepSeq<-strsplit(peptides[i], "")
     axis(3,fi[[i]]$b, paste("b", row.names(fi[[i]]),sep=''),las=2)
     axis(3,fi[[i]]$y, paste("y", row.names(fi[[i]]),sep=''),las=2)
 

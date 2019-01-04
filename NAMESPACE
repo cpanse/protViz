@@ -83,9 +83,5 @@ export("plot.mascot", "plot.mascot_query", "summary.mascot",
        "findMz.mascot", "as.psm.mascot_query")
 
 
-#S3method(is, FASTA)
-#S3method(as, FASTA)
-#S3method(summary, FASTA)
-
-#export("is.FASTA", "as.FASTA", "summary.FASTA", "read.FASTA")
-#export("summary.FASTA")
+export("as.data.frame.fragmentIonSet")
+S3method(as.data.frame, fragmentIonSet)

@@ -49,15 +49,15 @@ There are already packages in R which deal with mass spec related data.
 Some of them are listed here:
 \begin{itemize}
 \item \pkg{MSnbase} package (basic functions for mass spec data including quant aspect with iTRAQ data)\\
-\url{http://www.bioconductor.org/packages/release/bioc/html/MSnbase.html}
+\url{http://bioconductor.org/packages/MSnbase/}
 \item \pkg{plgem} -- spectral counting quantification, applicable to MudPIT experiments\\
-\url{http://www.bioconductor.org/packages/release/bioc/html/plgem.html}
+\url{http://www.bioconductor.org/packages/plgem/}
 \item \pkg{synapter} -- MSe (Hi3 = Top3 Quantification) for Waters Q-tof data aquired in MSe mode\\ 
 \url{http://bioconductor.org/packages/synapter/}
 \item \pkg{mzR} \\ 
-\url{ 	http://bioconductor.org/packages/mzR/}
+\url{http://bioconductor.org/packages/mzR/}
 \item isobar iTRAQ/TMT quantification package\\
-\url{ 	http://bioconductor.org/packages/isobar/}
+\url{http://bioconductor.org/packages/isobar/}
 \item \pkg{readMzXmlData}\\ 
 \url{https://CRAN.R-project.org/package=readMzXmlData}
 %\item \pkg{msQC}\\

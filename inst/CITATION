@@ -1,67 +1,14 @@
 citHeader("To cite the package, please use one of the appropriate publications listed below.")
 
-citEntry(entry = "Article",
-  title        = "{PTM MarkerFinder}, a software tool to detect and validate spectra from peptides carrying post-translational modifications.",
-  author       = personList(as.person("Paolo Nanni"),
-                   as.person("Christian Panse"),
-                   as.person("Peter Gehrig"),
-                   as.person("Susanne Mueller"),
-                   as.person("Jonas Grossmann"),
-                   as.person("Ralph Schlapbach")),
-  journal = "PROTEOMICS",
-  year         = "2013",
-  volume       = "13",
-  number       = "15",
-  pages        = "2251-2255",
-  doi = "10.1002/pmic.201300036 ",
-  url = "http://dx.doi.org/10.1002/pmic.201300036",
+citEntry(entry = "Manual",
+  title        = "protViz: Visualizing and Analyzing Mass Spectrometry Related Data in Proteomics",
+  author       = personList( as.person("Christian Panse"),
+                   as.person("Jonas Grossmann")),
+  year         = "2019",
+  note = "R package version 0.4.0; https://CRAN.R-project.org/package=protViz",
 
-  textVersion  = paste("Nanni P, Panse C, Gehrig P, Mueller S, Grossmann J, Schlapbach R. (2013)",
-	"PTM MarkerFinder, a software tool to detect and validate spectra from peptides carrying post-translational modifications.",
-	"PROTEOMECS. 2013 Aug;13(15):2251-5. DOI:10.1002/pmic.201300036. Epub 2013 Jul 1.")
+  textVersion  = paste("Panse C, Grossmann J, (2019)",
+	"protViz: Visualizing and Analyzing Mass Spectrometry Related Data in Proteomics.",
+	"R package version 0.4.0; https://CRAN.R-project.org/package=protViz")
 )
-
-citEntry(entry = "Article",
-         title = "{spec{L} - {A}n {R}/{B}ioconductor package to prepare peptide spectrum matches for use in targeted proteomics}",
-         author = c(person("Christian", "Panse"),
-                    person("Christian", "Trachsel"),
-                    person("Jonas", "Grossmann"),
-                    person("Ralph", "Schlapbach")),
-         journal="Bioinformatics",
-         pages = "2228-2231",
-         month = "Feb",
-         year = 2015,
-         doi = "10.1093/bioinformatics/btv105",
-         url = "http://dx.doi.org/10.1093/bioinformatics/btv105",
-         
-         textVersion = paste("Panse C, Trachsel C, Grossmann J and Schlapbach R. (2015).",
-          "specL - An R/Bioconductor package to prepare peptide spectrum matches for use in targeted proteomics.",
-          "Bioinformatics. DOI:10.1093/bioinformatics/btv105.")
-)
-
-
-citEntry(entry = "Article",
-  title = "Implementation and evaluation of relative and absolute quantification in shotgun proteomics with label-free methods ",
-  author = c(person("Jonas", "Grossmann"),
-    person("Bernd", "Roschitzki"),
-    person("Christian", "Panse"),
-    person("Claudia", "Fortes"),
-    person("Simon", "Barkow-Oesterreicher"),
-    person("Dorothea","Rutishauser"),
-    person("Ralph", "Schlapbach")),
-journal = "Journal of Proteomics",
-volume = "73",
-number = "9",
-pages = "1740 - 1746",
-year = "2010",
-issn = "1874-3919",
-doi = "10.1016/j.jprot.2010.05.011",
-url = "http://www.sciencedirect.com/science/article/pii/S1874391910001703",
-
-textVersion = paste("Grossmann J, Roschitzki B, Panse C, Fortes C, Barkow-Oesterreicher S, Rutishauser D, Schlapbach R. (2010).",
-"Implementation and evaluation of relative and absolute quantification in shotgun proteomics with label-free methods.",
-"J Proteomics. 2010 Aug 5;73(9):1740-6. DOI:10.1016/j.jprot.2010.05.011. Epub 2010 May 31.")
-)
-
-
 

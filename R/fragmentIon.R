@@ -21,7 +21,7 @@ fragmentIon <- function(sequence, FUN=defaultIon, modified=numeric(), modificati
     if (!is.character(sequence)) {
 	# TODO(cp@fgcz.ethz.ch): check C and N Term variable
 
-        R<-list()
+        R <- list()
 
         input.n <- length(sequence)
 
@@ -34,10 +34,10 @@ fragmentIon <- function(sequence, FUN=defaultIon, modified=numeric(), modificati
 
     }else if (length(modification) > 1) {
                                                     
-        FUN<-match.fun(FUN)
+        FUN <- match.fun(FUN)
 
-        R<-list()
-        pim<-parentIonMass(sequence)
+        R <- list()
+        pim <- parentIonMass(sequence)
 
         Oxygen <- 15.994915
         Carbon <- 12.000000
@@ -46,10 +46,10 @@ fragmentIon <- function(sequence, FUN=defaultIon, modified=numeric(), modificati
         Electron <- 0.000549
 
         for (i in 1:length(sequence)){
-            input.sequence<-sequence[i]
-            input.n<-nchar(input.sequence)
+            input.sequence <- sequence[i]
+            input.n <- nchar(input.sequence)
             input.modified <- as.integer(strsplit(modified[i], '')[[1]])
-            input.pim<-pim[i]+(sum(as.double(as.character(modification[input.modified+1]))))
+            input.pim <- pim[i] + (sum(as.double(as.character(modification[input.modified + 1]))))
 
             if (input.n != length(input.modified))
                 stop (paste("unvalid argument",i,"- number of AA and modification config differ! stop."))
@@ -64,13 +64,14 @@ fragmentIon <- function(sequence, FUN=defaultIon, modified=numeric(), modificati
                 modification=as.double(as.character(modification)))
 
             R[[length(R)+1]] <- as.data.frame(FUN(out$b, out$y))
+	    attributes(R[[length(R)]])$sequence <- sequence[i]
+	    class(R[[length(R)]])  <- c('fragmentIon', class(R[[length(R)]]))
         }
-
     } else{
         FUN<-match.fun(FUN)
 
-        R<-list()
-        pim<-parentIonMass(sequence)
+        R <- list()
+        pim <- parentIonMass(sequence)
 
         Oxygen <- 15.994915
         Carbon <- 12.000000
@@ -92,8 +93,56 @@ fragmentIon <- function(sequence, FUN=defaultIon, modified=numeric(), modificati
 
 
             R[[length(R)+1]] <- as.data.frame(FUN(out$b, out$y))
+	    attributes(R[[length(R)]])$sequence <- sequence[i]
+	    class(R[[length(R)]])  <- c('fragmentIon', class(R[[length(R)]]))
         }
     }
+    class(R) <- c('fragmentIonSet', class(R))
     return(R)
 }
 
+
+as.data.frame.fragmentIon <- function(x, ...){
+  
+  long <- reshape(x, 
+                  idvar = "pos",
+                  ids = row.names(x),
+                  times = names(x),
+                  timevar = "type",
+                  varying = list(names(x)),
+                  direction = "long")
+  
+  long$pos <- as.numeric(long$pos)
+  names(long)[2] <- "mass"
+  long <- long[order(long$mass), ]
+  
+  if ('sequence' %in% names(attributes(x))){
+    attr(long, 'sequence') <- attr(x, 'sequence')
+    
+    sequence <- attributes(long)$sequence
+    sequence.n <- nchar(sequence)
+    
+    abc.idx <- grep("[abc]", long$type)
+    xyz.idx <- grep("[xyz]", long$type)
+    
+    long$fragment <- NA
+    long$sequence <- sequence
+    long$fragment[abc.idx] <- substr(rep(sequence, length(abc.idx)), 1, long$pos[abc.idx])
+    
+    long$fragment[xyz.idx] <- substr(rep(sequence, length(xyz.idx)), 
+                                     sequence.n - long$pos[xyz.idx] + 1, 
+                                     sequence.n)
+  }
+  
+  row.names(long) <- paste(long$type, long$pos, sep='')
+  
+
+  
+ 
+  long[long$pos != max(long$pos),]
+}
+
+
+as.data.frame.fragmentIonSet <- function(x, ...){
+  do.call('rbind', lapply(x, as.data.frame.fragmentIon))
+}
