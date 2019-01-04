@@ -103,20 +103,19 @@ options(prompt = "R> ", continue = "+  ", width = 60, useFancyQuotes = FALSE)
 
 % =============================================================================
 \section*{Package Description}
-\Rcode{protViz} is an R package to do quality checks, vizualizations and analysis of mass spectrometry data, coming from proteomics experiments.
-The package is developed, tested and used at the Functional Genomics Center Zurich. 
+\Rcode{protViz} is an R package to do quality checks, visualizations, and analysis of mass spectrometry data, coming from proteomics experiments.
+
+The package is developed, tested and used at the Functional Genomics Center Zurich.
 We use this package mainly for prototyping, teaching, and having \Rcode{fun} with proteomics data.
-But it can also be used to do solid data analysis for small scale data sets.
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+But it can also be used to do solid data analysis for small-scale datasets.
+
 \section{Peptide Identification}
 {\em The currency in proteomics are the peptides.}
-In proteomics, proteins are digested to so-called peptides since peptides are much easier to handle biochemically than proteins. Proteins are very different in nature some are very sticky while others are soluble in aqueous solutions while again are only sitting in membranes. Therefore, proteins are chopped up into peptides because it is fair to assume, that for each protein, there will be a number of peptides behaving well so that they can actually be measured with the mass spectrometer. This step introduces another problem, the so-called protein inference problem. In this package here, we do not at all touch upon the protein inference.
+In proteomics, proteins are digested to so-called peptides since peptides are much easier to handle biochemically than proteins. Proteins are very different some are very sticky while others are soluble in aqueous solutions while again are only sitting in membranes. Therefore, proteins are chopped up into peptides because it is fair to assume, that for each protein, there will be some peptides behaving well so that they can be measured with the mass spectrometer. This step introduces another problem, the so-called protein inference problem. In this package here, we do not look at all touch upon the protein inference.
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Computing the Parent Ion Mass}
-The function \Rcode{parentIonMass} determans the mass of a amino acid sequance
-while the function \Rcode{ssrc} returns a  hydrophobicity value for a given
-sequence of amino acids which can be used to predict the retention times
+The function \Rcode{parentIonMass} determines the mass of a amino acid sequence
+while the function \Rcode{ssrc} returns a  hydrophobicity value for a given sequence of amino acids which can be used to predict the retention times
 \cite{pmid15238601}.
 
 <<label=digest, keep.source = TRUE, eval = TRUE, fig = TRUE, include=FALSE, width=8, height=4>>=
@@ -181,8 +180,9 @@ par(op)
 {\centering
 \includegraphics[width=1.0\columnwidth, keepaspectratio]{poster-insilico}}
 
-The next lines compute the singly and doubly charged fragment ions of the \Rcode{HTLNQIDSVK} peptide. 
-Which are usually the ones that can be used to make an identification.
+The next lines compute the singly and doubly charged fragment ions of the \Rcode{HTLNQIDSVK} peptide.
+The in-silico ions are usually the ones that can be used to perform the identification.
+
 
 <<>>=
 fi.HTLNQIDSVK.1 <- 
@@ -194,10 +194,11 @@ fi.HTLNQIDSVK.2 <-
 
 <<xtable2, results=tex, echo=FALSE>>=
 df <- as.data.frame(cbind(fi.HTLNQIDSVK.1, fi.HTLNQIDSVK.2))
-names(df)<-c(paste(names(fi.HTLNQIDSVK.1),1,sep=''), paste(names(fi.HTLNQIDSVK.2),2,sep=''))
+names(df) <- c(paste(names(fi.HTLNQIDSVK.1),1,sep=''),
+  paste(names(fi.HTLNQIDSVK.2),2,sep=''))
 library(xtable)
 print.xtable(xtable(df,
-	caption = "Singly and doubly charged fragment ion of the HTLNQIDSVK tryptic peptide of the swissprot P12763 FETUA BOVIN Alpha-2-HS-glycoprotein protein are listed.",
+	caption = "Singly and doubly charged fragment ions of the HTLNQIDSVK tryptic peptide of the SwissProt P12763 FETUA BOVIN Alpha-2-HS-glycoprotein protein are listed.",
 	label = "Table:xtable2"), 
   include.rownames = FALSE, 
   table.placement = "H",
@@ -208,13 +209,14 @@ print.xtable(xtable(df,
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Fragment Ion Matching}
 Given a peptide sequence and a tandem mass spectrum.
-For the assignment of a canditate peptide an in-silico fragment ion
+For the assignment of a candidate peptide an in-silico fragment ion
 spectra \Rcode{fi}  is computed.
-The function \Rcode{findNN} determines for each fragment ion the closesed 
+The function \Rcode{findNN} determines for each fragment ion the closed
 peak in the MS2.
-If the difference between the in-silico mass and the measured mass  
-is inside the 'accuracy' mass window of the mass spec device the 
-in-silico fragment ion is considered as potential hit.
+If the difference between the in-silico mass and the measured mass
+is inside the `accuracy' mass window of the mass spec device the
+in-silico fragment ion is considered as a potential hit.
+
 
 <<echo=FALSE>>=
 spec <- list(scans=1138,
@@ -259,18 +261,18 @@ The plot below graphs a peptide-spectrum match of the \Rcode{'HTLNQIDSVK'} pepti
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Quantification}
-For an overview on Quantitative Proteomics read \cite{pmid22772140, pmid22821268}.
-The authors are aware that meaningful statistics usually require much higher number
-of biological replicates. 
-In almost all cases there are not more than three to six repitions.
-For the moment there are limited options due to the availabilty of machine time
+For an overview of Quantitative Proteomics read \cite{pmid22772140, pmid22821268}.
+The authors are aware that meaningful statistics usually require a much higher number
+of biological replicates.
+In almost all cases there are not more than three to six repetitions.
+For the moment there are limited options due to the availability of machine time
 and the limits of the technologies.
 
 %\subsection{Relative and absolute label-free methods on protein level}
 \subsection{Absolute Label-Free}
 The data set \Rcode{fetuinLFQ} contains a subset of our results descriped in \cite{pmid20576481}.
 The example below shows a visualization using trellis plots. It graphs 
-the abundance of four protein in dependency from the 
+the abundance of four protein dependency from the 
 fetuin concentration spiked into the sample. 
 
 <<label=LFQtrellis, echo=FALSE, fig=TRUE, include=FALSE, width=8, height=4>>=
@@ -310,7 +312,10 @@ print(xyplot(abundance ~ conc | prot * method,
 
 \includegraphics[width=\columnwidth, keepaspectratio]{poster-LFQtrellis}
 
-The plot shows the estimated concentration of the four proteins using the top 3 most intense peptides. The Fetuin peptides are spiked in with increasing concentration while the three other yeast proteins are kept stable in the background.
+The plot shows the estimated concentration of the four proteins using
+the top three most intense peptides. The Fetuin peptides are spiked
+in with increasing concentration while the three other yeast proteins
+are kept stable in the background.
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -337,7 +342,7 @@ nbins=25)
 
 \includegraphics[width=\columnwidth, keepaspectratio]{poster-featureDensityPlot}
 
-The plots shows the normalized signal intensity distribution (asinh transformed) over the 24 LCMS runs aligned in this experiment.
+The plots graph the normalized signal intensity distribution (logarithmic scaled) over the 24 LCMS runs aligned in this experiment.
 
 
 <<label=image1, keep.source = TRUE, eval = TRUE, fig = TRUE, include=FALSE, width=10, height=10>>=
@@ -368,7 +373,8 @@ labels=samples, las=2)
 par(op)
 @
 
-This left figure below shows the correlation between runs on feature level (values are asinh transformed). White is perfect correlation while black indicates a poor correlation.
+This left figure below shows the correlation between runs on feature level (values are \Rcode{asinh} transformed).
+White color indicates the perfect correlation while black indicates a poor correlation.
 
 <<label=image2, keep.source = TRUE, eval = TRUE, fig = TRUE, include=FALSE, echo=FALSE, width=10, height=10>>=
 op<-par(mfrow=c(1,1),mar=c(18,18,4,1), cex=0.5)
@@ -389,7 +395,7 @@ par(op)
 \includegraphics[width=0.5\columnwidth, keepaspectratio]{poster-image2}
 }
 
-This right figure above shows the correlation between runs on protein level (values are \Rcode{asinh} transformed). White is perfect correlation while black indicates a poor correlation.
+This right figure above shows the correlation between runs on protein level (values are \Rcode{asinh} transformed). White is the perfect correlation while black indicates a poor correlation.
 Striking is the fact that the six biological replicates for each condition cluster very well.
 
 
@@ -501,7 +507,7 @@ Y32 H94,
 Winterthurerstr. 190,
 CH-8057 Zurich,
 SWITZERLAND,
-Phone: +41 44 635 39 10,
+Phone: +41 44 635 39 12,
 Fax: +41 44 635 39 22,
 EMail: \url{{cp,jg}@fgcz.ethz.ch},
 URL: \url{https://CRAN.R-project.org/package=protViz}.}
