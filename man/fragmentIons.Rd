@@ -157,10 +157,11 @@ ION2C <- function(b, y){
     Oxygen <- 15.994915
     Nitrogen <- 14.003074
 
-    #yo <- fi$y - Oxygen - Hydrogen - Hydrogen
+    # yo <- fi$y - Oxygen - Hydrogen - Hydrogen
     c <- b + (Nitrogen + (3 * Hydrogen))
     z <- y - (Nitrogen + (3 * Hydrogen))
     
+    # compute doubly charged fragment ions
     b2 <- (b + Hydrogen) / 2
     y2 <- (y + Hydrogen) / 2
 
