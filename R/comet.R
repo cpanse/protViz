@@ -23,9 +23,9 @@
 #'     header = TRUE, fill = TRUE, skip=1)
 #'  
 #'  do.call('rbind', lapply(c(0.001,0.005,0.01,0.02,0.05,0.1),
-#'    function(cutoff)protViz:::summary.comet(S, cutoff)))
+#'    function(cutoff)summary.comet(S, cutoff)))
 #'  }
-.summary.comet <- function(x, psmFdrCutoff=0.05){
+summary.comet <- function(x, psmFdrCutoff=0.05, decoyPattern="^REV_"){
     
     stopifnot(.is.comet(x))
     
@@ -35,18 +35,18 @@
     
     x$REV <- grepl("^REV_", x$protein)
     x$nREVhits <- cumsum(x$REV)
-    x$FDR <- S$nREVhits / (seq(1,n) - x$nREVhits)
+    x$FDR <- x$nREVhits / (seq(1,n) - x$nREVhits)
     
     nConvidentPSM <- which(x$FDR > psmFdrCutoff)[1]
     nDecoyPSM <- x$nREVhits[which(x$FDR > psmFdrCutoff)[1]]
     convidentPeptide <- as.character(x$plain_peptide[seq(1, nConvidentPSM)])
-    decoyPeptide <- grepl("^REV_", as.character(x$protein[seq(1, nConvidentPSM)]))
+    decoyPeptide <- grepl(decoyPattern, as.character(x$protein[seq(1, nConvidentPSM)]))
     
     nDecoyPeptide <- length(unique(convidentPeptide[decoyPeptide]))
     nConvidentPeptide <- length(unique(convidentPeptide[!decoyPeptide]))
     
     convidentProteins <- unique(sapply(strsplit(as.character(x$protein[seq(1, nConvidentPSM)]),','), function(y)y[1]))
-    nDecoyProteins <- length(grep("^REV_", convidentProteins))
+    nDecoyProteins <- length(grep(decoyPattern, convidentProteins))
     
     
     nConvidentProteins <- length(convidentProteins)-nDecoyProteins
@@ -64,11 +64,5 @@
                      )
     df     
 }
-
-
-
-
-
-
 
 

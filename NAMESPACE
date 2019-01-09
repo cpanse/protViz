@@ -75,12 +75,14 @@ S3method(is, mascot_query)
 S3method(plot, mascot)
 S3method(plot, mascot_query)
 S3method(summary, mascot)
+S3method(summary, comet)
 S3method(as.data.frame, mascot)
 S3method(findMz, mascot)
 S3method(as.psmSet, mascot)
-export("plot.mascot", "plot.mascot_query", "summary.mascot",
-       "as.data.frame.mascot", "is.mascot", "is.mascot_query",
-       "findMz.mascot", "as.psm.mascot_query")
+export("plot.mascot", "plot.mascot_query", "summary.mascot", 
+    "as.data.frame.mascot", "is.mascot", "is.mascot_query",
+    "summary.comet",
+    "findMz.mascot", "as.psm.mascot_query")
 
 
 export("as.data.frame.fragmentIonSet")
