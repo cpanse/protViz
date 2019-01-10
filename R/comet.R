@@ -1,68 +1,50 @@
 #R
 
-.is.comet <- function(x){
-    if(sum(c('sp_score', 'protein', 'plain_peptide') %in% names(x))==3) return(TRUE)
+.is.cometdecoy <- function(object){
+    if(sum(c('num', 'sp_score', 'protein', 'plain_peptide') %in% names(object))==4) return(TRUE)
 
     FALSE
 }
 
-#' comet summary
-#'
-#' @param x a comet txt file
-#' @param psmFdrCutoff peptide spectrum match (PSM) cut-off  value.
-#'
-#' @description computes peptide spectrum match (PSM), peptide and protein False
-#' Discovery Rate (FDR) for a given PSM cut-off  value.
-#' 
-#' @return a \code{data.frame}
-#' @author Jonas Grossmann, Christian Panse, 2019
-#' @examples
-#' 
-#'  \dontrun{
-#'  S <- read.table("~/Downloads/20190103_007_autoQC4L_autoQC.txt",
-#'     header = TRUE, fill = TRUE, skip=1)
-#'  
-#'  do.call('rbind', lapply(c(0.001,0.005,0.01,0.02,0.05,0.1),
-#'    function(cutoff)summary.comet(S, cutoff)))
-#'  }
-summary.comet <- function(x, psmFdrCutoff=0.05, decoyPattern="^REV_"){
-    
-    stopifnot(.is.comet(x))
-    
-    idx <-order(x$sp_score)
-    n <- nrow(x)
-    x <- x[rev(idx), ]
-    
-    x$REV <- grepl("^REV_", x$protein)
-    x$nREVhits <- cumsum(x$REV)
-    x$FDR <- x$nREVhits / (seq(1,n) - x$nREVhits)
-    
-    nConvidentPSM <- which(x$FDR > psmFdrCutoff)[1]
-    nDecoyPSM <- x$nREVhits[which(x$FDR > psmFdrCutoff)[1]]
-    convidentPeptide <- as.character(x$plain_peptide[seq(1, nConvidentPSM)])
-    decoyPeptide <- grepl(decoyPattern, as.character(x$protein[seq(1, nConvidentPSM)]))
-    
-    nDecoyPeptide <- length(unique(convidentPeptide[decoyPeptide]))
-    nConvidentPeptide <- length(unique(convidentPeptide[!decoyPeptide]))
-    
-    convidentProteins <- unique(sapply(strsplit(as.character(x$protein[seq(1, nConvidentPSM)]),','), function(y)y[1]))
-    nDecoyProteins <- length(grep(decoyPattern, convidentProteins))
-    
-    
-    nConvidentProteins <- length(convidentProteins)-nDecoyProteins
-    df <- data.frame(nPSM=n,
-                     psmFdrCutoff=psmFdrCutoff,
-                     nDecoyPSM=nDecoyPSM,
-                     nConvidentPSM=nConvidentPSM,
-                     nDecoyPeptide=nDecoyPeptide,
-                     nConvidentPeptide=nConvidentPeptide,
-                     nDecoyProteins=nDecoyProteins,
-                     nConvidentProteins=nConvidentProteins,
-                     fdrPSM=nDecoyPSM/nConvidentPSM,
-                     fdrPeptide=nDecoyPeptide/nConvidentPeptide,
-                     fdrProtein=nDecoyProteins/nConvidentProteins
-                     )
-    df     
+summary.cometdecoy <- function(object, psmFdrCutoff=0.05, decoyPattern="^REV_", ...){
+  stopifnot(.is.cometdecoy(object))
+
+  # consider only first matches
+  object <- object[object$num ==1, ]
+  
+  idobject <-order(object$sp_score)
+  n <- nrow(object)
+  object <- object[rev(idobject), ]
+  
+  object$REV <- grepl("^REV_", object$protein)
+  if(sum(object$REV) == 0) warning("no decoy hit found. consider different decoy pattern or enable decoy search in comet.")
+  
+  object$nREVhits <- cumsum(object$REV)
+  object$FDR <- object$nREVhits / (seq(1, n) - object$nREVhits)
+  
+  nConvidentPSM <- which(object$FDR > psmFdrCutoff)[1]
+  nDecoyPSM <- object$nREVhits[which(object$FDR > psmFdrCutoff)[1]]
+  convidentPeptide <- as.character(object$plain_peptide[seq(1, nConvidentPSM)])
+  decoyPeptide <- grepl(decoyPattern, as.character(object$protein[seq(1, nConvidentPSM)]))
+  
+  nDecoyPeptide <- length(unique(convidentPeptide[decoyPeptide]))
+  nConvidentPeptide <- length(unique(convidentPeptide[!decoyPeptide]))
+  
+  convidentProteins <- unique(sapply(strsplit(as.character(object$protein[seq(1, nConvidentPSM)]),','), function(y)y[1]))
+  nDecoyProteins <- length(grep(decoyPattern, convidentProteins))
+  nConvidentProteins <- length(convidentProteins)-nDecoyProteins
+  
+  df <- data.frame(nPSM=n,
+                   psmFdrCutoff=psmFdrCutoff,
+                   nDecoyPSM=nDecoyPSM,
+                   nConvidentPSM=nConvidentPSM,
+                   nDecoyPeptide=nDecoyPeptide,
+                   nConvidentPeptide=nConvidentPeptide,
+                   nDecoyProteins=nDecoyProteins,
+                   nConvidentProteins=nConvidentProteins,
+                   fdrPSM=nDecoyPSM/nConvidentPSM,
+                   fdrPeptide=nDecoyPeptide/nConvidentPeptide,
+                   fdrProtein=nDecoyProteins/nConvidentProteins
+  )
+  df     
 }
-
-
