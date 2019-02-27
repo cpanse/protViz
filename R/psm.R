@@ -174,6 +174,7 @@ plot.psm <- function (x, ...){
 }
 
   
+# TODO(cp): rename to findMarkerIon
 findMz <- function(data, mZmarkerIons, itol_ppm = 10, minNumberIons = 2, minMarkerIntensityRatio = 10){
   UseMethod("findMz")
 }

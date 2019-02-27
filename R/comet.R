@@ -22,29 +22,29 @@ summary.cometdecoy <- function(object, psmFdrCutoff=0.05, decoyPattern="^REV_", 
   object$nREVhits <- cumsum(object$REV)
   object$FDR <- object$nREVhits / (seq(1, n) - object$nREVhits)
   
-  nConvidentPSM <- which(object$FDR > psmFdrCutoff)[1]
+  nConfidentPSM <- which(object$FDR > psmFdrCutoff)[1]
   nDecoyPSM <- object$nREVhits[which(object$FDR > psmFdrCutoff)[1]]
-  convidentPeptide <- as.character(object$plain_peptide[seq(1, nConvidentPSM)])
-  decoyPeptide <- grepl(decoyPattern, as.character(object$protein[seq(1, nConvidentPSM)]))
+  confidentPeptide <- as.character(object$plain_peptide[seq(1, nConfidentPSM)])
+  decoyPeptide <- grepl(decoyPattern, as.character(object$protein[seq(1, nConfidentPSM)]))
   
-  nDecoyPeptide <- length(unique(convidentPeptide[decoyPeptide]))
-  nConvidentPeptide <- length(unique(convidentPeptide[!decoyPeptide]))
+  nDecoyPeptide <- length(unique(confidentPeptide[decoyPeptide]))
+  nConfidentPeptide <- length(unique(confidentPeptide[!decoyPeptide]))
   
-  convidentProteins <- unique(sapply(strsplit(as.character(object$protein[seq(1, nConvidentPSM)]),','), function(y)y[1]))
-  nDecoyProteins <- length(grep(decoyPattern, convidentProteins))
-  nConvidentProteins <- length(convidentProteins)-nDecoyProteins
+  confidentProteins <- unique(sapply(strsplit(as.character(object$protein[seq(1, nConfidentPSM)]),','), function(y)y[1]))
+  nDecoyProteins <- length(grep(decoyPattern, confidentProteins))
+  nConfidentProteins <- length(confidentProteins)-nDecoyProteins
   
   df <- data.frame(nPSM=n,
                    psmFdrCutoff=psmFdrCutoff,
                    nDecoyPSM=nDecoyPSM,
-                   nConvidentPSM=nConvidentPSM,
+                   nConfidentPSM=nConfidentPSM,
                    nDecoyPeptide=nDecoyPeptide,
-                   nConvidentPeptide=nConvidentPeptide,
+                   nConfidentPeptide=nConfidentPeptide,
                    nDecoyProteins=nDecoyProteins,
-                   nConvidentProteins=nConvidentProteins,
-                   fdrPSM=nDecoyPSM/nConvidentPSM,
-                   fdrPeptide=nDecoyPeptide/nConvidentPeptide,
-                   fdrProtein=nDecoyProteins/nConvidentProteins
+                   nConfidentProteins=nConfidentProteins,
+                   fdrPSM=nDecoyPSM/nConfidentPSM,
+                   fdrPeptide=nDecoyPeptide/nConfidentPeptide,
+                   fdrProtein=nDecoyProteins/nConfidentProteins
   )
   df     
 }
