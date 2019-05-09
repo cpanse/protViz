@@ -7,10 +7,6 @@ Authors@R: c(person("Christian", "Panse", email = "cp@fgcz.ethz.ch", role = c("a
 	person("Jonas", "Grossmann", email = "jg@fgcz.ethz.ch", role = "aut",
 	comment = c(ORCID = "0000-0002-6899-9020")),
 	person("Simon", "Barkow-Oesterreicher", role = "ctb"))
-Author: Christian Panse [aut, cre] (0000-0003-1975-3064),
-	Jonas Grossmann [aut] (0000-0002-6899-9020),
-	Simon Barkow-Oesterreicher [ctb]
-Maintainer: Christian Panse <cp@fgcz.ethz.ch>
 Depends: R (>= 3.3),
 	methods
 Imports: Rcpp (>= 0.12.8)
