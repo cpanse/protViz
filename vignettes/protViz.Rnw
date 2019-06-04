@@ -47,7 +47,9 @@ options(prompt = "R> ", continue = "+  ", width = 70, useFancyQuotes = FALSE)
 {\em The method of choice in proteomics is mass spectrometry.}
 There are already packages in R which deal with mass spec related data.
 Some of them are listed here:
+
 \begin{itemize}
+\item \pkg{OrgMassSpec}: Organic Mass Spectrometry
 \item \pkg{MSnbase} package (basic functions for mass spec data including quant aspect with iTRAQ data)\\
 \url{http://bioconductor.org/packages/MSnbase/}
 \item \pkg{plgem} -- spectral counting quantification, applicable to MudPIT experiments\\
@@ -578,6 +580,7 @@ print(xyplot(Pc ~ as.factor(file) | paste("time =",
 
 While each panel in the \code{xyplot} above shows the data to a given point in time, we try to use the levelplot 
 to get an overview of the whole pressure profile data.
+
 <<keep.source = TRUE, eval = TRUE, fig = TRUE>>=
 pp.data<-pps(pressureProfile, time=seq(0,140,length=128))
 print(levelplot(Pc ~ time * as.factor(file),

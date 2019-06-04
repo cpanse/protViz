@@ -1,16 +1,16 @@
 Package: protViz
 Type: Package
 Title: Visualizing and Analyzing Mass Spectrometry Related Data in Proteomics
-Version: 0.4.3
+Version: 0.4.4
 Authors@R: c(person("Christian", "Panse", email = "cp@fgcz.ethz.ch", role = c("aut", "cre"), 
         comment = c(ORCID = "0000-0003-1975-3064")),
 	person("Jonas", "Grossmann", email = "jg@fgcz.ethz.ch", role = "aut",
 	comment = c(ORCID = "0000-0002-6899-9020")),
 	person("Simon", "Barkow-Oesterreicher", role = "ctb"))
-Depends: R (>= 3.3),
+Depends: R (>= 3.5),
 	methods
-Imports: Rcpp (>= 0.12.8)
-LinkingTo: Rcpp
+Imports: Rcpp (>= 1.0)
+LinkingTo: Rcpp (>= 1.0)
 RcppModules: FastaMod 
 Suggests:lattice,
 	RUnit,
@@ -18,7 +18,8 @@ Suggests:lattice,
 Description: Helps with quality checks, visualizations 
     and analysis of mass spectrometry data, coming from proteomics 
     experiments. The package is developed, tested and used at the Functional 
-    Genomics Center Zurich. We use this package mainly for prototyping, 
+    Genomics Center Zurich <http://www.fgcz.ethz.ch>.
+    We use this package mainly for prototyping,
     teaching, and having fun with proteomics data. But it can also be 
     used to do data analysis for small scale data sets.
 License: GPL-3
