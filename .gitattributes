@@ -1,0 +1,4 @@
+* linguist-vendored
+R/*.R linguist-vendored=false
+src/* linguist-vendored=false
+exec/* linguist-vendored=false
