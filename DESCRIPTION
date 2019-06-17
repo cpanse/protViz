@@ -23,8 +23,8 @@ Description: Helps with quality checks, visualizations
     teaching, and having fun with proteomics data. But it can also be 
     used to do data analysis for small scale data sets.
 License: GPL-3
-URL: https://github.com/protViz/protViz/
-BugReports: https://github.com/protViz/protViz/issues
+URL: https://github.com/cpanse/protViz/
+BugReports: https://github.com/cpanse/protViz/issues
 Collate: aa2mass.R 
   comet.R
   deisotoper.R
