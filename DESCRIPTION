@@ -18,8 +18,8 @@ Suggests:lattice,
 Description: Helps with quality checks, visualizations 
     and analysis of mass spectrometry data, coming from proteomics 
     experiments. The package is developed, tested and used at the Functional 
-    Genomics Center Zurich <http://www.fgcz.ethz.ch>.
-    We use this package mainly for prototyping,
+    Genomics Center Zurich <url:http://www.fgcz.ethz.ch>. We use this package
+    mainly for prototyping,
     teaching, and having fun with proteomics data. But it can also be 
     used to do data analysis for small scale data sets.
 License: GPL-3

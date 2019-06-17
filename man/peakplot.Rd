@@ -5,6 +5,8 @@
 \alias{peakplot.pie}
 \alias{peakplot}
 \alias{protViz}
+\alias{peaklist}
+\alias{peaklistSet}
 \alias{plot.psm}
 
 
@@ -40,7 +42,7 @@
   \item{peptideSequence}{peptide sequence encoded as character sequence using 
 the 20 amino acid letters.}
 
-  \item{spec}{ a tandem mass spec data structure which is a list having two 
+  \item{spec}{a \code{peaklist} or a tandem mass spec data structure which is a list having two 
 eq sized vectors calles mZ and intensity. mZ values are sorted.}
 
   \item{FUN}{the function to be applied to compute further ions. If no 
@@ -130,18 +132,13 @@ dependent on the instrument setting applied during the initial search.
 	 \item{\code{\link{PTM_MarkerFinder}}}
 		
 		\item \code{\link{peakplot}} has been used for generating 
-   figures and supplemental material in:    \itemize{
+   figures and supplemental material in:  
 
-    \item{\url{http://www.ncbi.nlm.nih.gov/pubmed/17114649}}
-
-    \item{\url{http://www.ncbi.nlm.nih.gov/pubmed/17940529}}
-
-    \item{\url{http://www.ncbi.nlm.nih.gov/pubmed/22693562}}
-
-    \item{\url{http://www.ncbi.nlm.nih.gov/pubmed/23713006}}
-    
-    \item{\url{http://www.ncbi.nlm.nih.gov/pubmed/26944343}}
-    }
+    \doi{10.1074/mcp.M600046-MCP200},
+    \doi{10.1038/msb4100182},
+    \doi{10.1371/journal.pone.0036980},
+    \doi{10.1002/pmic.201300036},
+    \doi{10.1074/mcp.M115.052548}
   }
 }
 
