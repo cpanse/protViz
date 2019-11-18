@@ -213,7 +213,7 @@ export as comma separeted file
 
 <<keep.source = TRUE, eval = TRUE, fig = FALSE>>=
 write.table(S.wide, 
-	file = "HexNAc_PTM_markerFinder.csv",
+	file = file.path(tempdir(), "HexNAc_PTM_markerFinder.csv"),
     	sep = ',', 
 	row.names = FALSE,
 	col.names = TRUE, 
