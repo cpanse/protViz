@@ -56,7 +56,6 @@ static const R_CMethodDef CEntries[] = {
 static const R_CallMethodDef CallEntries[] = {
     {"_protViz_findNN_", (DL_FUNC) &_protViz_findNN_, 3},
     {"_protViz_lower_bound__", (DL_FUNC) &_protViz_lower_bound__, 2},
-    {"lower_bound__",         (DL_FUNC) &lower_bound__,         2},
     {"_rcpp_module_boot_FastaMod", (DL_FUNC) &_rcpp_module_boot_FastaMod, 0},
    
 //    {"__findNN",                        (DL_FUNC) &__findNN,                        5},
