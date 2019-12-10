@@ -3,9 +3,10 @@
 \newcommand{\ghpr}{\href{https://github.com/protViz/protViz/pull/#1}{##1}}
 \newcommand{\ghit}{\href{https://github.com/protViz/protViz/issues/#1}{##1}}
 
-\section{Changes in protViz version 0.4.2 (2019-01-08)}{
+\section{Changes in protViz version 0.5.0 (2019-11-18)}{
   \itemize{
     \item added comet.R helper functions.
+    \item recfactored peakplot functions.
   }
 }
 

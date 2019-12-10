@@ -36,11 +36,17 @@ psm <- function(sequence, spec, FUN = defaultIon,
     mZ.error<-spec$mZ[NN] - by.mZ
 
     if (plot == TRUE){
+	plot(mZ.error ~ spec$mZ[NN],
+            pch=22,
+	    ylim=c(-5 * fragmentIonError,  5 * fragmentIonError))
+        abline(h=fragmentIonError,col='grey')
+        abline(h=-fragmentIonError,col='grey')
+        abline(h=0,col='grey',lwd=2)
+
         plot(mZ.error[mZ.error.idx<-order(mZ.error)],
             main=paste("Error of", sequence, "(parent ion mass =", round(pim,2) ,"Da)"),
             ylim=c(-5*fragmentIonError, 5*fragmentIonError),
-            pch='o',
-            cex=0.5,
+            pch=22,
             sub=paste('The error cut-off is', 
                 fragmentIonError, 'Da (grey line).')
             )
@@ -64,6 +70,7 @@ psm <- function(sequence, spec, FUN = defaultIon,
 
         legend("topleft", paste(c('nHits','sumMZerror','avgMZerror','cover'),
             as.character(c(nHits, sumMZerror, avgMZerror, cover)),sep='=')) 
+
     }
 
 

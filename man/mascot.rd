@@ -8,6 +8,7 @@
 \alias{is.mascot_query}
 \alias{as.data.frame.mascot}
 \alias{summary.mascot}
+\alias{summary.cometdecoy}
 
 \alias{as.psm.mascot_query}
 

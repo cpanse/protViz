@@ -40,8 +40,6 @@ Krokhin, O. V. et al. An improved model for prediction of retention times of try
   \itemize{
     \item \url{http://hs2.proteome.ca/SSRCalc/SSRCalcX.html}
     
-    \item \url{http://bioconductor.org/packages/release/bioc/vignettes/specL/inst/doc/ssrc.html}
-    
     \item \code{\link{iRTpeptides}}
   }
 }

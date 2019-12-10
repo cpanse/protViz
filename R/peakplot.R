@@ -38,63 +38,17 @@
 		srt=90)
 }
 
-.peakplot.label <- function(spec, match, yMax){
-
-    bin.n <- 10
-    lab.n <- 3
-    bin <- seq(min(spec$mZ), max(spec$mZ), length=(bin.n+1))
-    bin.min <- bin[seq(1,length(bin)-1)];
-    bin.max <- bin[seq(2,length(bin))];
-    bin.range <- 1:lab.n
-
+.peakplot.label <- function(spec, match, itol=0.6, ...){
     # filtering the ions
-    LABEL.abc<-(abs(match$mZ.Da.error) < 0.6) & (regexpr("[abc].*", match$label) > 0)
-    LABEL.xyz<-(abs(match$mZ.Da.error) < 0.6) & (regexpr("[xyz].*", match$label) > 0)
+    # TODO(cp): 1. assign highest peak within itol range; 2. col/pch setting
 
-    points(spec$mZ[match$idx[LABEL.abc]], spec$intensity[match$idx[LABEL.abc]], col="black", cex=1.0, pch=22)
-    points(spec$mZ[match$idx[LABEL.xyz]], spec$intensity[match$idx[LABEL.xyz]], col="blue", cex=1.0, pch=22)
+    LABEL.abc<-(abs(match$mZ.Da.error) < itol) & (regexpr("[abc].*", match$label) > 0)
+    LABEL.xyz<-(abs(match$mZ.Da.error) < itol) & (regexpr("[xyz].*", match$label) > 0)
 
-    return (0)
-
-    for (i in c(1:length(bin)-1)) {
-        bin.label <- bin.min[i] <= spec$mZ[match$idx] & spec$mZ[match$idx] < bin.max[i]
-
-        bin.label.abc <- bin.label & LABEL.abc 
-        bin.label.xyz <- bin.label & LABEL.xyz 
-
-        bin.label.filter <- bin.label.abc | bin.label.xyz
-
-        if (length(bin.label.filter)>0){ 
-
-        sum.intensity <- sum(spec$intensity[match$idx[bin.label.filter]], na.rm = TRUE)
-
-        if (sum.intensity > 0){
-            d<-(yMax - max(spec$intensity[match$idx[bin.label.filter]], na.rm=TRUE)) / 2
-
-            if (length(bin.label.abc) > 0){
-                if (sum(spec$intensity[match$idx[bin.label.abc]], na.rm=TRUE) > 0)
-            .peakplot.putlabel(MASS=spec$mZ[match$idx[bin.label.abc]], 
-                INTENSITY=spec$intensity[match$idx[bin.label.abc]], 
-                LABEL=match$label[bin.label.abc],
-                l.col="black",
-                yMin=1.1 * d + max(spec$intensity[match$idx[bin.label.abc | bin.label.xyz]]), 
-                delta=d, 
-                maxIntensity=max(spec$intensity))
-            }
-
-            if (length(bin.label.xyz) > 0){
-                if ( sum(spec$intensity[match$idx[bin.label.xyz]], na.rm=TRUE) > 0)
-            .peakplot.putlabel(MASS=spec$mZ[match$idx[bin.label.xyz]], 
-                INTENSITY=spec$intensity[match$idx[bin.label.xyz]], 
-                LABEL=match$label[bin.label.xyz],
-                l.col="blue",
-                yMin=d + max(spec$intensity[match$idx[bin.label.xyz | bin.label.xyz]]), 
-                delta=d, 
-                maxIntensity=max(spec$intensity))
-            }
-        }
-        }
-    }
+    points(spec$mZ[match$idx[LABEL.abc]], spec$intensity[match$idx[LABEL.abc]], col="black", ...)
+    points(spec$mZ[match$idx[LABEL.abc]], spec$intensity[match$idx[LABEL.abc]], col="black", type='h')
+    points(spec$mZ[match$idx[LABEL.xyz]], spec$intensity[match$idx[LABEL.xyz]], col="blue", ...)
+    points(spec$mZ[match$idx[LABEL.xyz]], spec$intensity[match$idx[LABEL.xyz]], col="blue", type = 'h' )
 }
 
 .peakplot.pie <- function(spec, match){ 
@@ -115,32 +69,24 @@
 
 peakplot <- function(peptideSequence,
     spec, 
-    FUN=defaultIon, 
-    fi=fragmentIon(peptideSequence, FUN=FUN)[[1]],
-    main=NULL,
-    sub=paste(peptideSequence, spec$title, sep=" / "),
-    xlim=range(spec$mZ, na.rm=TRUE),
-    ylim=range(spec$intensity, na.rm=TRUE),
-    itol=0.6,
-    pattern.abc="[abc].*",
-    pattern.xyz="[xyz].*",
-    ion.axes=TRUE, ...){ 
+    FUN = defaultIon, 
+    fi = fragmentIon(peptideSequence, FUN=FUN)[[1]],
+    sub = paste(peptideSequence, spec$title, sep=" / "),
+    itol = 0.6,
+    pattern.abc = "[abc].*",
+    pattern.xyz = "[xyz].*",
+    ion.axes = TRUE, ...){ 
 
-    n <- nchar(peptideSequence)
-
-    m <- psm(peptideSequence, spec, FUN, fi=fi, plot=FALSE)
-
+    # n <- nchar(peptideSequence)
+    m <- psm(peptideSequence, spec, FUN, fi = fi, plot = FALSE)
     max.intensity <- max(spec$intensity, na.rm=TRUE)
-    yMax <- 1.0 * max.intensity
 
-    plot(spec$mZ, spec$intensity,
-        xlab='m/z',
-        ylab='Intensity',
-        type='h',
-        main=main,
-        xlim=xlim,
-        ylim=c(0, 1.2 * yMax),
-        sub=sub,
+    plot(spec$mZ,
+    	spec$intensity,
+        xlab = 'm/z',
+        ylab = 'intensity',
+        type = 'h',
+        sub = sub,
         axes='F', ...
     ) 
 
@@ -161,32 +107,31 @@ peakplot <- function(peptideSequence,
         a.at <- spec$mZ[m$idx[LABEL.abc | LABEL.xyz]]
         a.label <- m$label[LABEL.abc | LABEL.xyz]
 
-        if (length(a.at)>0) {
+        if (length(a.at) > 0) {
             axis(3,a.at, a.label, col.axis='black', las=2)
         } else {
             print ("WARNING")
             print (a.at)
             print (a.label)
         }
-        box()
     }
-    axis(4,seq(0,yMax,length=6), seq(0,100,length=6))
+    box()
 
-    .peakplot.label(spec=spec, match=m, yMax=yMax)
+    axis(4, seq(0, max.intensity, length = 6), seq(0, 100, length = 6))
 
-    ll <- data.frame(label = c(m$label[LABEL.abc], m$label[LABEL.xyz]),
+    .peakplot.label(spec = spec, match = m, itol = itol, pch = 22)
+
+    sortedFragmentIonsTable <- data.frame(
+      label = c(m$label[LABEL.abc], m$label[LABEL.xyz]),
       mass = c(spec$mZ[m$idx[LABEL.abc]], spec$mZ[m$idx[LABEL.xyz]]))
 
-    if (nrow(ll) > 0){
-
-	    ll <- ll[order(ll$mass), ]
-	    legend("right", sprintf("% 10.3f   %s", ll$mass, ll$label),
+    if (nrow(sortedFragmentIonsTable) > 0){
+	    sortedFragmentIonsTable <- sortedFragmentIonsTable[order(sortedFragmentIonsTable$mass), ]
+	    legend("right", sprintf("% 10.3f   %s", sortedFragmentIonsTable$mass, sortedFragmentIonsTable$label),
 	      title = "Fragment Ions",
 	      bty = 'n',
 	      cex = 0.65)
     }
-
-
 
     return(m)
 }    

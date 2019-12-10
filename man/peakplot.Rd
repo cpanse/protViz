@@ -26,10 +26,7 @@
     peakplot(peptideSequence, spec, 
         FUN=defaultIon, 
         fi=fragmentIon(peptideSequence, FUN=FUN)[[1]],
-        main=NULL,
         sub=paste(peptideSequence, spec$title, sep=" / "),
-        xlim=range(spec$mZ, na.rm=TRUE),
-        ylim=range(spec$intensity, na.rm=TRUE),
         itol=0.6,
         pattern.abc="[abc].*",
         pattern.xyz="[xyz].*",
@@ -54,9 +51,6 @@ function is assigned \code{fragmentIon} will
   This argument is useful if you have PTM or specific ion series.}
 
   \item{sub}{a sub title for the plot}
-  \item{main}{a main title for the plot}
-  \item{xlim}{xlim of the plot; default is \code{range(spec$mZ, na.rm=TRUE)}}
-  \item{ylim}{ylim of the plot}
 
   \item{itol}{fragment ion tolerance default is 0.6 Dalton. values below are considered as hit.}
 
@@ -66,8 +60,7 @@ function is assigned \code{fragmentIon} will
 
   \item{ion.axes}{boolean default is \code{TRUE}. determines whether the fragment ion labels should be plotted instead of m/z values.}
 
-  \item{...}{passed to plot function.}
-
+  \item{...}{passed to the default plot function.}
 }
 
 \details{
@@ -94,10 +87,8 @@ dependent on the instrument setting applied during the initial search.
 }
 
 \value{
-
 	returns a list object containing all the peptide spectrum match relevant
 	information.
-
 }
 
 \author{
@@ -174,6 +165,4 @@ dependent on the instrument setting applied during the initial search.
       
       return(cbind(b, y, c ,z, y0))
   }
-
 }
-

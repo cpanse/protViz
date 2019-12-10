@@ -182,6 +182,6 @@ Combining Higher-Energy Collision Dissociation and Electron-Transfer/Higher-Ener
     w <- reshape(s[,c(1,7,3,4)], direction='wide', 
         timevar="markerIonMZ", idvar=c('scans','query'))
 
-    write.table(w, file="HexNAc_PTM_markerFinder.csv",
+    write.table(w, file=file.path(tempdir(), "HexNAc_PTM_markerFinder.csv"),
         sep=',', row.names=FALSE,col.names=TRUE, quote=FALSE)
 }
