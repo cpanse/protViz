@@ -33,7 +33,7 @@ install the latest development version
 ```{r}
 install.packages('devtools')
 library(devtools)
-install_git('https://github.com/cpanse/protViz', build_vignettes = TRUE, quiet = FALSE)
+install_git('https://github.com/cpanse/protViz', build_vignettes = FALSE, quiet = FALSE)
 library(protViz)
 ```
 
