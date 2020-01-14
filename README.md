@@ -33,10 +33,15 @@ install the latest development version
 ```{r}
 install.packages('devtools')
 library(devtools)
-install_git('https://github.com/protViz/protViz', build_vignettes = TRUE, quiet = FALSE)
+install_git('https://github.com/cpanse/protViz', build_vignettes = TRUE, quiet = FALSE)
 library(protViz)
 ```
 
+or
+
+```{r}
+BiocManager::install('cpanse/protViz')
+```
 
 ### R CMD build hints
 
