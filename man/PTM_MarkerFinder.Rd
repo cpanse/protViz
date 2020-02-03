@@ -68,8 +68,6 @@ intensities.}
   only the ms2 having the \code{mZmarkerIons}.}
 
   \item{PEAKPLOT}{If this boolean is \code{FALSE} the \code{peakplot} function is not used.}
-
-  \item{\dots}{passed}
 }
 
 \details{

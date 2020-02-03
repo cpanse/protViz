@@ -3,6 +3,13 @@
 \newcommand{\ghpr}{\href{https://github.com/protViz/protViz/pull/#1}{##1}}
 \newcommand{\ghit}{\href{https://github.com/protViz/protViz/issues/#1}{##1}}
 
+\section{Changes in protViz version 0.6.0 (2020-02-03)}{
+  \itemize{
+    \item new by labeling using legend with fragment ion ordered by m/z values \ghit{10}.
+    \item fix \ghit{9}.
+  }
+}
+
 \section{Changes in protViz version 0.5.0 (2019-11-18)}{
   \itemize{
     \item added comet.R helper functions.
