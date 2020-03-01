@@ -161,25 +161,32 @@ Combining Higher-Energy Collision Dissociation and Electron-Transfer/Higher-Ener
             mono=147.035400, avg=NA, desc="Oxidation",
                     unimodAccID=1)
 
-    m <- as.data.frame(rbind(ptm.0, ptm.1, ptm.2))
+    m <- as.data.frame(rbind(ptm.0, ptm.1, ptm.2), stringsAsFactors = TRUE)
 
-    s <- PTM_MarkerFinder(data=HexNAc, modification=m$mono, 
+    S <- PTM_MarkerFinder(data=HexNAc, modification=m$mono, 
         modificationName=m$desc,
         minMarkerIntensityRatio=3,
         itol_ppm=20,
         mZmarkerIons=HexNAc_MarkerIons) 
 
 
-    boxplot(s$markerIonIntensity ~ s$markerIonMZ,
+    boxplot(markerIonIntensity ~ markerIonMZ,
+        data=S,
         log='y',
         main='Summary plot: boxplot of marker ion intensities from all pPTM spectra',
         xlab='markerIon m/z', 
         ylab='log10 based marker ion intensity')
 
     # export
-    w <- reshape(s[,c(1,7,3,4)], direction='wide', 
-        timevar="markerIonMZ", idvar=c('scans','query'))
+    w <- reshape(S[,c(1,7,3,4)],
+        direction='wide', 
+        timevar="markerIonMZ",
+	idvar=c('scans','query'))
 
-    write.table(w, file=file.path(tempdir(), "HexNAc_PTM_markerFinder.csv"),
-        sep=',', row.names=FALSE,col.names=TRUE, quote=FALSE)
+    write.table(w,
+        file=file.path(tempdir(), "HexNAc_PTM_markerFinder.csv"),
+        sep=',',
+	row.names=FALSE,
+	col.names=TRUE,
+	quote=FALSE)
 }

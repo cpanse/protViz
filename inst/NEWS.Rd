@@ -3,8 +3,9 @@
 \newcommand{\ghpr}{\href{https://github.com/protViz/protViz/pull/#1}{##1}}
 \newcommand{\ghit}{\href{https://github.com/protViz/protViz/issues/#1}{##1}}
 
-\section{Changes in protViz version 0.6.0 (2020-02-03)}{
+\section{Changes in protViz version 0.6.2 (2020-03-01)}{
   \itemize{
+    \item fix \ghit{11}.
     \item new by labeling using legend with fragment ion ordered by m/z values \ghit{10}.
     \item fix \ghit{9}.
   }

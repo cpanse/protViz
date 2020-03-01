@@ -91,7 +91,7 @@ The data can be derived out of the mzXML files:
 
 
 contained in a 3GBytes compressed tar ball
-\url{https://fgcz-data.uzh.ch/public/fqms.tgz}.
+\url{http://fgcz-data.uzh.ch/public/fqms.tgz} md5=af804e209844d055c0eded716ef9eea8.
 
 The t3pq data can be derived using the code from \url{https://sourceforge.net/projects/fqms/}
  

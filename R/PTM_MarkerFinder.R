@@ -204,7 +204,7 @@ PTM_MarkerFinder <- function(data,
                     modified=substr(data[[i]]$modification, 2, nchar(data[[i]]$modification)-1),
                     modification=modification)
 
-                fi.by<-as.data.frame(cbind(b=fi[[1]]$b, y=fi[[1]]$y))
+                fi.by<-as.data.frame(cbind(b=fi[[1]]$b, y=fi[[1]]$y), stringsAsFactors = TRUE)
 
                 peakplot(data[[i]]$peptideSequence, 
                     spec=data[[i]], fi=fi.by, ion.axes=FALSE,  
@@ -253,14 +253,14 @@ PTM_MarkerFinder <- function(data,
                 .PTM_MarkerFinder_writeMGF(data[[k]], mgfFilename)
            }
 
-            fi<-fragmentIon(sequence=data[[k]]$peptideSequence, 
+            fi <- fragmentIon(sequence=data[[k]]$peptideSequence, 
                 FUN=defaultIon,
                 modified=substr(data[[k]]$modification, 2, nchar(data[[k]]$modification)-1),
                 modification=modification)
 
-            fi.cyz<-as.data.frame(cbind(y=fi[[1]]$y, c=fi[[1]]$c, z=fi[[1]]$z))
+            fi.cyz <- as.data.frame(cbind(y=fi[[1]]$y, c=fi[[1]]$c, z=fi[[1]]$z), stringsAsFactors = TRUE)
 
-            p<-peakplot(data[[k]]$peptideSequence, spec=data[[k]], 
+            p <- peakplot(data[[k]]$peptideSequence, spec=data[[k]], 
                 main=paste("scantype: ETD / peptide sequence: ",
                         .PTM_MarkerFinder_(data[[k]]$peptideSequence, data[[k]]$modification, modificationName), sep=''),
                 fi=fi.cyz,
@@ -328,7 +328,7 @@ PTM_MarkerFinder <- function(data,
     close.screen(all.screens = TRUE)
     
     # TODO(cp): make a S3 class
-    rr <- as.data.frame(rr)
+    rr <- as.data.frame(rr, stringsAsFactors = TRUE)
    
     rr$markerIonIntensity <- as.numeric(levels(rr$markerIonIntensity))[rr$markerIonIntensity]
     rr$mZ <- as.numeric(levels(rr$mZ))[rr$mZ]
