@@ -238,11 +238,11 @@
     do.call('rbind', rv)
 }
 
-p<-.getProfileMS2()
-op <- par(mfrow=c(2,1))
-plot(p$mZ, p$intensity, type='h', main='profile', xlim=c(100,300))
-plot(.centroid.weighted(p$mZ, p$intensity),type='h', main="centroid",xlim=c(100,300))
+#p<-.getProfileMS2()
+#op <- par(mfrow=c(2,1))
+#plot(p$mZ, p$intensity, type='h', main='profile', xlim=c(100,300))
+#plot(.centroid.weighted(p$mZ, p$intensity),type='h', main="centroid",xlim=c(100,300))
 
 
-op <- par(mfrow=c(3,3))
-rv <- .centroid.weighted(p$mZ, p$intensity, debug=TRUE)
+#op <- par(mfrow=c(3,3))
+#rv <- .centroid.weighted(p$mZ, p$intensity, debug=TRUE)
