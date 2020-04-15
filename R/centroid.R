@@ -222,6 +222,10 @@
 
 
 # simple heuristic 
+#
+# Note: this method will not detect overlapping peaks as it
+# can be done by IMSTOF http://www.tofwerk.com/ libraries.
+#
 # TODO(cp): if the while loops are to slow replace it by some Rcpp constructs
 .determine.peakgroups <- function(x){
     peak.idx <- which(sapply(1:length(x), .is.peak, x=x))
