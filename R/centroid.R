@@ -197,20 +197,59 @@
             297.152465354998, 297.157965811023, 297.163466419773, 
             297.168967181255, 310.095889034636, 310.101752762872, 
             310.107616657429, 310.113480718314)
-
+    
     idx <- order(mZ)
     list(mZ=mZ[idx], intensity=intensity[idx])
 }
 
+# https://de.wikipedia.org/wiki/Trapez-Methode
 .trapez <- function(x, y){
     idx <- 2:length(x)
     ((x[idx] - x[idx-1]) %*% (y[idx] + y[idx-1])) / 2
 }
 
+# https://github.com/cpanse/p2135R/blob/55eab2376d52e35da127dc3eb74924a2acd9e400/vignettes/7_RSintensityCmp_20181221.Rmd#L160
+.is.peak <- function(idx, x){
+    # criteria for not being a peak
+    if (idx == 1){return(FALSE)}
+    if (idx == length(x)){return(FALSE)}
+    if (x[idx - 1] > x[idx]){return(FALSE)}
+    if (x[idx + 1] > x[idx]){return(FALSE)}
+    TRUE
+}
 
-.centroid.weighted <- function(mZ, intensity, eps=0.05, check=TRUE, debug=FALSE){
-    # determine peak groups
+
+# simple heuristic 
+# TODO(cp): if the while loops are to slow replace it by some Rcpp constructs
+.determine.peakgroups <- function(x){
+    peak.idx <- which(sapply(1:length(x), .is.peak, x=x))
     
+    n <- length(x)
+    peakgrps <- rep(0, n)
+    count <- 1
+    
+    for (i in peak.idx){
+        # mid
+        idx <- i
+        peakgrps[i] <- count
+        
+        #lower
+        while (x[idx - 1] < x[idx] & idx > 2){
+            peakgrps[idx] <- count
+            idx <- idx -1
+        }
+        #upper
+        idx <- i
+        while (x[idx + 1] < x[idx] & idx < n){
+            peakgrps[idx] <- count
+            idx <- idx + 1
+        }
+        count <- count + 1
+    }
+    peakgrps
+}
+
+centroid <- function(mZ, intensity, debug=FALSE){
     stopifnot(length(mZ) == length(intensity))
     
     #remove 0
@@ -219,30 +258,30 @@
     intensity <- intensity[idx]
     n <- length(mZ)
     
-  
-    peakgrps <- c(0, cumsum(diff(mZ) > eps))
+    # peakgrps <- c(0, cumsum(diff(mZ) > eps))
+    peakgrps <- split(1:n, .determine.peakgroups(intensity))
+    peakgrps <- peakgrps[names(peakgrps) != '0']
     
-    rv <- lapply(split(1:n, peakgrps), function(i){
+    rv <- lapply(peakgrps , FUN=function(i){
         if(length(i) > 2){
-            ii <- .trapez(mZ[i], intensity[i])
+            intensity.auc <- .trapez(mZ[i], intensity[i])
             mZ.centroid <- weighted.mean(x=mZ[i], w=intensity[i])
-            if (debug){
-                plot(mZ[i], intensity[i], type='h')
+           
+             if (debug){
+                 plot(mZ[i], intensity[i], type='h',
+                      xlab='mZ',
+                      ylab='intensity')
+                 
                 abline(v=mZ.centroid, col='red')
-                points(mZ.centroid, ii, type='h', col='red', lwd=4)
-                #plot(diff(mZ[i]))
-            }
-            data.frame(mZ=mZ.centroid, intensity=ii)
+                
+                points(mZ.centroid, intensity.auc, type='h', col='red', lwd=4)
+                legend("topright", AUC, round(intensity.auc, 3), title="AUC")
+                axis(3, mZ.centroid, mZ.centroid)
+             }
+            
+            data.frame(mZ=mZ.centroid, intensity=intensity.auc)
         }
     })
     do.call('rbind', rv)
 }
 
-#p<-.getProfileMS2()
-#op <- par(mfrow=c(2,1))
-#plot(p$mZ, p$intensity, type='h', main='profile', xlim=c(100,300))
-#plot(.centroid.weighted(p$mZ, p$intensity),type='h', main="centroid",xlim=c(100,300))
-
-
-#op <- par(mfrow=c(3,3))
-#rv <- .centroid.weighted(p$mZ, p$intensity, debug=TRUE)
