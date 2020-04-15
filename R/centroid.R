@@ -270,7 +270,7 @@ centroid <- function(mZ, intensity, debug=FALSE){
             intensity.auc <- .trapez(mZ[i], intensity[i])
             mZ.centroid <- weighted.mean(x=mZ[i], w=intensity[i])
             # TODO(cp): replace by WEW's f: x -> ax^2+bx+c 
-            # interpolation using the three highes peaks => AUC
+            # interpolation using the three highes peaks AUC
            
              if (debug){
                  plot(mZ[i], intensity[i], type='h',
@@ -280,7 +280,7 @@ centroid <- function(mZ, intensity, debug=FALSE){
                 abline(v=mZ.centroid, col='red')
                 
                 points(mZ.centroid, intensity.auc, type='h', col='red', lwd=4)
-                legend("topright", AUC, round(intensity.auc, 3), title="AUC")
+                legend("topright", NULL, round(intensity.auc, 3), title="AUC")
                 axis(3, mZ.centroid, mZ.centroid)
              }
             

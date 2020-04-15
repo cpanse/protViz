@@ -1,5 +1,5 @@
-\name{cenroid}
-\alias{cenroid}
+\name{centroid}
+\alias{centroid}
 \alias{profile}
 \title{
 centroid a profile spectrum     
@@ -8,27 +8,23 @@ centroid a profile spectrum
 derives a centroid spectrum of a recorded profile mode spectrum.
 }
 \usage{
-cenroid(mZ, intensity)
+centroid(mZ, intensity, debug=FALSE)
 }
 \arguments{
   \item{mZ}{Numerical vector of profile recorded data and sorted mZ values.}
   \item{intensity}{corresponding intensity values.}
-  \item{debug}{if true all peak profiles are plotted.}
+  \item{debug}{if true all peak profiles are plotted. default is false.}
 }
 \details{
-the method was test on Orbitrap data.
+the method was test on an Orbitrap Fusion Lumos FSN20242 data set.
 }
 \value{
 returns a \code{data.frame} with a mZ and a intensity column.
 }
-\references{
-}
+
 \author{
 Christian Panse and Jonas Grossmann, April 2020
 }
-\note{
-}
-
 
 \seealso{
     \itemize{
@@ -40,11 +36,11 @@ Christian Panse and Jonas Grossmann, April 2020
 }
 
 \examples{
-# Orbitrap Fusion Lumos FSN20242 
-# p2722/.../.../stds_pos_neg_MS_highconc_UVPD_50_300.raw
-# scan 1959
+   # Orbitrap Fusion Lumos FSN20242 
+   # p2722/.../.../stds_pos_neg_MS_highconc_UVPD_50_300.raw
+   # scan 1959
 
-    p <- .getProfileMS2()
+    p <- protViz:::.getProfileMS2()
     op <- par(mfrow=c(2,1))
     plot(p$mZ, p$intensity, type='h', main='profile', xlim=c(100,300))
     plot(centroid(p$mZ, p$intensity),type='h', main="centroid",xlim=c(100,300))
@@ -56,5 +52,5 @@ Christian Panse and Jonas Grossmann, April 2020
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the
 % R documentation directory.
-\keyword{ ~kwd1 }% use one of  RShowDoc("KEYWORDS")
-\keyword{ ~kwd2 }% __ONLY ONE__ keyword per line
+\keyword{centroid}% use one of  RShowDoc("KEYWORDS")
+\keyword{profile}% __ONLY ONE__ keyword per line

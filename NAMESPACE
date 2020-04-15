@@ -24,9 +24,11 @@ importFrom("utils", "combn", "packageVersion", "read.table",
 
 
 importFrom("stats", "rexp")
+importFrom("stats", "weighted.mean")
 
 
 export("aa2mass")
+export("centroid")
 export("defaultIon")
 export("deisotoper")
 export("de_novo")

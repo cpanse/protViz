@@ -124,13 +124,13 @@ ETD scans.
     PTM MarkerFinder, a software tool to detect and validate spectra from 
     peptides carrying post-translational modifications.
     Proteomics. 2013 Aug;13(15):2251-5.
-    \url{http://dx.doi.org/10.1002/pmic.201300036}.
+    \doi{10.1002/pmic.201300036}.
     
     \item  \code{ADP_Ribose <- c(136.0618, 250.0935, 348.0704, 428.0367)} marker ions have been used in:
     Bilan V, Leutert M, Nanni P, Panse C, Hottiger MO.
 Combining Higher-Energy Collision Dissociation and Electron-Transfer/Higher-Energy Collision Dissociation Fragmentation in a Product-Dependent Manner Confidently Assigns Proteomewide ADP-Ribose Acceptor Sites,
     Anal. Chem., 2017, 89 (3), pp 1523-1530
-    \url{https://doi.org/10.1021/acs.analchem.6b03365}.
+    \doi{10.1021/acs.analchem.6b03365}.
   }
 
 }
