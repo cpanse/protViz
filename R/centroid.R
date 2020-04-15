@@ -264,8 +264,11 @@ centroid <- function(mZ, intensity, debug=FALSE){
     
     rv <- lapply(peakgrps , FUN=function(i){
         if(length(i) > 2){
+            
             intensity.auc <- .trapez(mZ[i], intensity[i])
             mZ.centroid <- weighted.mean(x=mZ[i], w=intensity[i])
+            # TODO(cp): replace by WEW's f: x -> ax^2+bx+c 
+            # interpolation using the three highes peaks => AUC
            
              if (debug){
                  plot(mZ[i], intensity[i], type='h',
