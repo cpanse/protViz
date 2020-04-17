@@ -2,10 +2,10 @@
 \alias{centroid}
 \alias{profile}
 \title{
-centroid a profile spectrum     
+Centroid a spectrum acquired in profile mode
 }
 \description{
-derives a centroid spectrum of a recorded profile mode spectrum.
+returns a centroid spectrum of a recorded profile mode spectrum.
 }
 \usage{
 centroid(mZ, intensity, debug=FALSE)
@@ -16,7 +16,7 @@ centroid(mZ, intensity, debug=FALSE)
   \item{debug}{if true all peak profiles are plotted. default is false.}
 }
 \details{
-the method was test on an Orbitrap Fusion Lumos FSN20242 data set.
+the method is tested on an Orbitrap Fusion Lumos FSN20242 data set.
 }
 \value{
 returns a \code{data.frame} with a mZ and a intensity column.
