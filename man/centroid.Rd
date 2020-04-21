@@ -11,9 +11,13 @@ returns a centroid spectrum of a recorded profile mode spectrum.
 centroid(mZ, intensity, debug=FALSE)
 }
 \arguments{
+
   \item{mZ}{Numerical vector of profile recorded data and sorted mZ values.}
+
   \item{intensity}{corresponding intensity values.}
+
   \item{debug}{if true all peak profiles are plotted. default is false.}
+
 }
 \details{
 the method is tested on an Orbitrap Fusion Lumos FSN20242 data set.
@@ -23,7 +27,11 @@ returns a \code{data.frame} with a mZ and a intensity column.
 }
 
 \author{
-Christian Panse and Jonas Grossmann, April 2020
+	Christian Panse and Jonas Grossmann, April 2020
+}
+
+\note{
+	thanks to Nienke Meekel (kwrwater.nl).
 }
 
 \seealso{
@@ -41,12 +49,13 @@ Christian Panse and Jonas Grossmann, April 2020
    # scan 1959
 
     p <- protViz:::.getProfileMS2()
-    op <- par(mfrow=c(2,1))
+    op <- par(mfrow=c(2, 1))
     plot(p$mZ, p$intensity, type='h', main='profile', xlim=c(100,300))
     plot(centroid(p$mZ, p$intensity),type='h', main="centroid",xlim=c(100,300))
+    par(op)
     
     
-    op <- par(ask = TRUE)
+    op <- par(mfrow=c(2, 1), ask = TRUE)
         rv <- centroid(p$mZ, p$intensity, debug = TRUE)
 
 }

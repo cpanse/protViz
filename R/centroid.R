@@ -227,7 +227,7 @@
 # can be done by IMSTOF http://www.tofwerk.com/ libraries.
 #
 # TODO(cp): if the while loops are to slow replace it by some Rcpp constructs
-.determine.peakgroups <- function(x){
+.determine.peakgroups <- function(mZ, x, eps){
     peak.idx <- which(sapply(1:length(x), .is.peak, x=x))
     
     n <- length(x)
@@ -240,13 +240,13 @@
         peakgrps[i] <- count
         
         #lower
-        while (x[idx - 1] < x[idx] & idx > 2){
+        while (x[idx - 1] < x[idx] & idx > 2 & abs(mZ[idx - 1] - mZ[idx]) < eps){
             peakgrps[idx] <- count
-            idx <- idx -1
+            idx <- idx - 1
         }
         #upper
         idx <- i
-        while (x[idx + 1] < x[idx] & idx < n){
+        while (x[idx + 1] < x[idx] & idx < n & abs(mZ[idx + 1] - mZ[idx]) < eps){
             peakgrps[idx] <- count
             idx <- idx + 1
         }
@@ -258,6 +258,7 @@
 centroid <- function(mZ, intensity, debug=FALSE){
     stopifnot(length(mZ) == length(intensity))
     
+    eps <- 2 * median(diff(mZ))
     #remove 0
     idx <- intensity > 0 
     mZ <- mZ[idx]
@@ -265,7 +266,8 @@ centroid <- function(mZ, intensity, debug=FALSE){
     n <- length(mZ)
     
     # peakgrps <- c(0, cumsum(diff(mZ) > eps))
-    peakgrps <- split(1:n, .determine.peakgroups(intensity))
+    peakgrps <- split(1:n, .determine.peakgroups(mZ, intensity, eps))
+
     peakgrps <- peakgrps[names(peakgrps) != '0']
     
     rv <- lapply(peakgrps , FUN=function(i){
@@ -277,13 +279,19 @@ centroid <- function(mZ, intensity, debug=FALSE){
             # interpolation using the three highes peaks AUC
            
              if (debug){
-                 plot(mZ[i], intensity[i], type='h',
+		 plot(diff(mZ[i]))
+
+                 plot(mZ[i], intensity[i],
+		      type='h',
                       xlab='mZ',
-                      ylab='intensity')
+                      ylab='intensity',
+		      ylim = c(0, max(intensity[i])))
                  
                 abline(v=mZ.centroid, col='red')
                 
-                points(mZ.centroid, intensity.auc, type='h', col='red', lwd=4)
+                points(mZ.centroid, intensity.auc,
+			type='h', col='red', lwd=4)
+
                 legend("topright", NULL, round(intensity.auc, 3), title="AUC")
                 axis(3, mZ.centroid, mZ.centroid)
              }
