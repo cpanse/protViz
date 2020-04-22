@@ -255,10 +255,9 @@
     peakgrps
 }
 
-centroid <- function(mZ, intensity, debug=FALSE){
+centroid <- function(mZ, intensity, eps=0.1, debug=FALSE){
     stopifnot(length(mZ) == length(intensity))
     
-    eps <- 2 * median(diff(mZ))
     #remove 0
     idx <- intensity > 0 
     mZ <- mZ[idx]
