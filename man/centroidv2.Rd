@@ -68,6 +68,8 @@
          col = "green",
          xlim = c(100,200),
          ylim = c(1,100000))
+
+    plot(rv2$mZ, rv2$intensity, type = 'h', log = "y", col = "green", xlim = c(100,200))
     lines(rv$mZ, rv$intensity, type = 'h')
     lines(p$mZ, p$intensity, col = "grey")
     legend("topleft", legend = c("centroid","centroidv2"), col = c("black", "green","grey"), lty = c(1,1))
@@ -89,6 +91,15 @@
          ylim = c(1,20000))
     lines(rv$mZ, rv$intensity, type = 'h')
     lines(p$mZ, p$intensity, col = "grey", type = "b")
+
+    plot(rv2$mZ, rv2$intensity, type = 'h', log = "y", col = "green", xlim = c(113,114))
+    lines(rv$mZ, rv$intensity, type = 'h')
+    lines(p$mZ, p$intensity, col = "grey")
+    legend("topleft", legend = c("centroid","centroidv2","raw"), col = c("black", "green","grey"), lty = c(1,1,1))
+
+    plot(rv2$mZ, rv2$intensity, type = 'h', log = "y", col = "green", xlim = c(147.45,147.6))
+    lines(rv$mZ, rv$intensity, type = 'h')
+    lines(p$mZ, p$intensity, col = "grey")
     legend("topleft", legend = c("centroid","centroidv2","raw"), col = c("black", "green","grey"), lty = c(1,1,1))
 
 }
