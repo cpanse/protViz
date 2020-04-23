@@ -3,7 +3,7 @@
 context('SSRC')
 
 test_that("Example of table iv [PMID:15238601]", {
-	expect_equal(sapply(c("SCHTAVGR", "SCHTGLGR", "EDLIAYLK"), ssrc),
+	expect_equal(as.vector(sapply(c("SCHTAVGR", "SCHTGLGR", "EDLIAYLK"), ssrc)),
 		c(3.20805, 5.95145, 29.60045),
 		tolerance = 0.01)
 

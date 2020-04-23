@@ -1,8 +1,8 @@
 #R
 
-test_psm <-
-function(){
-    spec<-list(scans=1138,
+context("psm")
+test_that("HTLNQIDSVK", {
+    spec <- list(scans=1138,
         title="178: (rt=22.3807) [20080816_23_fetuin_160.RAW]",
          rtinseconds=1342.8402,
          charge=2,
@@ -19,14 +19,12 @@ function(){
          587.5, 2685, 671.7, 3734, 8266, 3309)
          )
 
-    m<-psm('HTLNQIDSVK', spec,plot=FALSE)
+    m <- psm('HTLNQIDSVK', spec, plot=FALSE)
 
-    b_assumed<-c(138.0662, 239.1139, 352.1979, 466.2409, 594.2994, 
+    b_assumed <- c(138.0662, 239.1139, 352.1979, 466.2409, 594.2994, 
         707.3835, 822.4104, 909.4425, 1008.5109, 1136.6058)
 
     lapply(1:length(m$fragmentIon$b), function(i){
-        checkEqualsNumeric(m$fragmentIon$b[i], b_assumed[i], tolerance=1.0e-3)
+        expect_equal(m$fragmentIon$b[i], b_assumed[i], tolerance=1e-03)
     })
-}
-
-test_psm()
+})
