@@ -23,6 +23,7 @@ test_that("compare to ground truth centroids.", {
 	p <- .getProfileMS2()
 	mZ <- p$mZ
 	intensity <- p$intensity
+	n <- length(intensity)
 
 	peakgrps <- split(1:n, .groundtruth.peakgroups(intensity))
 	peakgrps <- peakgrps[names(peakgrps) != "0"]
@@ -46,6 +47,6 @@ test_that("compare to ground truth centroids.", {
 	expect_equal(
 	  c(summary(fit <- lm(rv.topN$mZ ~ centroid.groundtruth.topN$mZ))$r.squared,
 	  summary(fit <- lm(rv.topN$intensity ~ centroid.groundtruth.topN$intensity))$r.squared),
-	  c(1,1), tolerance = 0.001)
+	  c(1,1), tolerance = 0.01)
 
 })

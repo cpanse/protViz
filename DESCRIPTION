@@ -14,6 +14,7 @@ LinkingTo: Rcpp (>= 1.0)
 RcppModules: FastaMod 
 Suggests:lattice,
 	RUnit,
+	testthat,
 	xtable
 Description: Helps with quality checks, visualizations 
     and analysis of mass spectrometry data, coming from proteomics 
