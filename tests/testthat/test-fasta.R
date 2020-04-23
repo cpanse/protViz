@@ -1,9 +1,8 @@
 #R
 
-test_fasta <-
-function(){
-        
+context("FASTA")
 
+test_test("tryptic digest of P12763", {
   GT <- c('MK', 'SFVLLFCLAQLWGCHSIPLDPVAGYK', 'EPACDDPDTEQAALAAVDYINK',
             'HLPR', 'GYK', 'HTLNQIDSVK', 'VWPR',
             'RPTGEVYDIEIDTLETTCHVLDPTPLANCSVR', 'QQTQHAVEGDCDIHVLK',
@@ -19,13 +18,11 @@ function(){
 
   TS$getTrypticPeptides()
 
-  checkEqualsNumeric(length(TS$getTrypticPeptides()), length(GT))
-  checkEqualsNumeric(sum(nchar(TS$getTrypticPeptides())), sum(nchar(GT)))
-  checkEqualsNumeric(sum(sapply(1:length(GT), 
+  expect_equal(length(TS$getTrypticPeptides()), length(GT))
+  expect_equal(sum(nchar(TS$getTrypticPeptides())), sum(nchar(GT)))
+  expect_equal(sum(sapply(1:length(GT), 
                                 function(i){
                                   GT[i] == TS$getTrypticPeptides()[i]
                                   })),
                          28)
-}
-
-test_fasta()
+})
