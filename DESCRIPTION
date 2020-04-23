@@ -13,7 +13,6 @@ Imports: Rcpp (>= 1.0)
 LinkingTo: Rcpp (>= 1.0)
 RcppModules: FastaMod 
 Suggests:lattice,
-	RUnit,
 	testthat,
 	xtable
 Description: Helps with quality checks, visualizations 
