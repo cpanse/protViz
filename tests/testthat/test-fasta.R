@@ -2,7 +2,7 @@
 
 context("FASTA")
 
-test_test("tryptic digest of P12763", {
+test_that("tryptic digest of P12763", {
   GT <- c('MK', 'SFVLLFCLAQLWGCHSIPLDPVAGYK', 'EPACDDPDTEQAALAAVDYINK',
             'HLPR', 'GYK', 'HTLNQIDSVK', 'VWPR',
             'RPTGEVYDIEIDTLETTCHVLDPTPLANCSVR', 'QQTQHAVEGDCDIHVLK',
