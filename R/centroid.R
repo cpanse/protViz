@@ -227,7 +227,7 @@
 # can be done by IMSTOF http://www.tofwerk.com/ libraries.
 #
 # TODO(cp): if the while loops are to slow replace it by some Rcpp constructs
-.determine.peakgroups <- function(mZ, x, eps){
+.determine.peakgroups <- function(mZ, x, tolppm){
     peak.idx <- which(sapply(1:length(x), .is.peak, x=x))
     
     n <- length(x)
@@ -239,6 +239,7 @@
         idx <- i
         peakgrps[i] <- count
         
+	eps <- 1e-06 * tolppm * mZ[idx] 
         #lower
         while (x[idx - 1] < x[idx] & idx > 2 & abs(mZ[idx - 1] - mZ[idx]) < eps){
             peakgrps[idx] <- count
@@ -255,8 +256,15 @@
     peakgrps
 }
 
-centroid <- function(mZ, intensity, eps=0.1, debug=FALSE){
+centroid <- function(mZ, intensity, tolppm=100, debug=FALSE){
     stopifnot(length(mZ) == length(intensity))
+
+    if (debug){
+        plot((diff(mZ)) ~ mZ[2:length(mZ)], log='y');
+        abline(h = 0.1, col='red')
+        points(mZ , tolppm * 1e-06 * mZ, col='green', type='l')
+    }
+
     
     #remove 0
     idx <- intensity > 0 
@@ -265,7 +273,7 @@ centroid <- function(mZ, intensity, eps=0.1, debug=FALSE){
     n <- length(mZ)
     
     # peakgrps <- c(0, cumsum(diff(mZ) > eps))
-    peakgrps <- split(1:n, .determine.peakgroups(mZ, intensity, eps))
+    peakgrps <- split(1:n, .determine.peakgroups(mZ, intensity, tolppm))
 
     peakgrps <- peakgrps[names(peakgrps) != '0']
     
@@ -279,6 +287,7 @@ centroid <- function(mZ, intensity, eps=0.1, debug=FALSE){
            
              if (debug){
 		 plot(diff(mZ[i]))
+
 
                  plot(mZ[i], intensity[i],
 		      type='h',

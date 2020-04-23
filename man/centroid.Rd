@@ -8,7 +8,7 @@ Centroid a spectrum acquired in profile mode
 returns a centroid spectrum of a recorded profile mode spectrum.
 }
 \usage{
-centroid(mZ, intensity, eps=0.1, debug=FALSE)
+centroid(mZ, intensity, tolppm=100, debug=FALSE)
 }
 \arguments{
 
@@ -16,7 +16,7 @@ centroid(mZ, intensity, eps=0.1, debug=FALSE)
 
   \item{intensity}{corresponding intensity values.}
   
-  \item{eps}{maximal distance in Da between to profile mZ values. default is set to 0.1.}
+  \item{tolppm}{maximal distance in Da between to profile mZ values. default is set to 100ppm.}
 
   \item{debug}{if true all peak profiles are plotted. default is false.}
 
