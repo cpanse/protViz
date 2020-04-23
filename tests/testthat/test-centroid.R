@@ -3,7 +3,7 @@
 context("centroid") 
 
 
-# splits by 0 intensities
+# splits profile peakgroups by 0 intensities 
 .groundtruth.peakgroups<- function(x){
 	V <- x != 0.0; 
 	n <- length(V); 
