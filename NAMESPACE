@@ -29,10 +29,11 @@ importFrom("stats", "weighted.mean")
 
 export("aa2mass")
 export("centroid")
+export("centroidv2")
 export("defaultIon")
 export("deisotoper")
 export("de_novo")
-export("findNN_", "lower_bound_")
+#export("findNN_", "lower_bound_")
 export("findNN")
 export("fragmentIon")
 export("genMod")
@@ -81,7 +82,7 @@ S3method(summary, cometdecoy)
 S3method(as.data.frame, mascot)
 S3method(findMz, mascot)
 S3method(as.psmSet, mascot)
-export("plot.mascot", "plot.mascot_query", "summary.mascot", 
+export("plot.mascot", "plot.mascot_query", "summary.mascot",
     "as.data.frame.mascot", "is.mascot", "is.mascot_query",
     "summary.cometdecoy",
     "findMz.mascot", "as.psm.mascot_query")
