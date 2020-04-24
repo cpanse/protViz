@@ -221,7 +221,7 @@
 }
 
 
-# splits by 0 intensities and ignores peak shapes
+# splits profile peakgroups by 0 intensities and ignores peak shapes
 .determine.peakgroups.orbitrap <- function(x){
 	V <- x != 0.0; 
 	n <- length(V); 
