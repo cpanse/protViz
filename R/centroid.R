@@ -221,6 +221,21 @@
 }
 
 
+# splits by 0 intensities and ignores peak shapes
+.determine.peakgroups.orbitrap <- function(x){
+	V <- x != 0.0; 
+	n <- length(V); 
+	peakgroup <- rep(0, n)
+
+	count <- 0; 
+	for (i in 1:n){ 
+		if (V[i]){
+			if(!V[i-1]){count <- count + 1}; 
+			peakgroup[i] <- count} 
+	}
+	peakgroup
+}
+
 # simple heuristic 
 #
 # Note: this method will not detect overlapping peaks as it
@@ -265,11 +280,6 @@ centroid <- function(mZ, intensity, tolppm=100, debug=FALSE){
         points(mZ , tolppm * 1e-06 * mZ, col='green', type='l')
     }
 
-    
-    #remove 0
-    idx <- intensity > 0 
-    mZ <- mZ[idx]
-    intensity <- intensity[idx]
     n <- length(mZ)
     
     # peakgrps <- c(0, cumsum(diff(mZ) > eps))
@@ -283,7 +293,7 @@ centroid <- function(mZ, intensity, tolppm=100, debug=FALSE){
             intensity.auc <- .trapez(mZ[i], intensity[i])
             mZ.centroid <- weighted.mean(x=mZ[i], w=intensity[i])
             # TODO(cp): replace by WEW's f: x -> ax^2+bx+c 
-            # interpolation using the three highes peaks AUC
+            # interpolation using the three highes peaks to  derive AUC
            
              if (debug){
 		 plot(diff(mZ[i]))
@@ -304,8 +314,9 @@ centroid <- function(mZ, intensity, tolppm=100, debug=FALSE){
                 axis(3, mZ.centroid, mZ.centroid)
              }
             
-            data.frame(mZ=mZ.centroid, intensity=intensity.auc)
+            return (data.frame(mZ=mZ.centroid, intensity=intensity.auc))
         }
+	NULL
     })
     do.call('rbind', rv)
 }
