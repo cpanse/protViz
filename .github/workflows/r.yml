@@ -16,7 +16,7 @@ on:
 
 jobs:
   build:
-    runs-on: macOS-latest
+    runs-on: Debian-stable
     strategy:
       matrix:
         r-version: [4.0.3]
