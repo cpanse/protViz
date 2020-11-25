@@ -20,7 +20,7 @@ jobs:
     runs-on: ubuntu-20.04
     strategy:
       matrix:
-        r-version: [4.0]
+        r-version: [4.0, 4.0.3]
     steps:
       - uses: actions/checkout@v2
       - name: Set up R ${{ matrix.r-version }}
@@ -35,5 +35,5 @@ jobs:
       - name: install Linux packages
         run: sudo apt-get install -y libicu-dev pandoc texlive texlive-latex-extra
       - name: Check
-        run: rcmdcheck::rcmdcheck(build_args = "--no-build-vignettes --no-manual", args = "--no-manual --ignore-vignettes", error_on = "error")
+        run: rcmdcheck::rcmdcheck(build_args = "", args = "", error_on = "error")
         shell: Rscript {0}
