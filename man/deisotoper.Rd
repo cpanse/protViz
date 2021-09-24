@@ -67,7 +67,7 @@
         Zheng Yuan Jinhong Shi Wenjun Lin Bolin Chen and Fang-Xiang Wu
         Advances in Bioinformatics
         Volume 2011 (2011), Article ID 210805, 12 pages
-        \url{http://www.hindawi.com/journals/abi/2011/210805/}
+        \doi{10.1155/2011/210805}
 }
 
 \examples{

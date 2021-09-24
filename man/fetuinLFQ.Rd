@@ -179,7 +179,7 @@ xyplot(abundance~conc|prot*method,
 
 \references{
 
-      \url{http://www.ncbi.nlm.nih.gov/pubmed/20576481}
+      \doi{10.1016/j.jprot.2010.05.011}
 
 }
 

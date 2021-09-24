@@ -1,6 +1,5 @@
 [![CRAN_Status_Badge](http://www.r-pkg.org/badges/version/protViz)](https://cran.r-project.org/package=protViz)
 [![Research software impact](http://depsy.org/api/package/cran/protViz/badge.svg)](http://depsy.org/package/r/protViz)
-[![Build Status](https://travis-ci.org/cpanse/protViz.svg)](https://travis-ci.org/cpanse/protViz)
 [![](http://cranlogs.r-pkg.org/badges/grand-total/protViz)](https://cran.r-project.org/package=protViz)
 [![](http://cranlogs.r-pkg.org/badges/protViz)](https://cran.r-project.org/package=protViz)
 
@@ -26,7 +25,7 @@ install.packages('protViz')
 ```
 
 
-### from [github](https://github.com/protViz/protViz)
+### from [github](https://github.com/cpanse/protViz)
 
 install the latest development version
 

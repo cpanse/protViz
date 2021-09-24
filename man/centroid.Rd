@@ -40,7 +40,7 @@ returns a \code{data.frame} with a mZ and a intensity column.
 \seealso{
     \itemize{
     \item{\href{https://github.com/lgatto/MSnbase/blob/2b6d6f5162e7464c39b48d0daa4d981c6ec30bbd/R/functions-Spectrum.R#L649}{MSnbase functions-Spectrum.R}}
-    \item{\url{http://proteowizard.sourceforge.net/tools.shtml}}
+    \item{\url{https://proteowizard.sourceforge.io/}}
     \item{\url{https://planetorbitrap.com/rawfilereader}}
     }
     

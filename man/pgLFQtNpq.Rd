@@ -68,8 +68,8 @@ are also in the list! - get rid of it.
 
 \references{
 
-    \url{http://www.ncbi.nlm.nih.gov/pubmed/16219938}
-    \url{http://www.ncbi.nlm.nih.gov/pubmed/20576481}
+    \doi{10.1074/mcp.M500230-MCP200}
+    \doi{10.1016/j.jprot.2010.05.011}
 
 }
 

@@ -63,7 +63,7 @@
 
 \references{
 
-      \url{http://www.ncbi.nlm.nih.gov/pubmed/6525415}
+      \doi{10.1002/bms.1200111109}
 
       Protein Sequencing and Identification Using Tandem Mass Spectrometry, 
       Michael Kinter and Nicholas E. Sherman, 

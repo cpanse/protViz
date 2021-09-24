@@ -38,8 +38,8 @@ axis(2, seq(0,1,length=10), colnames(m)[seq(1,ncol(m), length=10)])
 A general approach to calculating isotopic distributions for mass spectrometry James A. Yergey Volume 52, Issues 2 1 
 September 1983, Pages 3379
 
-\url{http://www.sciencedirect.com/science/article/pii/0020738183850530}
-\url{http://proteowizard.sourceforge.net}
+\doi{10.1016/0020-7381(83)85053-0}
+\url{https://proteowizard.sourceforge.io/}
 
 }
 
