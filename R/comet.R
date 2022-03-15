@@ -6,12 +6,14 @@
     FALSE
 }
 
+
 summary.cometdecoy <- function(object, psmFdrCutoff=0.05, decoyPattern="^REV_", ...){
   stopifnot(.is.cometdecoy(object))
 
   # consider only first matches
   object <- object[object$num ==1, ]
   
+  ## TODO(cp): use `e-value` instead of `sp_score`
   idobject <-order(object$sp_score)
   n <- nrow(object)
   object <- object[rev(idobject), ]
@@ -30,9 +32,12 @@ summary.cometdecoy <- function(object, psmFdrCutoff=0.05, decoyPattern="^REV_", 
   nDecoyPeptide <- length(unique(confidentPeptide[decoyPeptide]))
   nConfidentPeptide <- length(unique(confidentPeptide[!decoyPeptide]))
   
-  confidentProteins <- unique(sapply(strsplit(as.character(object$protein[seq(1, nConfidentPSM)]),','), function(y)y[1]))
+  ## Keep 1st accession only to avoid almost redundant groups. 
+  ## Expect to receive less protein groups but higher FDR.
+  ## by <jg@fgcz.ethz.ch>
+  confidentProteins <- unique(sapply(strsplit(as.character(object$protein[seq(1, nConfidentPSM)]), ','), function(y)y[1]))
   nDecoyProteins <- length(grep(decoyPattern, confidentProteins))
-  nConfidentProteins <- length(confidentProteins)-nDecoyProteins
+  nConfidentProteins <- length(confidentProteins) - nDecoyProteins
   
   df <- data.frame(nPSM=n,
                    psmFdrCutoff=psmFdrCutoff,

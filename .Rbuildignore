@@ -8,3 +8,4 @@
 .*protViz-.+pdf$
 .*LICENSE$
 .*rawFileQC.R$
+.*\.github.+

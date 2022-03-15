@@ -27,7 +27,7 @@ The package design is done in a way, that it is not restricted to ProteinPilot e
 
 \references{
 
-      \url{http://www.ncbi.nlm.nih.gov/pubmed/23000593}
+      \doi{10.1016/j.jprot.2012.09.011}
 
 }
 

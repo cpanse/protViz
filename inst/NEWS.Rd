@@ -1,7 +1,14 @@
 \name{NEWS}
 \title{News for Package 'protViz'}
-\newcommand{\ghpr}{\href{https://github.com/protViz/protViz/pull/#1}{##1}}
-\newcommand{\ghit}{\href{https://github.com/protViz/protViz/issues/#1}{##1}}
+\newcommand{\ghpr}{\href{https://github.com/cpanse/protViz/pull/#1}{##1}}
+\newcommand{\ghit}{\href{https://github.com/cpanse/protViz/issues/#1}{##1}}
+
+\section{Changes in protViz version 0.7.0 (2020-04-23)}{
+  \itemize{
+    \item added functions \code{blockRandom}, \code{assignPlatePosition}, \code{insertSamples} for configuring MS instrument queues.
+    \item replaced pubmedid urls by dois.
+  }
+}
 
 \section{Changes in protViz version 0.6.8 (2020-04-23)}{
   \itemize{
@@ -48,7 +55,7 @@
   \itemize{
     \item \code{initial as.data.frame} function.
     \item added unit test for \code{ssrc} function.
-    \item  deleted  superfluous sigmamix data; please use \url{http://bioconductor.org/packages/msqc1/} described in \url{http://doi.org/10.1002/pmic.201500502}.
+    \item  deleted  superfluous sigmamix data; please use \url{http://bioconductor.org/packages/msqc1/} described in \url{https://doi.org/10.1002/pmic.201500502}.
   }
 }
 

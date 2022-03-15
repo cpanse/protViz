@@ -54,6 +54,10 @@ export("PTM_MarkerFinder")
 export("PTM_MarkerFinder_util")
 export("ssrc")
 
+export("assignPlatePosition")
+export("insertSamples")
+export("blockRandom")
+
 export("is.psm")
 export("plot.psm")
 S3method(plot, psm)

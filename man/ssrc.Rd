@@ -32,7 +32,7 @@
 Krokhin, O. V. et al. An improved model for prediction of retention times of tryptic peptides in ion
     pair reversed-phase HPLC: its application to protein peptide mapping by off-line HPLC-MALDI MS.
     Mol. Cell Proteomics 3, 908-919 (2004).
-    \url{http://www.ncbi.nlm.nih.gov/pubmed/15238601}
+    \doi{10.1074/mcp.M400031-MCP200}
 
 }
 \seealso{ 
