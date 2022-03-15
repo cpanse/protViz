@@ -34,7 +34,7 @@ returns a \code{data.frame} with a mZ and a intensity column.
 }
 
 \note{
-	thanks to Nienke Meekel and Andrea Brunner (kwrwater.nl).
+	thanks to Nienke Meekel and Andrea Brunner (kwrwater.nl) and Witold E. Wolski.
 }
 
 \seealso{
