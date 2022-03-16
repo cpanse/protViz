@@ -17,7 +17,7 @@
 
 \usage{
 
-    ssrc(x, H=list())
+    ssrc(x, H = list())
 }
 
 \arguments{
@@ -38,16 +38,12 @@ Krokhin, O. V. et al. An improved model for prediction of retention times of try
 \seealso{ 
 
   \itemize{
-    \item \url{http://hs2.proteome.ca/SSRCalc/SSRCalcX.html}
-    
     \item \code{\link{iRTpeptides}}
   }
 }
 
 \author{
-
    Christian Panse, Christian Trachsel 2015
-
 }
 
 \examples{
