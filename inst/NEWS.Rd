@@ -3,10 +3,11 @@
 \newcommand{\ghpr}{\href{https://github.com/cpanse/protViz/pull/#1}{##1}}
 \newcommand{\ghit}{\href{https://github.com/cpanse/protViz/issues/#1}{##1}}
 
-\section{Changes in protViz version 0.7.0 (2020-04-23)}{
+\section{Changes in protViz version 0.7.3 (2022-04-04)}{
   \itemize{
     \item added functions \code{blockRandom}, \code{assignPlatePosition}, \code{insertSamples} for configuring MS instrument queues.
     \item replaced pubmedid urls by DOIs.
+    \item add replication code for Figures 1-5 in \doi{10.1021/jasms.0c00040}.
   }
 }
 
