@@ -106,12 +106,12 @@ In proteomics, proteins are digested to so-called peptides since peptides are mu
 
 \code{parentIonMass} computes the mass of an amino acid sequence.
 <<>>=
-mass <- parentIonMass(fetuin)
+mass <- protViz::parentIonMass(fetuin)
 @
 
 The \code{ssrc} function derives a measure for the hydrophobicity based on the method described in \citep{pmid15238601}.
 <<>>=
-hydrophobicity <- ssrc(fetuin)
+hydrophobicity <- protViz::ssrc(fetuin)
 @
 
 The content of \code{mass} and \code{hydrophobicity} can be seen in the Table \ref{Table:hydrophobicity}.
@@ -146,31 +146,31 @@ defaultIon
 @
 
 <<keep.source = TRUE, eval = TRUE, fig = TRUE>>=
-peptides<-c('HTLNQIDSVK', 'ALGGEDVR', 'TPIVGQPSIPGGPVR')
+## plot in-silico fragment ions of
+peptides <- c('HTLNQIDSVK', 'ALGGEDVR', 'TPIVGQPSIPGGPVR')
 
-pim<-parentIonMass(peptides)
-fi<-fragmentIon(peptides)
+pims <- peptides |> protViz::parentIonMass()
+fis <- peptides |> protViz::fragmentIon()
 
-par(mfrow=c(3,1)); 
-for (i in 1:length(peptides)){
+par(mfrow = c(3, 1)); 
+rv <- mapply(FUN = function(fi, pim, peptide){
     plot(0,0,
-        xlab='m/Z',
-        ylab='',
-        xlim=range(c(fi[i][[1]]$b,fi[i][[1]]$y)),
-        ylim=c(0,1),
-        type='n',
-        axes=FALSE,
-        sub=paste( pim[i], "Da"));
-    box()
-    axis(1,fi[i][[1]]$b,round(fi[i][[1]]$b,2))
-    pepSeq<-strsplit(peptides[i],"")
-    axis(3,fi[i][[1]]$b,pepSeq[[1]])
+        xlab='m/Z', ylab='',
+        xlim = range(c(fi$b, fi$y)),
+        ylim = c(0,1),
+        type = 'n', axes = FALSE,
+        sub=paste(pim, "Da"));
 
-    abline(v=fi[i][[1]]$b, col='red',lwd=2) 
-    abline(v=fi[i][[1]]$c, col='orange') 
-    abline(v=fi[i][[1]]$y, col='blue',lwd=2)
-    abline(v=fi[i][[1]]$z, col='cyan')
-}
+    axis(1, fi$b,round(fi$b, 2))
+
+    pepSeq <- strsplit(peptide, "")
+    axis(3, fi$b, pepSeq[[1]])
+
+    abline(v = fi$b, col='red', lwd=2) 
+    abline(v = fi$y, col='blue',lwd=2)
+    abline(v = fi$c, col='orange') 
+    abline(v = fi$z, col='cyan')
+  }, fis, pims, peptides)
 @
 
 The next lines compute the singly and doubly charged fragment ions of the \code{HTLNQIDSVK} peptide. Which are usually the ones that can be used to make an identification.
@@ -179,7 +179,6 @@ Hydrogen<-1.007825
 (fi.HTLNQIDSVK.1 <- fragmentIon('HTLNQIDSVK'))[[1]]
 (fi.HTLNQIDSVK.2 <-(fi.HTLNQIDSVK.1[[1]] + Hydrogen) / 2)
 @
-
 
 \subsection{Peptide Sequence -- Fragment Ion Matching}
 Given a peptide sequence and a tandem mass spectrum.
@@ -192,8 +191,8 @@ is inside the 'accuracy' mass window of the mass spec device the
 in-silico fragment ion is considered as a potential hit.
 
 <<keep.source = TRUE, eval = TRUE, fig = TRUE>>=
-    peptideSequence<-'HTLNQIDSVK'
-    spec<-list(scans=1138,
+    peptideSequence <- 'HTLNQIDSVK'
+    spec <- list(scans=1138,
         title="178: (rt=22.3807) [20080816_23_fetuin_160.RAW]",
         rtinseconds=1342.8402,
         charge=2,
@@ -209,14 +208,14 @@ in-silico fragment ion is considered as a potential hit.
     1267, 1542, 979.2, 9577, 3283, 9441, 1520, 1310, 1.8e+04,
     587.5, 2685, 671.7, 3734, 8266, 3309))
 
-    fi <- fragmentIon(peptideSequence)
+    fi <- protViz::fragmentIon(peptideSequence)
     n <- nchar(peptideSequence)
 
-    by.mZ<-c(fi[[1]]$b, fi[[1]]$y)
-    by.label<-c(paste("b",1:n,sep=''), paste("y",n:1,sep=''))
+    by.mZ <- c(fi[[1]]$b, fi[[1]]$y)
+    by.label <- c(paste("b",1:n,sep=''), paste("y",n:1,sep=''))
 
     # should be a R-core function as findInterval!
-    idx <- findNN(by.mZ, spec$mZ) 
+    idx <- protViz::findNN(by.mZ, spec$mZ) 
 
     mZ.error <- abs(spec$mZ[idx]-by.mZ)
 
@@ -256,72 +255,102 @@ m <- as.data.frame(rbind(ptm.0, ptm.616, ptm.651))
 
 genMod(c('TAFDEAIAELDTLNEESYK','TAFDEAIAELDTLSEESYK'), m$AA)
 
-fi <- fragmentIon(c('TAFDEAIAELDTLSEESYK', 
+fi <- protViz::fragmentIon(c('TAFDEAIAELDTLSEESYK', 
     'TAFDEAIAELDTLNEESYK', 'TAFDEAIAELDTLSEESYK', 
     'TAFDEAIAELDTLNEESYK'), 
         modified=c('0000000000000200000', 
         '0000000000000100000', '0000000000000000000', 
         '0000000000000000000'), 
     modification=m$mono)
-
-#bh<-c('TAFDEAIAELDTLNEESYK', 'TAFDEAIAELDTLSEESYK')
-#fi<-fragmentIon(rep('HTLNQIDSVK',2), 
-#    modified=c('0000000100','0000000000'), 
-#    modification=m[,2])
 @
 
 
 \subsection{Labeling Peaklists}
-The \code{peakplot} \citet{peakplot} function performs the labeling of the spectra.
+The \code{peakplot} \citet{peakplot} function performs the labeling of the tandem mass spectra.
 %\SweaveOpts{width=9.5, height=6}
 %\setkeys{Gin}{width=0.95\columnwidth}
-<<keep.source = TRUE, eval = TRUE, fig = TRUE, height=10, width=10>>=
+<<keep.source = TRUE, eval = TRUE, fig = TRUE, height=12, width=12>>=
 data(msms)
-op <- par(mfrow=c(2,1))
-peakplot("TAFDEAIAELDTLNEESYK", msms[[1]])
-peakplot("TAFDEAIAELDTLSEESYK", msms[[2]])
+op <- par(mfrow = c(2, 1))
+protViz::peakplot("TAFDEAIAELDTLNEESYK", msms[[1]])
+protViz::peakplot("TAFDEAIAELDTLSEESYK", msms[[2]])
 par(op)
 @
-%\subsection{Finding Glyco Patterns}
 
-The following code snippet combine all the function to a simple
-peptide search engine.
-As default arguments the mass spec measurement, a list of mZ and intensity arrays,
-and a character vector of peptide sequences is given.
 
-<<>>=
-peptideSearch <- function (x, 
-                           peptideSequence, 
-                           pimIdx = parentIonMass(peptideSequence), 
-    peptideMassTolerancePPM = 5, 
-    framentIonMassToleranceDa = 0.01, 
-    FUN = .byIon) 
+The following code snippet combines all the functions to implement a simple peptide search engine. As default arguments, the mass spectrum \code{x}, mZ and intensity arrays list, and a character vector of peptide sequences are given.
+
+<<peptideSearch>>=
+.peptideFragmentIonSpectrumMatch <- function (x, 
+                           peptideSet, 
+                           framentIonMassToleranceDa = 0.1) 
 {
-    query.mass <- ((x$pepmass * x$charge)) - (1.007825 * (x$charge - 
-        1))
-    eps <- query.mass * peptideMassTolerancePPM * 1e-06
-    lower <- findNN(query.mass - eps, pimIdx)
-    upper <- findNN(query.mass + eps, pimIdx)
-    rv <- lapply(peptideSequence[lower:upper], function(p) {
-        psm(p, x, plot = FALSE, FUN = FUN)
-    })
-    rv.error <- sapply(rv, function(p) {
-        sum(abs(p$mZ.Da.error) < framentIonMassToleranceDa)
-    })
-    idx.tophit <- which(rv.error == max(rv.error))[1]
-    data.frame(mass_error = eps, 
-               idxDiff = upper - lower, 
-               charge = x$charge, 
-              pepmass = query.mass, 
-              peptideSequence = rv[[idx.tophit]]$sequence, 
-              groundTrue.peptideSequence = x$peptideSequence, 
-              ms2hit = (rv[[idx.tophit]]$sequence == 
-              x$peptideSequence), hit = (x$peptideSequence %in% 
-              peptideSequence[lower:upper]))
+  ## Here we ignore the peptide mass
+  # peptideMassTolerancePPM = 5
+  # query.mass <- ((x$pepmass[1] * x$charge)) - (1.007825 * (x$charge - 1))
+  # eps <- query.mass * peptideMassTolerancePPM * 1e-06
+  # pimIdx <- protViz::parentIonMass(peptideSequence)
+  # lower <- protViz::findNN(query.mass - eps, pimIdx)
+  # upper <- protViz::findNN(query.mass + eps, pimIdx)
+  
+  
+  rv <- lapply(peptideSet, FUN = protViz::psm, spec = x, plot = FALSE) |>
+    lapply(FUN = function(p) {
+      ## determine peaks considered as hits
+      idx <- abs(p$mZ.Da.error) < framentIonMassToleranceDa
+      intensityRatio <- sum(x$intensity[idx]) / sum(x$intensity)
+      
+      ## derive objectives for a good match
+      data.frame(nHits=sum(idx), intensityRatio = intensityRatio)
+    }) |>
+    Reduce(f=rbind)
+  
+  
+  idx.tophit <- which(rv$nHits == max(rv$nHits))[1]
+  
+  data.frame(peptideMatch = peptideSet[idx.tophit],
+             nHits = max(rv$nHits),
+             nPeaks = length(x$mZ),
+             intensityRatio = rv$intensityRatio[idx.tophit]
+  )
 }
 @
 
+define a set of peptide sequences
+<<>>=
+peptideSet <- c("ELIVSK", 'TAFDEAIAELDTLNEESYK','TAFDEAIAELDTLSEESYK')
+@
+
+generate a in-silico tandem mass spectrum
+<<>>=
+mZ <- protViz::fragmentIon("TAFDEAIAELDTLNEESYK")[[1]] |>
+  unlist() |> sort()
+
+intensity <- mZ |> length() |> sample()
+
+msms.insilico <- list(mZ = mZ, intensity = intensity)
+@
+
+generate reverse peptide sequences
+<<>>=
+peptideSet.rev <- peptideSet |>
+  sapply(FUN = function(x){
+    strsplit(x, "")[[1]] |> rev() |> paste0(collapse = "")
+  })
+@
+
+The output is an assignment of the best matching peptide.
+
+<<>>=
+lapply(list(msms[[1]], msms[[2]], msms.insilico),
+       FUN = .peptideFragmentIonSpectrumMatch,
+       peptideSet = c(peptideSet, peptideSet.rev),
+       framentIonMassToleranceDa = 0.05) |>
+  Reduce(f=rbind)
+@
+
 \section{Quantification}
+
 For an overview on Quantitative Proteomics read \citet{pmid22772140,
 pmid22821268}.
 The authors are aware that meaningful statistics usually require a much higher number
@@ -377,7 +406,7 @@ The plot shows the estimated concentration of the four proteins using the top th
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{pgLFQ -- LCMS based label-free quantification} 
 
-LCMS based label-free quantification is a very popular method to extract relative quantitative information from mass spectrometry experiments.
+LC-MS based label-free quantification (LFQ) is a very popular method to extract relative quantitative information from mass spectrometry experiments.
 At the FGCZ we use the software ProgenesisLCMS for this workflow \url{http://www.nonlinear.com/products/progenesis/lc-ms/overview/}.
 Progenesis is a graphical software which does the aligning between several LCMS experiments, extracts signal intensities from LCMS maps and annotates the master map with peptide and protein labels.
 
@@ -509,7 +538,7 @@ for (i in 1:nrow(group1Protein)){
     if (tt.p_value < 0.05)
         boxplot.color='lightgreen'
 
-    b<-boxplot(as.numeric(group1Protein[i,]), 
+    b <- boxplot(as.numeric(group1Protein[i,]), 
         as.numeric(group2Protein[i,]),
         main=row.names(group1Protein)[i],
         sub=paste("t-Test: p-value =", round(tt.p_value,2)),
