@@ -33,11 +33,14 @@ if one is patient, it also handles large data sets.}
   Winterthurerstr. 190\\
   CH-8057, Z{\"u}rich, Switzerland\\
   Telephone: +41-44-63-53912\\
-  E-mail: \email{cp@fgcz.ethz.ch}\\
-  URL: \url{http://www.fgcz.ch}
+  E-mail: \email{jg@fgcz.ethz.ch}, \email{cp@fgcz.ethz.ch}\\
+  URL: \url{https://fgcz.ch}
 }
 
 \begin{document}
+
+\tableofcontents
+\newpage
 <<echo = FALSE, eval = TRUE>>=
 options(prompt = "R> ", continue = "+  ", width = 70, useFancyQuotes = FALSE)
 @
@@ -532,7 +535,7 @@ for (i in 7:10)
 par(mfrow=c(2,3),mar=c(6,3,4,1))
 for (i in 1:nrow(group1Protein)){
     boxplot.color="#ffcccc"
-    tt.p_value<-t.test(as.numeric(group1Protein[i,]), 
+    tt.p_value <- t.test(as.numeric(group1Protein[i,]), 
         as.numeric(group2Protein[i,]))$p.value       
 
     if (tt.p_value < 0.05)
@@ -541,7 +544,7 @@ for (i in 1:nrow(group1Protein)){
     b <- boxplot(as.numeric(group1Protein[i,]), 
         as.numeric(group2Protein[i,]),
         main=row.names(group1Protein)[i],
-        sub=paste("t-Test: p-value =", round(tt.p_value,2)),
+        sub=paste("t.test: p-value =", round(tt.p_value,2)),
         col=boxplot.color,
         axes=FALSE)
     axis(1, 1:2, c('group_1','group_2')); axis(2); box()
@@ -551,7 +554,7 @@ for (i in 1:nrow(group1Protein)){
 }
 @
 
-This figure shows five proteins which are tested if they differ across conditions using the four biological replicates with a t-test.
+This figure shows five proteins which are tested if they differ across conditions using the four biological replicates with a $t$~statistic.
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -620,7 +623,7 @@ print(levelplot(Pc ~ time * as.factor(file),
 
 \label{lab:datapreparation}
 
-The \pkg{protViz} package has also been used in \citep{pmid20576481,pPTM,specL,msqc1,pmid28035797,Egloff2018}.
+The \pkg{protViz} package has also been used in \citealp{pmid20576481,pPTM,specL,msqc1,pmid28035797,Egloff2018,Gehrig2020,Kockmann2021}.
 \bibliography{protViz}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \appendix
