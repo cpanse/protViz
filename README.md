@@ -2,7 +2,7 @@
 [![Research software impact](http://depsy.org/api/package/cran/protViz/badge.svg)](http://depsy.org/package/r/protViz)
 [![](http://cranlogs.r-pkg.org/badges/grand-total/protViz)](https://cran.r-project.org/package=protViz)
 [![](http://cranlogs.r-pkg.org/badges/protViz)](https://cran.r-project.org/package=protViz)
-
+[![codecov](https://codecov.io/github/cpanse/protViz/branch/master/graph/badge.svg?token=lYkh8C6v5O)](https://codecov.io/github/cpanse/protViz)
 # protViz - Visualizing and Analyzing Mass Spectrometry Related Data in Proteomics
 
 ## Documentation
