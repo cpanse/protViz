@@ -38,3 +38,6 @@ jobs:
       - name: Check
         run: rcmdcheck::rcmdcheck(build_args = "", args = "", error_on = "error")
         shell: Rscript {0}
+      - name: codecov
+        run: covr::codecov(type = "all", token=Sys.getenv('CODECOV_TOKEN'))
+        shell: Rscript {0}
