@@ -63,11 +63,11 @@
 \seealso{
 
   \itemize{
-        \item{\url{http://www.matrixscience.com/help/aa_help.html}}
+        \item{\url{https://www.matrixscience.com/help/aa_help.html}}
 
-        \item{\url{http://education.expasy.org/student_projects/isotopident/htdocs/aa-list.html}}
+        \item{\url{https://education.expasy.org/student_projects/isotopident/htdocs/aa-list.html}}
 
-        \item{\url{http://www.unimod.org}}
+        \item{\url{https://www.unimod.org}}
         }
 
 }
