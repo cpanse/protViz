@@ -36,8 +36,8 @@
 
 \arguments{
 
-  \item{peptideSequence}{peptide sequence encoded as character sequence using 
-the 20 amino acid letters.}
+  \item{peptideSequence}{peptide sequence encoded as a character sequence using 
+the 20 amino acid letter code.}
 
   \item{spec}{a \code{peaklist} or a tandem mass spec data structure which is a list having two 
 eq sized vectors calles mZ and intensity. mZ values are sorted.}
@@ -66,22 +66,22 @@ function is assigned \code{fragmentIon} will
 \details{
 
 \code{peakplot} computes the in-silico fragment ion, using the 
-\code{\link{fragmentIon}} function, and matches them again 
+\code{\link{fragmentIon}} function, and matches them again with
 the MS2. If the mass error between the in-silico peak and the measured one 
-is below a 0.6 Da (default setting) the peptide spectrum match 
-(\code{\link{psm}}) is considered has hit.
+is below 0.6 Da (default setting), the peptide spectrum match 
+(\code{\link{psm}}) is considered as a hit.
 
-The major objective of the labelling is avoidance of overlapping labels for 
+The major objective of the labelling is the avoidance of overlapping labels, for 
 which purpose \code{peakplot} applies filtering. A label is only drawn if the 
 corresponding ion count of the m/z peak is higher than a given threshold. 
 Experience from several hundred annotations shows that the 0.9 percentile is 
-a good cut off value. To most efficiently use the limited screen and printout 
+a good cut-off value. To most efficiently use the limited screen and printout 
 space and to ensure that labels representing important local peaks are also 
-considered for drawing, \code{peakplot} divides the display space into a 
+considered for the drawing, \code{peakplot} divides the display space into a 
 number of bins depending on the peptide sequence length along the m/z axis. 
 From these bins, the top n labels are ordered according to abundance. For the 
 visual clustering effect, the abc and xyz ions are drawn on different y-axis 
-levels using different colours. Ion types considered for labelling is 
+levels using different colors. Ion types considered for labelling is 
 dependent on the instrument setting applied during the initial search.
 
 }
