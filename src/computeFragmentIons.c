@@ -113,10 +113,10 @@ void computeFragmentIons(int *n_, char **seq_, double *pim_, double *b_,
 
     int i;
     double b, y;
-    double C_term;
+    //double C_term;
     double N_term;
     double Electron;
-    double Hydrogen;
+    //double Hydrogen;
     int letter;
 
     double *M;
@@ -124,10 +124,10 @@ void computeFragmentIons(int *n_, char **seq_, double *pim_, double *b_,
 
     if (M != NULL) {
 
-	C_term = 17.002740;
+	//C_term = 17.002740;
 	N_term = 1.007825;
 	Electron = 0.000549;
-	Hydrogen = 1.007825;
+	//Hydrogen = 1.007825;
 
 	b = N_term - Electron;
 	y = *pim_;
@@ -155,20 +155,20 @@ void computeFragmentIonsModification(int *n_, char **seq_, double *pim_,
 
     int i;
     double b, y;
-    double C_term;
+    //double C_term;
     double N_term;
     double Electron;
-    double Hydrogen;
+    //double Hydrogen;
     int letter;
 
     double *M;
     M = initAminoAcidMass();
     if (M != NULL) {
 
-	C_term = 17.002740;
+	//C_term = 17.002740;
 	N_term = 1.007825;
 	Electron = 0.000549;
-	Hydrogen = 1.007825;
+	//Hydrogen = 1.007825;
 
 	b = N_term - Electron;
 	y = *pim_;
@@ -200,10 +200,10 @@ void computeFragmentIonsFixedVariableModification(int *n_, char **seq_,
 
     int i;
     double b, y;
-    double C_term;
+    //double C_term;
     double N_term;
     double Electron;
-    double Hydrogen;
+    //double Hydrogen;
     int letter;
 
     double *M;
@@ -217,10 +217,10 @@ void computeFragmentIonsFixedVariableModification(int *n_, char **seq_,
 	}
     }
 
-    C_term = 17.002740;
+    //C_term = 17.002740;
     N_term = 1.007825;
     Electron = 0.000549;
-    Hydrogen = 1.007825;
+    //Hydrogen = 1.007825;
 
     b = N_term - Electron;
     y = *pim_;

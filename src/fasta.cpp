@@ -57,8 +57,9 @@ public:
   int getNumberOfAminoAcids() {
     int sumAA = 0;
     
-    for (auto a : Seq_)
+    for (auto a : Seq_){
       sumAA += a.size();
+    }
       
       return sumAA;
   }

@@ -60,13 +60,14 @@ class Aa2Mass {
 
     initialze the dAA_mass_[20] array
     */
-    void init() {
+    void init(void) {
 
 	int letter;
 
     int i;
-    for (i = 0; i < 26; i++)
+    for (i = 0; i < 26; i++){
         dAA_mass_[i] = 0;
+    }
 
 	for (i = 0; i < AA_names_.size(); i++) {
 	    letter = *(AA_names_[i].c_str());

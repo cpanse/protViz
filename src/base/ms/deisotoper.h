@@ -155,7 +155,7 @@ namespace ralab{
 
             // ISOTOP GROUPING 
             std::sort (isoptopGroupsIdx.begin(), isoptopGroupsIdx.end());
-            std::unique (isoptopGroupsIdx.begin(), isoptopGroupsIdx.end());
+            static_cast<void>(std::unique (isoptopGroupsIdx.begin(), isoptopGroupsIdx.end()));
 
             std::vector<int>::iterator it_NN_begin;
             std::vector<int>::iterator it_NN_end;
@@ -263,7 +263,7 @@ namespace ralab{
 
              std::vector < int > mark(nMass, 0);
 
-             int groupIdx, chainIdx, zIdx;
+             int chainIdx, zIdx ;
 
             double monoIsotopicMass, monoIsotopicIntensity;  
             int nPeakCand = -1; 
@@ -281,7 +281,7 @@ namespace ralab{
             for(std::vector< std::vector< int > >::iterator itGroup=result_.isotopGroups.begin(); itGroup != result_.isotopGroups.end(); ++itGroup){
                 max_score = -1.0; max_zIdx = -1; max_peakShift = 0; 
                 max_chainIdx = -1;
-                groupIdx = std::distance(result_.isotopGroups.begin(), itGroup);
+                //groupIdx = std::distance(result_.isotopGroups.begin(), itGroup);
                 
                 // forall charge idx
                 for (std::vector< int >::iterator it_z = (*itGroup).begin(); it_z !=  (*itGroup).end(); ++it_z){

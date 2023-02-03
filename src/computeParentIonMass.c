@@ -56,7 +56,7 @@ static double Hydrogen;
 static double pepmass0;
 
 
-int init()
+int init(void)
 {
     /* taken from mascot server
      * A=71.037114
