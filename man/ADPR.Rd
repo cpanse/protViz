@@ -2,6 +2,8 @@
 \name{ADPR}
 
 \alias{ADPR}
+\alias{ADPR.lim}
+\alias{ADPR.ms2}
 
 \title{ADP Ribosylated Peptide}
 
