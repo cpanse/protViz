@@ -1,14 +1,10 @@
-citHeader("To cite the package, please use one of the appropriate publications listed below.")
-
-citEntry(entry = "Manual",
-  title        = "protViz: Visualizing and Analyzing Mass Spectrometry Related Data in Proteomics",
-  author       = personList( as.person("Christian Panse"),
-                   as.person("Jonas Grossmann")),
-  year         = "2020",
-  note = "R package version 0.6; https://CRAN.R-project.org/package=protViz",
-
-  textVersion  = paste("Panse C, Grossmann J, (2020)",
-	"protViz: Visualizing and Analyzing Mass Spectrometry Related Data in Proteomics.",
-	"R package version 0.6; https://CRAN.R-project.org/package=protViz")
+protVizref <- bibentry(
+  bibtype      = "Manual",
+  title        = "{protViz}: Visualizing and Analyzing Mass Spectrometry Related Data in Proteomics",
+  author       = c(person("Christian", "Panse", email="cp@fgcz.ethz.ch"),
+                   person("Jonas", "Grossmann", email="jg@fgcz.ethz.ch")),
+  year         = "2023",
+  note         = "R package version 0.7.7",
+  url          = "https://CRAN.R-project.org/package=protViz",
 )
 
