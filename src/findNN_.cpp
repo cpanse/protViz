@@ -12,7 +12,6 @@ using namespace Rcpp;
 // [[Rcpp::export]]
 IntegerVector findNN_(const NumericVector &q, const NumericVector & vec, bool check = false){
   IntegerVector NN(q.size(), -1);
-  int n = vec.size();
   
   if (check){
     if (!std::is_sorted(vec.begin(), vec.end())){
@@ -21,10 +20,11 @@ IntegerVector findNN_(const NumericVector &q, const NumericVector & vec, bool ch
     }
   }
   
-  size_t dist;
   double d;
+  size_t dist;
+  size_t n = vec.size();
   
-  for(int i = 0; i < q.size(); i++) {
+  for(int i = 0; i < static_cast<int> (q.size()); i++) {
     
     dist = std::distance (vec.begin(), std::lower_bound(vec.begin(), vec.end(), q[i]));
     
@@ -33,10 +33,10 @@ IntegerVector findNN_(const NumericVector &q, const NumericVector & vec, bool ch
     if (dist > 0){
       d = std::fabs(q[i] - vec[dist - 1]);
       
-      if (dist <  n){
+      if (static_cast<size_t>(dist) <  n){
         if (d < std::fabs(q[i] - vec[dist]))
           NN[i] = dist - 1;
-      }else if (NN[i] >= n){
+      }else if (static_cast<size_t>(NN[i]) >= n){
         NN[i]--;
       }
     }

@@ -64,7 +64,7 @@ class Aa2Mass {
 
 	int letter;
 
-    int i;
+    long unsigned int i;
     for (i = 0; i < 26; i++){
         dAA_mass_[i] = 0;
     }

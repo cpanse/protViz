@@ -263,7 +263,8 @@ namespace ralab{
 
              std::vector < int > mark(nMass, 0);
 
-             int chainIdx, zIdx ;
+             int chainIdx = 0;
+	     int zIdx = 0;
 
             double monoIsotopicMass, monoIsotopicIntensity;  
             int nPeakCand = -1; 
@@ -311,7 +312,7 @@ namespace ralab{
 
 // monoisotop peak is determined prepare the output
                 nPeakCand = std::distance(result_.isotopChains[max_zIdx][max_chainIdx].begin(), result_.isotopChains[max_zIdx][max_chainIdx].end());
-                if (result_.isotopInnerProducts.size() <= max_zIdx && result_.isotopInnerProducts[max_zIdx].size() <= max_chainIdx){
+                if (result_.isotopInnerProducts.size() <= static_cast<long unsigned int> (max_zIdx) && result_.isotopInnerProducts[max_zIdx].size() <= static_cast<long unsigned int> (max_chainIdx)){
                     if (result_.isotopInnerProducts[max_zIdx][max_chainIdx] > eps || (nPeakCand > 3 && result_.isotopInnerProducts1[max_zIdx][chainIdx] > eps)){
                     // chose mono isotopic peak
 
@@ -454,7 +455,7 @@ namespace ralab{
 
               idx=std::distance(firstMz, itMz);
 
-              if (itNNmZ != lastMz && std::fabs(*itNNmZ - dQmZ) < massError_ && idx <= G.size()){
+              if (itNNmZ != lastMz && std::fabs(*itNNmZ - dQmZ) < massError_ && idx <= static_cast<int> (G.size())){
                 G[idx] = std::distance(firstMz, itNNmZ);
               }
             }
