@@ -56,7 +56,7 @@
 
 \references{
 \itemize{
-\item{\url{http://www.cplusplus.com/reference/algorithm/lower_bound/}}
+\item{\url{https://cplusplus.com/reference/algorithm/lower_bound/}}
 }
 }
 

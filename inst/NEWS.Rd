@@ -39,7 +39,7 @@
   \itemize{
     \item refactored \code{?findNN} and \code{?AA} man pages.
     \item \code{ssrc} accepts also a \code{vector} as argument.
-    \item \code{as.data.frame.pepxml} for \url{http://tools.proteomecenter.org/wiki/index.php?title=Formats:pepXML}.
+    \item \code{as.data.frame.pepxml}.
   }
 }
 
@@ -56,7 +56,7 @@
   \itemize{
     \item \code{initial as.data.frame} function.
     \item added unit test for \code{ssrc} function.
-    \item  deleted superfluous sigmamix data; please use \url{http://bioconductor.org/packages/msqc1/} described in \doi{10.1002/pmic.201500502}.
+    \item  deleted superfluous sigmamix data; please use \url{https://bioconductor.org/packages/msqc1/} described in \doi{10.1002/pmic.201500502}.
   }
 }
 
