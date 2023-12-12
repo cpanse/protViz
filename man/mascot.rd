@@ -22,7 +22,7 @@
 
 \usage{
 
-  \method{is}{mascot}(obj)
+  \method{is}{mascot}(object, class2)
 
   \method{plot}{mascot}(x, \dots)
   
@@ -30,7 +30,7 @@
   
   \method{summary}{mascot}(object, \dots)
   
-  \method{is}{mascot_query}(obj)
+  \method{is}{mascot_query}(object, class2)
     
   \method{plot}{mascot_query}(x, obj = NULL, FUN = defaultIon, \dots)
 }
@@ -44,9 +44,13 @@
   \item{object}{
     a \code{mascot} S3 class object.
   }
-  
-   \item{obj}{
+
+  \item{obj}{
     a \code{mascot} S3 class object.
+  }
+
+  \item{class2}{
+	  dummy
   }
   
   \item{\dots}{

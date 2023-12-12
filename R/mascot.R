@@ -110,7 +110,8 @@ as.psm <- function(object, ...){
   UseMethod("as.psm")
 }
 
-as.psm.mascot_query <- function(query){
+as.psm.mascot_query <- function(object, ...){
+  query <- object
   L <-  .get_ms2(query)
   
   rv <- list(MonoisotopicAAmass = NA,
@@ -211,9 +212,9 @@ summary.mascot <- function(object, ...){
   #NextMethod('summary')
 }
 
-is.mascot <- function(obj){
-  if ('mascot' %in% class(obj)){
-    if (is.list(obj$queries) & sum(sapply(obj$queries, is.mascot_query)) == length(obj$queries)){
+is.mascot <- function(object, class2){
+  if ('mascot' %in% class(object)){
+    if (is.list(object$queries) & sum(sapply(object$queries, is.mascot_query)) == length(object$queries)){
       return(TRUE)
     }
   }
@@ -221,13 +222,13 @@ is.mascot <- function(obj){
   return(FALSE)
 }
 
-is.mascot_query <- function(obj){
+is.mascot_query <- function(object, class2){
   mascor_query.names <- c("query_charge", "query_moverz", "SCANS", "StringIons1",
                           "RTINSECONDS", "StringTitle")
   
-  if ('mascot_query' %in% class(obj)){
+  if ('mascot_query' %in% class(object)){
       # all attributes should be present
-      if(length(mascor_query.names) == sum(mascor_query.names %in% names(obj))){
+      if(length(mascor_query.names) == sum(mascor_query.names %in% names(object))){
         return(TRUE)
       }
   }

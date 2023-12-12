@@ -10,9 +10,9 @@ $Id: deisotoper.cpp 6179 2014-02-27 09:34:04Z cpanse $
 */
 
 
-void printWarning(std::string s){
-	::Rf_warning(s.c_str());
-}
+//void printWarning(std::string s){
+//	::Rf_warning(s.c_str());
+//}
 
 RcppExport SEXP deisotoper_main(SEXP Dsexp_mZ_, SEXP Dsexp_intensity_, SEXP Dsexp_Z_, SEXP Dsexp_DF_, SEXP Dsexp_massError_)
 {
@@ -36,7 +36,7 @@ RcppExport SEXP deisotoper_main(SEXP Dsexp_mZ_, SEXP Dsexp_intensity_, SEXP Dsex
 		std::ostringstream sWarning;
 		sWarning << "deisotoper_main: mass error schould be smaller than 1 / Z. set massError=" \
 		<< dMassError << ".";
-		printWarning(sWarning.str());
+		//printWarning(sWarning.str());
 		Rcpp::warning(sWarning.str());
 	}
     }
@@ -69,7 +69,7 @@ RcppExport SEXP deisotoper_main(SEXP Dsexp_mZ_, SEXP Dsexp_intensity_, SEXP Dsex
 	    forward_exception_to_r(ex);
     }
     catch( ...) {
-	::Rf_error("c++ exception (unknown reason)");
+	::Rf_error("C++ exception (unknown reason)");
     }
     return R_NilValue;		// -Wall
 }
