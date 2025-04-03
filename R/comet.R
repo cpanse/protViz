@@ -7,18 +7,17 @@
 }
 
 
-summary.cometdecoy <- function(object, psmFdrCutoff=0.05, decoyPattern="^REV_", ...){
-  stopifnot(.is.cometdecoy(object))
-
+summary.cometdecoy <- function(object, psmFdrCutoff = 0.05, idx = rev(order(object[['sp_score']])), decoyPattern = "^REV_", ...){
+  stopifnot(.is.cometdecoy(object), length(idx) == nrow(object))
+  
   # consider only first matches
   object <- object[object$num ==1, ]
   
   ## TODO(cp): use `e-value` instead of `sp_score`
-  idobject <-order(object$sp_score)
   n <- nrow(object)
-  object <- object[rev(idobject), ]
+  object <- object[idx, ]
   
-  object$REV <- grepl("^REV_", object$protein)
+  object$REV <- grepl(decoyPattern, object$protein)
   if(sum(object$REV) == 0) warning("no decoy hit found. consider different decoy pattern or enable decoy search in comet.")
   
   object$nREVhits <- cumsum(object$REV)
