@@ -1,0 +1,13 @@
+name: protViz-dev
+channels:
+  - conda-forge
+  - bioconda
+  - defaults
+dependencies:
+  - r-base >= 4.1
+  - r-devtools
+  - r-languageserver
+  - r-rcpp >= 1.0
+  - r-testthat
+  - r-lattice
+  - r-xtable
