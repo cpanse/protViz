@@ -18,7 +18,21 @@ summary.cometdecoy <- function(object, psmFdrCutoff = 0.05, idx = rev(order(obje
   object <- object[idx, ]
   
   object$REV <- grepl(decoyPattern, object$protein)
-  if(sum(object$REV) == 0) warning("no decoy hit found. consider different decoy pattern or enable decoy search in comet.")
+  if(sum(object$REV) == 0){
+    warning("no decoy hit found. consider different decoy pattern or enable decoy search in comet.")
+    data.frame(nPSM = n,
+                   psmFdrCutoff = psmFdrCutoff,
+                   nDecoyPSM = 0,
+                   nConfidentPSM = NA,
+                   nDecoyPeptide = 0,
+                   nConfidentPeptide = NA,
+                   nDecoyProteins = 0,
+                   nConfidentProteins = NA,
+                   fdrPSM = NA,
+                   fdrPeptide = NA,
+                   fdrProtein = NA) -> df
+    return(df)
+  }
   
   object$nREVhits <- cumsum(object$REV)
   object$FDR <- object$nREVhits / (seq(1, n) - object$nREVhits)
@@ -38,17 +52,17 @@ summary.cometdecoy <- function(object, psmFdrCutoff = 0.05, idx = rev(order(obje
   nDecoyProteins <- length(grep(decoyPattern, confidentProteins))
   nConfidentProteins <- length(confidentProteins) - nDecoyProteins
   
-  df <- data.frame(nPSM=n,
-                   psmFdrCutoff=psmFdrCutoff,
-                   nDecoyPSM=nDecoyPSM,
-                   nConfidentPSM=nConfidentPSM,
-                   nDecoyPeptide=nDecoyPeptide,
-                   nConfidentPeptide=nConfidentPeptide,
-                   nDecoyProteins=nDecoyProteins,
-                   nConfidentProteins=nConfidentProteins,
-                   fdrPSM=nDecoyPSM/nConfidentPSM,
-                   fdrPeptide=nDecoyPeptide/nConfidentPeptide,
-                   fdrProtein=nDecoyProteins/nConfidentProteins
-  )
+  data.frame(nPSM = n,
+                   psmFdrCutoff = psmFdrCutoff,
+                   nDecoyPSM = nDecoyPSM,
+                   nConfidentPSM = nConfidentPSM,
+                   nDecoyPeptide = nDecoyPeptide,
+                   nConfidentPeptide = nConfidentPeptide,
+                   nDecoyProteins = nDecoyProteins,
+                   nConfidentProteins = nConfidentProteins,
+                   fdrPSM = nDecoyPSM / nConfidentPSM,
+                   fdrPeptide = nDecoyPeptide / nConfidentPeptide,
+                   fdrProtein = nDecoyProteins / nConfidentProteins
+  ) -> df
   df     
 }
